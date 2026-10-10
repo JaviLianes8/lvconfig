@@ -44,9 +44,27 @@ Low-level helpers are public too: `escape`/`unescape` for the `\XX` codes,
 
 ## Why
 
-LabVIEW's "Configuration File" format looks like an INI file but follows its own
-escaping, quoting, path and boolean rules that Python's `configparser` corrupts.
-`lvconfig` reads and writes it exactly as LabVIEW does. See the full rationale below.
+LabVIEW's "Configuration File" format looks like an INI file but is not one. LabVIEW's
+own Configuration File VIs encode control characters as `\XX` hex codes (a carriage
+return is `\0D`), double literal backslashes, wrap string and path values in quotation
+marks to protect whitespace, store paths in a platform-neutral form with the drive
+after a leading slash (`C:\Temp` becomes `/C/Temp`), and write booleans as `TRUE` or
+`FALSE`. These rules are described in NI's [Windows configuration settings file
+format](https://www.ni.com/docs/en-US/bundle/labview/page/windows-configuration-settings-file-format.html)
+documentation.
+
+Python's standard-library `configparser` honours none of them: it does not decode
+`\XX` escapes, treats backslashes literally, keeps the surrounding quotation marks as
+part of the value, and leaves `/C/Temp` as a broken path. The result is a corrupted
+read and a file LabVIEW cannot load back. This is a long-standing pain point in the NI
+community (for example the "ConfigFile Read Key" doubled-backslash reports on
+forums.ni.com), and at the time of writing no maintained PyPI package implements these
+semantics: the available INI parsers (`configparser`, `iniparse`, `iniparser2`) are all
+generic and share the same gap.
+
+`lvconfig` reads and writes the format exactly as LabVIEW does, round-trips losslessly,
+and coerces each value to the Python type it stands for. It is pure standard library,
+fully typed, and ships `py.typed`.
 
 ## License
 
