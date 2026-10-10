@@ -4,7 +4,21 @@ import lvconfig
 
 # The public API. Add every exported name here as the library grows; this list is the
 # contract and the test below fails if the module and this list disagree.
-PUBLIC_API: list[str] = []
+PUBLIC_API: list[str] = [
+    "Config",
+    "Entry",
+    "LvConfigError",
+    "LvParseError",
+    "dump",
+    "escape",
+    "from_labview_path",
+    "parse",
+    "to_bool",
+    "to_float",
+    "to_int",
+    "to_labview_path",
+    "unescape",
+]
 
 
 def test_all_lists_exactly_the_public_api() -> None:
