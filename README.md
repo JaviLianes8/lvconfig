@@ -45,13 +45,15 @@ Low-level helpers are public too: `escape`/`unescape` for the `\XX` codes,
 ## Why
 
 LabVIEW's "Configuration File" format looks like an INI file but is not one. LabVIEW's
-own Configuration File VIs encode control characters as `\XX` hex codes (a carriage
+own Configuration File VIs, and the OpenG Variant Configuration File library on top of them,
+encode control characters as `\XX` hex codes (a carriage
 return is `\0D`), double literal backslashes, wrap string and path values in quotation
 marks to protect whitespace, store paths in a platform-neutral form with the drive
 after a leading slash (`C:\Temp` becomes `/C/Temp`), and write booleans as `TRUE` or
 `FALSE`. These rules are described in NI's [Windows configuration settings file
 format](https://www.ni.com/docs/en-US/bundle/labview/page/windows-configuration-settings-file-format.html)
-documentation.
+documentation. All of that runs inside LabVIEW; none of it helps a Python process with no
+LabVIEW present.
 
 Python's standard-library `configparser` honours none of them: it does not decode
 `\XX` escapes, treats backslashes literally, keeps the surrounding quotation marks as
