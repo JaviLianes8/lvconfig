@@ -12,7 +12,9 @@ PUBLIC_API: list[str] = [
     "dump",
     "escape",
     "from_labview_path",
+    "load",
     "parse",
+    "save",
     "to_bool",
     "to_float",
     "to_int",
@@ -38,3 +40,9 @@ def test_version_is_a_three_part_string() -> None:
 
 def test_the_package_ships_type_information() -> None:
     assert importlib.resources.files("lvconfig").joinpath("py.typed").is_file()
+
+
+def test_the_cli_entry_point_is_callable() -> None:
+    from lvconfig._cli import main
+
+    assert callable(main)

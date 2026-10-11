@@ -11,15 +11,20 @@ def dump(config: Config) -> str:
 
     Sections and keys are written in their stored order. String and path entries are
     escaped and quoted the way LabVIEW writes them; booleans and numbers stay as bare
-    tokens. Sections are separated by a blank line and the text ends with a newline.
+    tokens. Comment lines kept on parse are written back above their section or key.
+    Sections are separated by a blank line and the text ends with a newline.
     """
     blocks: list[str] = []
     for name, entries in config.sections.items():
-        lines = [f"[{name}]"]
+        lines = list(config.header_comments.get(name, ()))
+        lines.append(f"[{name}]")
         for key, entry in entries.items():
+            lines.extend(entry.comments)
             if entry.quoted:
                 lines.append(f'{key}="{escape(entry.value)}"')
             else:
                 lines.append(f"{key}={entry.value}")
         blocks.append("\n".join(lines))
+    if config.trailing_comments:
+        blocks.append("\n".join(config.trailing_comments))
     return "\n\n".join(blocks) + "\n" if blocks else ""

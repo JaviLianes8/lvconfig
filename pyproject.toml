@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "lvconfig"
-version = "0.1.0"
+version = "0.2.0"
 description = "Typed reader and writer for LabVIEW configuration files, with LabVIEW-correct escaping, path and boolean rules"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Javier Lianes", email = "javier@lianes8studio.com" }]
-keywords = []
+keywords = ["labview", "ini", "config", "configuration", "openg", "ni"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -19,6 +19,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = []
+
+[project.scripts]
+lvconfig = "lvconfig._cli:main"
 
 [project.optional-dependencies]
 dev = ["ruff", "mypy", "pytest", "build", "twine"]

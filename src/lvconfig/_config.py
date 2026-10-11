@@ -10,14 +10,17 @@ from ._path import from_labview_path, to_labview_path
 
 @dataclass(frozen=True)
 class Entry:
-    """One stored value: its decoded text and whether LabVIEW quotes it.
+    """One stored value: its decoded text, whether LabVIEW quotes it, its comments.
 
     Quoted entries are strings and paths, which LabVIEW escapes and wraps in double
     quotes. Unquoted entries are booleans and numbers, written as bare tokens.
+    ``comments`` holds the verbatim comment lines that preceded the key on input, so a
+    parsed file keeps its annotations through a dump.
     """
 
     value: str
     quoted: bool
+    comments: tuple[str, ...] = ()
 
 
 def _entry(value: str | bool | int | float) -> Entry:
@@ -30,9 +33,16 @@ def _entry(value: str | bool | int | float) -> Entry:
 
 @dataclass
 class Config:
-    """Ordered sections of ordered key/value entries, preserving input order."""
+    """Ordered sections of ordered key/value entries, preserving input order.
+
+    ``header_comments`` maps a section name to the comment lines written above its
+    header, and ``trailing_comments`` holds comment lines after the last key. Both let
+    a parsed file keep its structure and annotations when dumped again.
+    """
 
     sections: dict[str, dict[str, Entry]] = field(default_factory=dict)
+    header_comments: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    trailing_comments: tuple[str, ...] = ()
 
     def section_names(self) -> list[str]:
         """Return the section names in the order they were added."""
@@ -41,6 +51,10 @@ class Config:
     def keys(self, section: str) -> list[str]:
         """Return the keys of ``section`` in order, or an empty list if absent."""
         return list(self.sections.get(section, {}))
+
+    def items(self, section: str) -> list[tuple[str, str]]:
+        """Return ``(key, decoded value)`` pairs of ``section`` in order."""
+        return [(key, entry.value) for key, entry in self.sections.get(section, {}).items()]
 
     def has(self, section: str, key: str) -> bool:
         """Report whether ``key`` exists under ``section``."""
@@ -57,6 +71,22 @@ class Config:
     def set_path(self, section: str, key: str, path: str) -> None:
         """Store a native path under ``section``/``key`` in LabVIEW's stored form."""
         self.sections.setdefault(section, {})[key] = Entry(to_labview_path(path), quoted=True)
+
+    def remove(self, section: str, key: str) -> bool:
+        """Delete ``section``/``key`` if present; report whether it existed."""
+        entries = self.sections.get(section)
+        if entries is None or key not in entries:
+            return False
+        del entries[key]
+        return True
+
+    def remove_section(self, section: str) -> bool:
+        """Delete ``section`` and its keys if present; report whether it existed."""
+        if section not in self.sections:
+            return False
+        del self.sections[section]
+        self.header_comments.pop(section, None)
+        return True
 
     def get(self, section: str, key: str, default: str | None = None) -> str | None:
         """Return the decoded string value, or ``default`` when it is missing."""
@@ -82,6 +112,13 @@ class Config:
     def get_path(self, section: str, key: str, *, windows: bool = True) -> str:
         """Return the stored path decoded to a native path."""
         return from_labview_path(self._require(section, key).value, windows=windows)
+
+    def to_dict(self) -> dict[str, dict[str, str]]:
+        """Return the decoded sections and values as plain nested dictionaries."""
+        return {
+            name: {key: entry.value for key, entry in entries.items()}
+            for name, entries in self.sections.items()
+        }
 
     def _require(self, section: str, key: str) -> Entry:
         try:

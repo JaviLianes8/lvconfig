@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0]
+
+- `load` and `save` read and write LabVIEW configuration files directly, defaulting to
+  the `CRLF` line endings LabVIEW writes on Windows.
+- Comment preservation: `parse` keeps whole-line `;` comments and attaches them to the
+  section or key that follows them, and `dump` writes them back, so a parsed file keeps
+  its annotations through a round-trip. `Entry.comments`, `Config.header_comments` and
+  `Config.trailing_comments` expose them.
+- `Config` gains `items`, `to_dict`, `remove` and `remove_section`.
+- A command-line interface (`lvconfig`): `json` dumps a file as decoded JSON, `get`
+  prints one typed value, and `convert` turns a plain `.ini` into LabVIEW-escaped form.
+
 ## [0.1.0]
 
 - `parse` and `dump` for LabVIEW configuration text, preserving section and key order.
