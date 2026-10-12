@@ -32,6 +32,9 @@ new keys become quoted strings), str quotes and escapes, bool writes TRUE/FALSE,
 int/float a bare number, path the LabVIEW stored form (default: auto)"""
 
 
+_POSIX_HELP = "with --type path: use POSIX paths instead of Windows ones"
+
+
 class _Parser(argparse.ArgumentParser):
     def error(self, message: str) -> NoReturn:
         self.print_usage(sys.stderr)
@@ -66,6 +69,7 @@ def _build_parser() -> argparse.ArgumentParser:
         default="str",
         help="how to read the value (default: str)",
     )
+    p.add_argument("--posix", action="store_true", help=_POSIX_HELP)
     p.set_defaults(func=_commands.cmd_get)
 
     p = sub.add_parser("set", help="set one value, keeping every other byte of the file")
@@ -79,6 +83,7 @@ def _build_parser() -> argparse.ArgumentParser:
         default="auto",
         help=_SET_HELP,
     )
+    p.add_argument("--posix", action="store_true", help=_POSIX_HELP)
     p.add_argument("-o", "--output", help="write here instead of rewriting FILE")
     p.set_defaults(func=_commands.cmd_set)
 
