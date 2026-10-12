@@ -45,9 +45,16 @@ def test_repeated_section_merges_its_keys() -> None:
     assert config.keys("A") == ["x", "y"]
 
 
-def test_a_key_before_any_section_is_rejected() -> None:
-    with pytest.raises(LvParseError):
-        parse("stray = 1\n")
+def test_a_key_before_any_section_goes_in_the_unnamed_section() -> None:
+    config = parse("stray = 1\n[A]\nx = 2\n")
+    assert config.section_names() == ["", "A"]
+    assert config.get_int("", "stray") == 1
+
+
+def test_hash_lines_are_comments() -> None:
+    config = parse("#--- banner ---\n[A]\n# note\nx = 1\n")
+    assert config.header_comments["A"] == ("#--- banner ---",)
+    assert config.sections["A"]["x"].comments == ("# note",)
 
 
 def test_a_line_without_an_equals_is_rejected() -> None:
