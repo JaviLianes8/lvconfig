@@ -6,6 +6,33 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0]
+
+- Byte-identical round-trip: `parse` records the source layout and `dump` writes every
+  untouched line back verbatim, so `dump(parse(text)) == text`. Blank lines, `;` and `#`
+  comments, `key = value` spacing, line endings, a missing final newline, repeated
+  sections and a UTF-8 byte order mark all survive. An edited key is rewritten in place
+  with its original spacing, a removed key takes its comment lines along, and new keys
+  go after the last key of their section.
+- `dump(config, normalize=True)` writes the canonical form, which is what `dump`
+  produced for parsed configs in 0.2.0. `Config.layout` holds the recorded layout and
+  takes no part in equality.
+- `load` keeps the file's line endings and `save` writes them back. `save` now defaults
+  to `line_ending=None`, which still means `CRLF` for a config built in code.
+- `#` comment lines and keys before the first section header (section `""`) are
+  accepted. Both appear in files LabVIEW ships, which 0.2.0 could not parse.
+- `Config.set` keeps the comment lines attached to the key it replaces.
+- Special floats are written as `Inf`, `-Inf` and `NaN`.
+- Fixed: `to_labview_path("C:x")` returned `/C/x`, which reads back as the different
+  path `C:\x`. Drive-relative paths, rooted paths without a drive, UNC paths without a
+  share and device paths now raise the new `LvPathError` on both encode and decode, as
+  does reading a POSIX absolute value as a Windows path.
+- CLI: `set` edits one key in place, `fmt` writes the canonical form, usage errors exit
+  with status 1, `json --section` with an unknown section is an error, and output is
+  written as UTF-8.
+- Golden fixtures copied from files installed with LabVIEW 2026, a contract test over
+  them, and an end-to-end test that installs the package and runs the `lvconfig` script.
+
 ## [0.2.0]
 
 - `load` and `save` read and write LabVIEW configuration files directly, defaulting to
