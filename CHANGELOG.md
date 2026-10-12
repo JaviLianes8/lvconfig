@@ -13,7 +13,13 @@ All notable changes to this project are documented here. The format follows
   comments, `key = value` spacing, line endings, a missing final newline, repeated
   sections and a UTF-8 byte order mark all survive. An edited key is rewritten in place
   with its original spacing, a removed key takes its comment lines along, and new keys
-  go after the last key of their section.
+  go after the section's last line in the source.
+- `set` and `dump` raise `LvConfigError` instead of writing text that reads back as
+  something else: keys with `=`, line breaks, edge whitespace or a leading `;`/`#`,
+  section names with line breaks, quote-wrapped bare values, comments that are not
+  comments, and header comments for a missing section.
+- `to_labview_path` and `Config.set_path` gain `windows=True`. Pass `windows=False`
+  for POSIX paths, which were previously passed through on any leading `/`.
 - `dump(config, normalize=True)` writes the canonical form, which is what `dump`
   produced for parsed configs in 0.2.0. `Config.layout` holds the recorded layout and
   takes no part in equality.
@@ -26,10 +32,11 @@ All notable changes to this project are documented here. The format follows
 - Fixed: `to_labview_path("C:x")` returned `/C/x`, which reads back as the different
   path `C:\x`. Drive-relative paths, rooted paths without a drive, UNC paths without a
   share and device paths now raise the new `LvPathError` on both encode and decode, as
-  does reading a POSIX absolute value as a Windows path.
-- CLI: `set` edits one key in place, `fmt` writes the canonical form, usage errors exit
-  with status 1, `json --section` with an unknown section is an error, and output is
-  written as UTF-8.
+  does reading a POSIX absolute value as a Windows path, or encoding `/dir` as one.
+- CLI: `set` edits one key in place, `fmt` writes the canonical form, `--posix` handles
+  POSIX paths, usage errors exit with status 1, `json --section` with an unknown section
+  is an error, and output is written as UTF-8. `convert` only treats plain decimal
+  numbers as numbers, so `007`, `1_000`, `1e5` and `nan` stay text.
 - Golden fixtures copied from files installed with LabVIEW 2026, a contract test over
   them, and an end-to-end test that installs the package and runs the `lvconfig` script.
 

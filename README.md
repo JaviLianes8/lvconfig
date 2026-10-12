@@ -87,13 +87,24 @@ Low-level helpers are public too: `escape`/`unescape` for the `\XX` codes,
 - The drive letter keeps its case. Forward slashes are accepted in Windows input.
 - A value already in native Windows form (`c:\NI Installers`), which some NI files
   store, is read as is on Windows.
-- `get_path(..., windows=False)` returns the stored text unchanged, which is already a
-  POSIX path.
+- For POSIX systems pass `windows=False` to `to_labview_path`, `from_labview_path`,
+  `set_path` or `get_path`: a POSIX path is already in stored form and passes through
+  unchanged.
 - A path with no faithful stored form raises `LvPathError` (a `ValueError`) instead of
   being rewritten into a path to a different file: a drive-relative `C:file` or bare
-  `C:`, a rooted path without a drive (`\dir`), a UNC path without a share and a
-  `\\?\` device path. On Windows, reading a POSIX absolute value such as `/usr/lib`
-  raises too. These are the same rules as the sibling `lvpath` library.
+  `C:`, a rooted path without a drive (`\dir`, or `/dir` and `/a/b`, which on Windows
+  mean the current drive), a UNC path without a share and a `\\?\` device path.
+  Reading a POSIX absolute value such as `/usr/lib` as Windows raises too. These are
+  the same rules as the sibling `lvpath` library, which additionally normalises `.`
+  components and repeated separators where lvconfig only swaps separators.
+
+## What `dump` refuses
+
+`set` and `dump` raise `LvConfigError` rather than write text that would read back as
+something else: a key holding `=` or a line break, with edge whitespace or starting
+with `;` or `#`, a section name with a line break, a bare value wrapped in quotes, a
+comment line that does not start with `;` or `#`, and header comments for a section
+that does not exist.
 
 ## Command line
 
@@ -111,9 +122,10 @@ lvconfig convert plain.ini labview.ini          # plain .ini to LabVIEW form
 ```
 
 `set` keeps the existing key's quoting unless `--type` says otherwise, and `-o` writes
-the result elsewhere. `convert` reads a plain INI (the kind `configparser` writes),
-infers booleans and numbers, and writes it with LabVIEW escaping, quoting and path
-form. Errors, including usage errors, go to stderr with exit status 1. Run
+the result elsewhere. `--posix` reads or writes `--type path` values as POSIX paths.
+`convert` reads a plain INI (the kind `configparser` writes), turns `true`/`false`
+and plain decimal numbers into bare tokens, and writes everything else as a quoted,
+escaped string (values such as `007`, `1e5` or `nan` stay text). Errors, including usage errors, go to stderr with exit status 1. Run
 `lvconfig --help` for the full list.
 
 ## Escaping rules it handles
