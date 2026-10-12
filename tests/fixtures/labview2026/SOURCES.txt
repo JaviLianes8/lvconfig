@@ -1,0 +1,37 @@
+Verbatim excerpts of configuration files installed with LabVIEW 2026 (64-bit) on
+Windows, relative to the LabVIEW installation folder. Bytes are copied unchanged:
+CRLF line endings and missing final newlines included.
+
+linx_firmware_wizard_config.ini
+    project/Hobbyist/LINX Firmware Wizard Config.ini
+    whole file
+air_cooler_app.ini
+    ProjectTemplates/Source/Core/Feedback Evaporative Cooler/Air Cooler App.ini
+    whole file
+arduino_uno_dev.ini
+    vi.lib/MakerHub/LINX/Firmware/Builds/Arduino/Uno/Arduino_Uno_DEV.ini
+    whole file
+linx_target_rpi.ini
+    resource/Framework/Providers/LINXPlugins/RPi/LINXTarget.ini
+    whole file
+tags_default.ini
+    resource/webserver/tags.default.ini
+    whole file
+mx_lv_provider.ini
+    resource/Framework/Providers/mxLvProvider.ini
+    whole file
+exe_provider.ini
+    resource/Framework/Providers/GProviders/EXE.ini
+    lines 1-15 (line 16, a license signature, omitted)
+def_rtcommon.ini
+    resource/Framework/Providers/lvrealtime/default ini/Def_RTCommon.ini
+    whole file except line 37 (a default web services key)
+def_remote_windows_common.ini
+    resource/Framework/Providers/lvremotewindows/default ini/Def_RemoteWindowsCommon.ini
+    whole file except line 37 (a default web services key)
+webservice_sysadmin.ini
+    resource/webserver/services/LVWSSysAdmin/WebService.ini
+    lines 1-26
+labview_ini_excerpt.ini
+    LabVIEW.ini
+    lines 1 and 4-14 (lines 2-3, a machine-specific path and install id, omitted)

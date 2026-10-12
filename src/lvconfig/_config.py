@@ -2,10 +2,16 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
+from typing import TYPE_CHECKING
 
 from ._coerce import to_bool, to_float, to_int
 from ._path import from_labview_path, to_labview_path
+from ._validate import check_key, check_section
+
+if TYPE_CHECKING:
+    from ._layout import Layout
 
 
 @dataclass(frozen=True)
@@ -26,6 +32,10 @@ class Entry:
 def _entry(value: str | bool | int | float) -> Entry:
     if isinstance(value, bool):
         return Entry("TRUE" if value else "FALSE", quoted=False)
+    if isinstance(value, float) and not math.isfinite(value):
+        # LabVIEW spells the special values Inf, -Inf and NaN, not Python's inf/nan.
+        text = "NaN" if math.isnan(value) else ("Inf" if value > 0 else "-Inf")
+        return Entry(text, quoted=False)
     if isinstance(value, (int, float)):
         return Entry(str(value), quoted=False)
     return Entry(value, quoted=True)
@@ -38,11 +48,17 @@ class Config:
     ``header_comments`` maps a section name to the comment lines written above its
     header, and ``trailing_comments`` holds comment lines after the last key. Both let
     a parsed file keep its structure and annotations when dumped again.
+
+    ``layout`` is the source formatting recorded by :func:`parse`. With it, a dump
+    writes every untouched line back byte for byte. It takes no part in equality;
+    set it to ``None`` to write the canonical form instead. Keys found before any
+    section header live in the section named ``""``.
     """
 
     sections: dict[str, dict[str, Entry]] = field(default_factory=dict)
     header_comments: dict[str, tuple[str, ...]] = field(default_factory=dict)
     trailing_comments: tuple[str, ...] = ()
+    layout: Layout | None = field(default=None, compare=False, repr=False)
 
     def section_names(self) -> list[str]:
         """Return the section names in the order they were added."""
@@ -63,21 +79,35 @@ class Config:
     def set(self, section: str, key: str, value: str | bool | int | float) -> None:
         """Store ``value`` under ``section``/``key``, inferring its LabVIEW type.
 
-        A ``bool`` becomes ``TRUE``/``FALSE``, an ``int`` or ``float`` a bare number,
-        and a ``str`` a quoted, escaped string. New sections keep insertion order.
+        Raises :class:`LvConfigError` for a key or section name that would not read
+        back as itself (one holding ``=`` or a line break, for example).
+        A ``bool`` becomes ``TRUE``/``FALSE``, an ``int`` or ``float`` a bare number
+        (``Inf``, ``-Inf`` and ``NaN`` spelled as LabVIEW does), and a ``str`` a quoted,
+        escaped string. New sections keep insertion order. Replacing an existing key
+        keeps the comment lines attached to it.
         """
-        self.sections.setdefault(section, {})[key] = _entry(value)
+        self._store(section, key, _entry(value))
 
-    def set_path(self, section: str, key: str, path: str) -> None:
-        """Store a native path under ``section``/``key`` in LabVIEW's stored form."""
-        self.sections.setdefault(section, {})[key] = Entry(to_labview_path(path), quoted=True)
+    def set_path(self, section: str, key: str, path: str, *, windows: bool = True) -> None:
+        """Store a native path under ``section``/``key`` in LabVIEW's stored form.
+
+        ``windows`` picks the flavor of ``path``, as for :func:`to_labview_path`.
+        """
+        stored = to_labview_path(path, windows=windows)
+        self._store(section, key, Entry(stored, quoted=True))
 
     def remove(self, section: str, key: str) -> bool:
-        """Delete ``section``/``key`` if present; report whether it existed."""
+        """Delete ``section``/``key`` if present; report whether it existed.
+
+        The unnamed section ``""`` has no header line to keep it in a file, so it is
+        dropped with its last key unless it carries header comments.
+        """
         entries = self.sections.get(section)
         if entries is None or key not in entries:
             return False
         del entries[key]
+        if section == "" and not entries and not self.header_comments.get(""):
+            del self.sections[""]
         return True
 
     def remove_section(self, section: str) -> bool:
@@ -119,6 +149,14 @@ class Config:
             name: {key: entry.value for key, entry in entries.items()}
             for name, entries in self.sections.items()
         }
+
+    def _store(self, section: str, key: str, entry: Entry) -> None:
+        check_section(section)
+        previous = self.sections.get(section, {}).get(key)
+        if previous is not None and previous.comments:
+            entry = Entry(entry.value, entry.quoted, previous.comments)
+        check_key(key, entry)
+        self.sections.setdefault(section, {})[key] = entry
 
     def _require(self, section: str, key: str) -> Entry:
         try:

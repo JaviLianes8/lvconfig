@@ -1,1 +1,4 @@
 * text=auto eol=lf
+
+# Golden fixtures are byte-exact copies of LabVIEW-written files: keep their CRLF.
+tests/fixtures/** -text
