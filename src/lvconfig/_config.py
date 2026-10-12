@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from ._coerce import to_bool, to_float, to_int
 from ._path import from_labview_path, to_labview_path
+from ._validate import check_key, check_section
 
 if TYPE_CHECKING:
     from ._layout import Layout
@@ -78,6 +79,8 @@ class Config:
     def set(self, section: str, key: str, value: str | bool | int | float) -> None:
         """Store ``value`` under ``section``/``key``, inferring its LabVIEW type.
 
+        Raises :class:`LvConfigError` for a key or section name that would not read
+        back as itself (one holding ``=`` or a line break, for example).
         A ``bool`` becomes ``TRUE``/``FALSE``, an ``int`` or ``float`` a bare number
         (``Inf``, ``-Inf`` and ``NaN`` spelled as LabVIEW does), and a ``str`` a quoted,
         escaped string. New sections keep insertion order. Replacing an existing key
@@ -85,16 +88,26 @@ class Config:
         """
         self._store(section, key, _entry(value))
 
-    def set_path(self, section: str, key: str, path: str) -> None:
-        """Store a native path under ``section``/``key`` in LabVIEW's stored form."""
-        self._store(section, key, Entry(to_labview_path(path), quoted=True))
+    def set_path(self, section: str, key: str, path: str, *, windows: bool = True) -> None:
+        """Store a native path under ``section``/``key`` in LabVIEW's stored form.
+
+        ``windows`` picks the flavor of ``path``, as for :func:`to_labview_path`.
+        """
+        stored = to_labview_path(path, windows=windows)
+        self._store(section, key, Entry(stored, quoted=True))
 
     def remove(self, section: str, key: str) -> bool:
-        """Delete ``section``/``key`` if present; report whether it existed."""
+        """Delete ``section``/``key`` if present; report whether it existed.
+
+        The unnamed section ``""`` has no header line to keep it in a file, so it is
+        dropped with its last key unless it carries header comments.
+        """
         entries = self.sections.get(section)
         if entries is None or key not in entries:
             return False
         del entries[key]
+        if section == "" and not entries and not self.header_comments.get(""):
+            del self.sections[""]
         return True
 
     def remove_section(self, section: str) -> bool:
@@ -138,11 +151,12 @@ class Config:
         }
 
     def _store(self, section: str, key: str, entry: Entry) -> None:
-        entries = self.sections.setdefault(section, {})
-        previous = entries.get(key)
+        check_section(section)
+        previous = self.sections.get(section, {}).get(key)
         if previous is not None and previous.comments:
             entry = Entry(entry.value, entry.quoted, previous.comments)
-        entries[key] = entry
+        check_key(key, entry)
+        self.sections.setdefault(section, {})[key] = entry
 
     def _require(self, section: str, key: str) -> Entry:
         try:

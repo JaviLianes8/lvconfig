@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from ._config import Config, Entry
 from ._escape import escape
+from ._validate import check_config
 
 
 def render(entry: Entry) -> str:
@@ -14,10 +15,12 @@ def render(entry: Entry) -> str:
 def section_lines(config: Config, name: str) -> list[str]:
     """Return the canonical lines of one section, its header comments first.
 
-    The section ``""`` holds keys that precede every header, so it has no header line.
+    The section ``""`` holds keys that precede every header, so it has no header line
+    unless it carries header comments, which need a ``[]`` line to stay attached.
     """
-    lines = list(config.header_comments.get(name, ()))
-    if name:
+    comments = config.header_comments.get(name, ())
+    lines = list(comments)
+    if name or comments:
         lines.append(f"[{name}]")
     for key, entry in config.sections[name].items():
         lines.extend(entry.comments)
@@ -27,10 +30,10 @@ def section_lines(config: Config, name: str) -> list[str]:
 
 def _canonical(config: Config) -> str:
     names = sorted(config.sections, key=bool)  # headerless keys must come first
-    blocks = ["\n".join(section_lines(config, name)) for name in names]
+    blocks = [lines for lines in (section_lines(config, name) for name in names) if lines]
     if config.trailing_comments:
-        blocks.append("\n".join(config.trailing_comments))
-    return "\n\n".join(blocks) + "\n" if blocks else ""
+        blocks.append(list(config.trailing_comments))
+    return "\n\n".join("\n".join(lines) for lines in blocks) + "\n" if blocks else ""
 
 
 def dump(config: Config, *, normalize: bool = False) -> str:
@@ -40,13 +43,19 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     blank line, comment, line ending and spacing is written back byte for byte, so
     ``dump(parse(text)) == text``. An edited key is rewritten in place with its
     original ``key = `` spacing, a removed key or section disappears with its comments,
-    and new keys go after the last key of their section, new sections at the end.
+    new keys go after the section's last line in the source (its last key, or a later
+    repeated header), and new sections go at the end.
 
     A config built in code, or any config with ``normalize=True``, is written in the
     canonical form: sections in order separated by a blank line, ``key=value`` with no
     spaces, strings and paths escaped and quoted, booleans and numbers bare, comments
     above their section or key, ``\\n`` line endings and a final newline.
+
+    Raises :class:`LvConfigError` when the config holds something that would not read
+    back as written: a key with ``=`` or a line break, a bare value wrapped in quotes,
+    a comment not starting with ``;`` or ``#``, or header comments for a missing section.
     """
+    check_config(config)
     if config.layout is None or normalize:
         return _canonical(config)
     from ._lossless import write_lossless

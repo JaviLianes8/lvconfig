@@ -91,6 +91,14 @@ def write_lossless(config: Config, layout: Layout) -> str:
         last[item.name if isinstance(item, HeaderItem) else item.section] = index
     if "" in config.sections and "" not in last:
         writer.new_section("")
+    elif config.header_comments.get("") and not any(
+        isinstance(item, HeaderItem) and not item.name for item in layout.items
+    ):
+        # Comments for the unnamed section need a [] line above its keys to stay attached.
+        for comment in config.header_comments[""]:
+            writer.emit(comment)
+        writer.emit("[]")
+        writer.done_headers.add("")
     for index, item in enumerate(layout.items):
         if isinstance(item, HeaderItem):
             writer.header(item)
