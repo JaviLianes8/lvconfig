@@ -1,9 +1,9 @@
 """Real end-to-end tests: pip-install the package and drive the installed script.
 
 A throwaway virtual environment gets the project installed into it, and the
-installed ``lvconfig`` executable runs as a subprocess against copies of the real
-LabVIEW 2026 fixtures. The assertions read the real process output, exit status
-and file bytes; nothing is imported in-process or mocked.
+installed ``lvconfig`` executable runs as a subprocess against copies of the
+hand-written LabVIEW-style fixtures. The assertions read the real process output, exit
+status and file bytes; nothing is imported in-process or mocked.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-FIXTURES = Path(__file__).parent / "fixtures" / "labview2026"
+FIXTURES = Path(__file__).parent / "fixtures" / "handwritten"
 
 
 @pytest.fixture(scope="module")
@@ -50,49 +50,49 @@ def _copy(tmp_path: Path, name: str) -> Path:
 def test_installed_script_reports_its_version(lvconfig_exe: Path) -> None:
     result = _run(lvconfig_exe, "--version")
     assert result.returncode == 0
-    assert result.stdout.strip() == "lvconfig 0.3.0"
+    assert result.stdout.strip() == "lvconfig 0.3.1"
 
 
 def test_installed_script_reads_typed_values(lvconfig_exe: Path) -> None:
-    rt = str(FIXTURES / "def_rtcommon.ini")
-    assert _run(lvconfig_exe, "get", rt, "LVRT", "server.tcp.port", "--type", "int").stdout == (
-        "3363\n"
+    rt = str(FIXTURES / "target_rt.ini")
+    assert _run(lvconfig_exe, "get", rt, "Target", "link.tcp.port", "--type", "int").stdout == (
+        "4100\n"
     )
-    result = _run(lvconfig_exe, "get", rt, "LVRT", "server.tcp.enabled", "--type", "bool")
+    result = _run(lvconfig_exe, "get", rt, "Target", "link.tcp.enabled", "--type", "bool")
     assert result.stdout == "False\n"
-    linx = str(FIXTURES / "linx_firmware_wizard_config.ini")
-    result = _run(lvconfig_exe, "get", linx, "Paths", "ArduinoBasePath", "--type", "path")
-    assert result.stdout == "C:\\Program Files (x86)\\Arduino\n"
+    linx = str(FIXTURES / "spaced_path.ini")
+    result = _run(lvconfig_exe, "get", linx, "Paths", "ToolchainPath", "--type", "path")
+    assert result.stdout == "C:\\Program Files (x86)\\Toolchain\n"
 
 
 def test_installed_script_dumps_json(lvconfig_exe: Path) -> None:
-    result = _run(lvconfig_exe, "json", str(FIXTURES / "linx_target_rpi.ini"))
+    result = _run(lvconfig_exe, "json", str(FIXTURES / "commented_keys.ini"))
     assert result.returncode == 0
-    assert json.loads(result.stdout)["LINX"]["NiceName"] == "Raspberry Pi"
+    assert json.loads(result.stdout)["Board"]["DisplayName"] == "Bench Board"
 
 
 def test_installed_script_edits_one_key_and_keeps_every_other_byte(
     lvconfig_exe: Path, tmp_path: Path
 ) -> None:
-    target = _copy(tmp_path, "webservice_sysadmin.ini")
-    result = _run(lvconfig_exe, "set", str(target), "Service", "NumRoutingTemplates", "21")
+    target = _copy(tmp_path, "service.ini")
+    result = _run(lvconfig_exe, "set", str(target), "Service", "RouteCount", "21")
     assert result.returncode == 0, result.stderr
-    original = (FIXTURES / "webservice_sysadmin.ini").read_bytes()
-    expected = original.replace(b"NumRoutingTemplates=20", b"NumRoutingTemplates=21")
+    original = (FIXTURES / "service.ini").read_bytes()
+    expected = original.replace(b"RouteCount=12", b"RouteCount=21")
     assert target.read_bytes() == expected
 
 
 def test_installed_script_refuses_a_drive_relative_path(lvconfig_exe: Path, tmp_path: Path) -> None:
-    target = _copy(tmp_path, "linx_firmware_wizard_config.ini")
+    target = _copy(tmp_path, "spaced_path.ini")
     result = _run(lvconfig_exe, "set", str(target), "Paths", "p", "C:x", "--type", "path")
     assert result.returncode == 1
     assert result.stdout == ""
     assert "drive-relative" in result.stderr
-    assert target.read_bytes() == (FIXTURES / "linx_firmware_wizard_config.ini").read_bytes()
+    assert target.read_bytes() == (FIXTURES / "spaced_path.ini").read_bytes()
 
 
 def test_installed_script_reports_errors_on_stderr(lvconfig_exe: Path) -> None:
-    result = _run(lvconfig_exe, "get", str(FIXTURES / "tags_default.ini"), "Tags", "absent")
+    result = _run(lvconfig_exe, "get", str(FIXTURES / "semicolon_header.ini"), "Tags", "absent")
     assert result.returncode == 1
     assert result.stderr.startswith("lvconfig: ")
     usage = _run(lvconfig_exe, "frobnicate")
