@@ -12,7 +12,7 @@ from __future__ import annotations
 from ._coerce import to_bool, to_float, to_int
 from ._config import Config, Entry
 from ._dump import dump
-from ._errors import LvConfigError, LvParseError
+from ._errors import LvConfigError, LvParseError, LvPathError
 from ._escape import escape, unescape
 from ._io import load, save
 from ._parse import parse
@@ -25,6 +25,7 @@ __all__ = [
     "Entry",
     "LvConfigError",
     "LvParseError",
+    "LvPathError",
     "dump",
     "escape",
     "from_labview_path",

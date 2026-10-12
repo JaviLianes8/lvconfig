@@ -9,6 +9,7 @@ PUBLIC_API: list[str] = [
     "Entry",
     "LvConfigError",
     "LvParseError",
+    "LvPathError",
     "dump",
     "escape",
     "from_labview_path",
