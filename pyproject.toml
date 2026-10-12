@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "lvconfig"
-version = "0.2.0"
+version = "0.3.0"
 description = "Typed reader and writer for LabVIEW configuration files, with LabVIEW-correct escaping, path and boolean rules"
 readme = "README.md"
 requires-python = ">=3.10"
