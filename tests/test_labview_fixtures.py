@@ -89,7 +89,9 @@ def test_stored_paths_decode_to_the_right_files() -> None:
     native = "c:\\NI Installers"
     assert remote.get_path("LVREMOTEWINDOWS", "Deployment_DownloadInstallerPath") == native
     exe = parse(_text("exe_provider.ini"))
-    assert exe.get_path("Provider", "BuildInterfaceVI") == "..\\Builds\\EXE\\EBUIP_Build_Interface.vi"
+    assert (
+        exe.get_path("Provider", "BuildInterfaceVI") == "..\\Builds\\EXE\\EBUIP_Build_Interface.vi"
+    )
 
 
 def test_stored_paths_encode_back_to_the_stored_text() -> None:
