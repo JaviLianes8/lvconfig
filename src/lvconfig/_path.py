@@ -44,18 +44,21 @@ def _windows_check(text: str, original: str) -> None:
         raise LvPathError(f"{original!r} is rooted without a drive or UNC share")
 
 
-def to_labview_path(path: str) -> str:
+def to_labview_path(path: str, *, windows: bool = True) -> str:
     """Encode a native path into LabVIEW's stored form.
 
-    A Windows absolute path keeps its drive as ``/C/...`` and a bare drive root
-    ``C:\\`` becomes ``/C``. A UNC path keeps a leading double slash. A relative path
-    has its backslashes turned into forward slashes, which is how LabVIEW stores it.
-    A value already in stored form (a leading single ``/``) is returned unchanged.
+    With ``windows`` true (the default), a Windows absolute path keeps its drive as
+    ``/C/...`` and a bare drive root ``C:\\`` becomes ``/C``. A UNC path keeps a
+    leading double slash. A relative path has its backslashes turned into forward
+    slashes, which is how LabVIEW stores it. Forward slashes are accepted as
+    separators. With ``windows`` false the path is a POSIX path, which is already in
+    stored form, and is returned unchanged.
 
-    Raises :class:`LvPathError` for a drive-relative, drive-less rooted, incomplete
+    Raises :class:`LvPathError` on Windows for a drive-relative, drive-less rooted
+    (``\\dir`` or ``/dir``, including a value already in stored form), incomplete
     UNC or device path, since any stored form would name a different file.
     """
-    if path.startswith("/") and not path.startswith("//"):
+    if not windows:
         return path
     text = path.replace("/", "\\")
     _windows_check(text, path)

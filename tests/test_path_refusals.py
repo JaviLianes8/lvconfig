@@ -57,8 +57,18 @@ def test_forward_slash_windows_input_is_accepted() -> None:
     assert to_labview_path("//server/share/f") == "//server/share/f"
 
 
-def test_a_stored_value_encodes_to_itself() -> None:
-    assert to_labview_path("/C/Temp/log.txt") == "/C/Temp/log.txt"
+@pytest.mark.parametrize("native", ["/C/Temp/log.txt", "/a/b", "/dir", "/C:/x", "/C\\x"])
+def test_a_forward_slash_rooted_path_is_refused_on_windows(native: str) -> None:
+    # On Windows /a/b means \a\b on the current drive, not the drive a:.
+    with pytest.raises(LvPathError, match="rooted"):
+        to_labview_path(native)
+
+
+def test_posix_encoding_keeps_the_path() -> None:
+    assert to_labview_path("/home/lvuser/natinst", windows=False) == "/home/lvuser/natinst"
+    config = Config()
+    config.set_path("P", "p", "/usr/local/natinst", windows=False)
+    assert config.get_path("P", "p", windows=False) == "/usr/local/natinst"
 
 
 def test_native_windows_value_is_read_as_is() -> None:
