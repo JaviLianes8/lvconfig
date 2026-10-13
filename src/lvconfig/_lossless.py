@@ -21,6 +21,12 @@ class _Writer:
         self.done_headers: set[str] = set()
         self.moved: set[tuple[str, str]] = set()  # edits written into the first block
         self.unchanged: dict[str, bool] = {}  # one comparison per name, not per header
+        # Sections the source held; a line hidden behind a blank one goes with its section.
+        self.parsed = {
+            item.name if isinstance(item, HeaderItem) else item.section
+            for item in layout.items
+            if not (isinstance(item, KeyItem) and item.behind_blank)
+        }
 
     def emit(self, text: str) -> None:
         self.out.append(RawLine(text, self.layout.eol))
@@ -57,6 +63,8 @@ class _Writer:
 
     def key(self, item: KeyItem) -> None:
         if item.behind_blank:
+            if item.section in self.parsed and item.section not in self.config.sections:
+                return  # its section was removed, and with it the blank line hiding it
             self.out.extend(item.lead)  # LabVIEW never reads it; keep it as written
             self.out.append(item.line)
             return

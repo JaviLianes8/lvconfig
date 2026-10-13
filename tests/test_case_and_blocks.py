@@ -139,3 +139,24 @@ def test_removing_a_section_keeps_the_blank_looking_line_above_it() -> None:
     config = parse("[A]\n  \n[C]\n[A]\n=x\n")
     config.remove_section("C")
     assert parse(dump(config)) == config
+
+
+@pytest.mark.parametrize(
+    ("text", "remove"),
+    [
+        ("[Z]\nz=1\n[A]\n \nk=1\n=x\n", ("A", None)),
+        ("[A]\na=1\n[B]\n \nb=1\n=x\n", ("B", None)),
+        (" \nk=1\n=x\n", ("", "k")),
+        (" \nk=1\n=x\n", ("", None)),
+    ],
+)
+def test_a_removal_never_unhides_a_line_behind_a_blank_one(
+    text: str, remove: tuple[str, str | None]
+) -> None:
+    config = parse(text)
+    section, key = remove
+    if key is None:
+        config.remove_section(section)
+    else:
+        config.remove(section, key)
+    assert parse(dump(config)) == config
