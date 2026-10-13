@@ -260,7 +260,9 @@ pinned by a test:
   appends a section, comments after the last key stay after the last line of the file.
 - Text. LabVIEW reads files in the system code page and does not skip a UTF-8 byte order
   mark; `load` reads UTF-8 by default and skips one. Pass `encoding="cp1252"` (or your
-  system's code page) to read and write what LabVIEW does.
+  system's code page) to read and write what LabVIEW does. Python's `cp1252` codec refuses the five bytes
+  Windows-1252 leaves undefined (0x81, 0x8D, 0x8F, 0x90, 0x9D), which LabVIEW reads; such a
+  file raises `UnicodeDecodeError`.
 - Numbers and booleans. LabVIEW reads the leading part of `12abc`, `1_000` or `0x10` and
   the first word of `TRUE x` or `on x`, and clamps integers to 32 bits; lvconfig refuses
   partial values and returns every digit, so `get_int` of `4294967295` is 4294967295 where

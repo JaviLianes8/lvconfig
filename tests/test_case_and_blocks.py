@@ -120,3 +120,16 @@ def test_a_moved_edit_keeps_its_comments_so_the_config_reads_back_equal() -> Non
     config.set("A", "k", "2")
     assert dump(config) == '[A]\n; c\nk = "2"\n[A]\n; c\nk=1\n'
     assert parse(dump(config)) == config
+
+
+def test_a_blank_looking_line_before_any_header_adds_no_section() -> None:
+    text = " \n=v\n[S]\nk=1\n"
+    config = parse(text)
+    assert config.section_names() == ["S"]
+    assert dump(config) == text
+
+
+def test_a_moved_key_takes_its_comment_from_a_later_block() -> None:
+    config = parse("[A]\n[B]\nb=1\n[A]\nk=1\n; about j\nj=2\n")
+    config.set("A", "j", "x")
+    assert parse(dump(config)) == config

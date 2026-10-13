@@ -58,7 +58,6 @@ class _Builder:
         key, body, prefix, suffix = _split_key_line(line.text)
         value, quoted, stored = read(body)
         entry = remember(Entry(value, quoted, tuple(self.comments)), stored)
-        entries = self.config.sections.setdefault(section, {})
         seen = self.keys.setdefault(section, {})
         # LabVIEW reads the first line of a repeated key; later ones are kept verbatim and
         # recorded under the first spelling, so they follow that key's fate.
@@ -68,7 +67,7 @@ class _Builder:
             key = seen[fold(key)]
         elif not shadowed:
             seen[fold(key)] = key
-            entries[key] = entry
+            self.config.sections.setdefault(section, {})[key] = entry
         self.items.append(
             KeyItem(
                 section, key, tuple(self.lead), line, prefix, suffix, entry, shadowed, behind_blank
