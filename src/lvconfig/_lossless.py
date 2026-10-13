@@ -83,8 +83,8 @@ class _Writer:
     def new_keys(self, name: str, known: set[tuple[str, str]]) -> None:
         for key, entry in self.config.sections.get(name, {}).items():
             if (name, key) not in known:
-                # A moved key's comments stay above its old line.
-                for comment in () if (name, key) in self.moved else entry.comments:
+                # A moved key's comments go with it (and also stay above its old line).
+                for comment in entry.comments:
                     self.emit(comment)
                 self.emit(line(key, entry))
 

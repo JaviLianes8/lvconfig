@@ -113,3 +113,10 @@ def test_a_line_of_blanks_is_an_empty_key_to_labview_so_a_later_one_is_not_read(
     config.set("S", "k", 2)
     assert dump(config) == "[S]\n \n=v\nk=2\n"
     assert parse("[S]\n\n=v\n").get("S", "") == "v"  # a truly empty line is skipped
+
+
+def test_a_moved_edit_keeps_its_comments_so_the_config_reads_back_equal() -> None:
+    config = parse("[A]\n[A]\n; c\nk=1\n")
+    config.set("A", "k", "2")
+    assert dump(config) == '[A]\n; c\nk = "2"\n[A]\n; c\nk=1\n'
+    assert parse(dump(config)) == config

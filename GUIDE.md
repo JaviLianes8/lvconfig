@@ -207,7 +207,8 @@ text beyond ASCII. `line_ending` may force `"\r\n"`, `"\n"` or `"\r"` on every l
 is rendered and encoded first, written to a temporary file in the same folder, and that
 file then replaces the target; a refused config, an encoding error, a full disk or a locked
 file leaves the old file as it was. Because the file is replaced, it is a new file: links
-to the old one and its permissions are not carried over.
+to the old one and its permissions are not carried over. A Windows device name such as `NUL` cannot be
+saved to, since the temporary file cannot be made next to it.
 
 ## Errors
 
@@ -246,7 +247,8 @@ pinned by a test:
   the first header or under `[]`. lvconfig merges every block of a section and keeps
   headerless keys in the section `""`, so it returns values LabVIEW never reads. Edits
   follow LabVIEW: new keys, and new values of keys found only in a later block, are
-  written into the first block. `dump(config, normalize=True)` writes the merged
+  written into the first block, with their comments. Setting a hidden key to the value it
+  already holds changes nothing, so it stays hidden. `dump(config, normalize=True)` writes the merged
   sections, so keys LabVIEW could not see become visible to it: it is a rewrite, not a
   reformat.
 - Lines. LabVIEW reads a line with no `=` as a key with an empty value, comment lines
