@@ -62,3 +62,21 @@ def test_convert_writes_to_a_file(tmp_path: Path) -> None:
     out = tmp_path / "out.ini"
     assert main(["convert", path, str(out)]) == 0
     assert 'x = "hi"' in out.read_text(encoding="utf-8")
+
+
+def test_python_dash_m_runs_the_command() -> None:
+    import os
+    import subprocess
+    import sys
+
+    import lvconfig
+
+    src = str(Path(lvconfig.__file__).resolve().parent.parent)
+    result = subprocess.run(
+        [sys.executable, "-m", "lvconfig", "--version"],
+        capture_output=True,
+        text=True,
+        timeout=60,
+        env={**os.environ, "PYTHONPATH": src},
+    )
+    assert (result.returncode, result.stdout) == (0, f"lvconfig {lvconfig.__version__}\n")

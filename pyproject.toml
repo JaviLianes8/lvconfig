@@ -52,6 +52,8 @@ only-include = [
     "src/lvconfig",
     "tests",
     "scripts/capture_ni.py",
+    "scripts/check.ps1",
+    "requirements-dev.txt",
     "README.md",
     "GUIDE.md",
     "CHANGELOG.md",

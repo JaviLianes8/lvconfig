@@ -17,7 +17,9 @@ import lvconfig
 from lvconfig._cli import main
 
 _ROOT = Path(__file__).resolve().parent.parent
-_MODULES = ["lvconfig"] + [f"lvconfig.{m.name}" for m in pkgutil.iter_modules(lvconfig.__path__)]
+_MODULES = ["lvconfig"] + [
+    f"lvconfig.{m.name}" for m in pkgutil.iter_modules(lvconfig.__path__) if m.name != "__main__"
+]
 _PYCON = re.compile(r"```pycon\n(.*?)```", re.DOTALL)
 _SHELL = re.compile(r"```\n(\$ lvconfig.*?)```", re.DOTALL)
 _DOCS = ["README.md", "GUIDE.md"]

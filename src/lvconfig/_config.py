@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 from ._check import need_str
-from ._entry import Entry, Value, make_entry
+from ._entry import Entry, make_entry
 from ._path import to_labview_path
 from ._reading import Reading
 from ._validate import check_key, check_section
@@ -79,7 +79,7 @@ class Config(Reading):
         """
         return need_str("key", key) in self.sections.get(need_str("section", section), {})
 
-    def set(self, section: str, key: str, value: Value) -> None:
+    def set(self, section: str, key: str, value: str | bool | int | float) -> None:
         """Store ``value`` under ``section``/``key``, inferring its LabVIEW type.
 
         A ``bool`` becomes ``TRUE``/``FALSE``, an ``int`` or ``float`` a bare number
