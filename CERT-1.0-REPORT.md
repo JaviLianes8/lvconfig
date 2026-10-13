@@ -34,7 +34,7 @@ Progress:
 | 15 | Gates exit 0 alone | pending | final run on the PR head |
 | 16 | Independent reviewer | pending | |
 | 17 | PR, trace guard | pending | |
-| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 54 survivors closed by contracts, 9 equivalent, 1 superseded by a later fix |
+| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 54 survivors closed by contracts, 10 shown equivalent, 1 superseded by a later fix |
 | 19 | Five QA lenses | pending | a, d, e PASS; b and c re-verification pending |
 
 ## Baseline on 0.3.1 (before any change)
