@@ -60,6 +60,7 @@ only-include = [
     "CONTRIBUTING.md",
     "LICENSE",
     "pyproject.toml",
+    ".gitattributes",
 ]
 # NI's configuration file excerpts are local test references only; only their manifest ships.
 exclude = ["**/__pycache__", "**/*.pyc", "tests/fixtures/ni/*.ini"]

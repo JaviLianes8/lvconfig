@@ -1,7 +1,7 @@
 {
  "labview": "LabVIEW 2026 Community 26.3.1f1 (Windows x64, Spanish locale)",
  "captured": "2026-10-13",
- "method": "shipped VIs run headless through LabVIEW's ActiveX server; inputs were chosen by the author, outputs copied unchanged",
+ "method": "shipped VIs run headless through LabVIEW's ActiveX server; inputs were chosen for these tests (write_example.json is the shipped example's own default front panel), outputs copied unchanged",
  "files": {
   "write_string.json": {
    "how": "writeUserModePref.vi (resource/modes/shared), which calls Write Key (String), given 'value'; 'line' is the key line LabVIEW wrote under [LabVIEW]",

@@ -302,7 +302,10 @@ $ lvconfig json settings.ini --section Rig
 `--encoding` applies to every file. Errors, usage errors included, go to stderr with exit
 status 1; an interrupt exits with 130.
 
-## Upgrading from 0.3
+## Upgrading from 0.2 or 0.3
+
+PyPI had 0.2.0; 0.3.0 and 0.3.1 were never published there, so their CHANGELOG entries
+are part of the step from 0.2.0 to 1.0.0. The changes since 0.3:
 
 - `escape` no longer writes `"` as `\22`, DEL as `\7F` or tab as `\09`: LabVIEW writes them
   as they are and reads `\22` back as text. `unescape` decodes only `\00` to `\1F` in upper

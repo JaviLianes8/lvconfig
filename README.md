@@ -105,7 +105,7 @@ you edit.
 ## Documentation
 
 - [Guide](https://github.com/JaviLianes8/lvconfig/blob/main/GUIDE.md): every rule, the
-  error types, the command line and the upgrade notes from 0.3.
+  error types, the command line and the upgrade notes from 0.2 and 0.3.
 - [Changelog](https://github.com/JaviLianes8/lvconfig/blob/main/CHANGELOG.md)
 
 ## License
