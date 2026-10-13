@@ -57,4 +57,4 @@ def test_an_edit_after_load_keeps_crlf_on_the_new_line(tmp_path: Path) -> None:
     config = load(target)
     config.set("A", "y", True)
     save(config, target)
-    assert target.read_bytes() == b"[A]\r\nx=1\r\ny=TRUE\r\n"
+    assert target.read_bytes() == b"[A]\r\nx=1\r\ny = TRUE\r\n"

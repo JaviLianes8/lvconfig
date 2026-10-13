@@ -9,12 +9,14 @@ import re
 import sys
 from collections.abc import Callable
 
+from ._check import short
 from ._coerce import to_bool, to_float, to_int
-from ._config import Config, Entry
+from ._config import Config
 from ._dump import dump
+from ._entry import Entry
 from ._errors import LvConfigError
-from ._io import load, save
-from ._validate import is_bare_safe
+from ._io import load, save, write_text
+from ._stored import reads_back
 
 # Only plain decimal spellings count as numbers, so 007, 1_000, 1e5 or nan stay text.
 _INT = re.compile(r"[+-]?(0|[1-9][0-9]*)")
@@ -26,17 +28,17 @@ def _infer(value: str) -> str | bool | int | float:
     low = token.lower()
     if low in {"true", "false"}:
         return low == "true"
-    if _INT.fullmatch(token):
+    if _INT.fullmatch(token) and len(token) <= 4000:  # longer stays text, as written
         return int(token)
     if _FLOAT.fullmatch(token):
         return float(token)
     return value
 
 
-def _plain_to_config(text: str) -> Config:
+def _plain_to_config(text: str, source: str) -> Config:
     parser = configparser.ConfigParser(interpolation=None)
     parser.optionxform = str  # type: ignore[method-assign,assignment]
-    parser.read_string(text)
+    parser.read_string(text, source=source)
     config = Config()
     for section in parser.sections():
         for key, value in parser.items(section):
@@ -46,9 +48,9 @@ def _plain_to_config(text: str) -> Config:
 
 def _require(config: Config, section: str, key: str | None = None) -> None:
     if section not in config.sections:
-        raise LvConfigError(f"no section {section!r}")
+        raise LvConfigError(f"no section {short(section)}")
     if key is not None and not config.has(section, key):
-        raise LvConfigError(f"no key {key!r} in section {section!r}")
+        raise LvConfigError(f"no key {short(key)} in section {short(section)}")
 
 
 def cmd_json(args: argparse.Namespace) -> int:
@@ -83,8 +85,9 @@ def _store(config: Config, args: argparse.Namespace) -> None:
     section, key, value = args.section, args.key, args.value
     if args.type == "auto":
         old = config.sections.get(section, {}).get(key)
-        if old is not None and not old.quoted and is_bare_safe(value):
-            config.sections[section][key] = Entry(value, False, old.comments)
+        bare = Entry(value, False, old.comments if old is not None else ())
+        if old is not None and not old.quoted and reads_back(bare):
+            config.sections[section][key] = bare
         else:
             config.set(section, key, value)
     elif args.type == "path":
@@ -110,8 +113,7 @@ def _emit(text: str, output: str | None, encoding: str) -> None:
     if output is None:
         sys.stdout.write(text)
         return
-    with open(output, "w", encoding=encoding, newline="") as handle:
-        handle.write(text.replace("\n", "\r\n"))
+    write_text(output, text.replace("\n", "\r\n"), encoding)
 
 
 def cmd_fmt(args: argparse.Namespace) -> int:
@@ -122,6 +124,6 @@ def cmd_fmt(args: argparse.Namespace) -> int:
 
 def cmd_convert(args: argparse.Namespace) -> int:
     with open(args.input, encoding=args.encoding) as handle:
-        config = _plain_to_config(handle.read())
+        config = _plain_to_config(handle.read(), args.input)
     _emit(dump(config), args.output, args.encoding)
     return 0

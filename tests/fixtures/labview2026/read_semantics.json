@@ -1,0 +1,89 @@
+{
+ "file": "hk=headless\r\n[S]\r\nplain=hello\r\ndup=first\r\ndup=second\r\ntrail=abc ; c\r\nbareesc=a\\09b\r\n  spaced key  =   x y   \r\nnoequals line\r\n[ T ]\r\nsp=spaced section\r\n[S]\r\nsecond=block2\r\n[s]\r\nlower=yes\r\n",
+ "lookups": [
+  {
+   "section": "",
+   "key": "hk",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "section": "S",
+   "key": "plain",
+   "value": "hello",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "PLAIN",
+   "value": "hello",
+   "found": true
+  },
+  {
+   "section": "s",
+   "key": "plain",
+   "value": "hello",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "dup",
+   "value": "first",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "trail",
+   "value": "abc; c",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "bareesc",
+   "value": "a\tb",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "spaced key",
+   "value": "x y",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "noequals line",
+   "value": "",
+   "found": true
+  },
+  {
+   "section": "T",
+   "key": "sp",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "section": " T ",
+   "key": "sp",
+   "value": "spaced section",
+   "found": true
+  },
+  {
+   "section": "S",
+   "key": "second",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "section": "s",
+   "key": "lower",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "section": "S",
+   "key": "lower",
+   "value": "<absent>",
+   "found": false
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "labview": "LabVIEW 2026 Community 26.3.1f1 (Windows x64, Spanish locale)",
+ "captured": "2026-10-13",
+ "method": "shipped VIs run headless through LabVIEW's ActiveX server; inputs were chosen for these tests (write_example.json is the shipped example's own default front panel), outputs copied unchanged",
+ "files": {
+  "write_string.json": {
+   "how": "writeUserModePref.vi (resource/modes/shared), which calls Write Key (String), given 'value'; 'line' is the key line LabVIEW wrote under [LabVIEW]",
+   "size": 39856,
+   "sha256": "b25d11096562739e19ef805926c2cb44496ff0fa7d179a3da5dce16ac4dca04f"
+  },
+  "read_string.json": {
+   "how": "GPFW NI_ReadToken_String.vi (resource/plugins/NewDialogFiles/ProjectWizards/GenProjFrameWork), which calls Read Key (String), reading each 'line' from a [S] section of a CRLF file (latin-1 bytes); 'value' is what LabVIEW returned",
+   "size": 51917,
+   "sha256": "95be066e704fb56815213bca0bde6a647c71de47590669364c3b843521acfd07"
+  },
+  "rewrite.json": {
+   "how": "writeUserModePref.vi writing LVMode = \"new\" under [LabVIEW] into a file holding 'before'; 'after' is the whole file LabVIEW wrote back. In the case escapes_kept the quoted value q holds raw NUL and 0x12 characters, which LabVIEW writes back unchanged",
+   "size": 1541,
+   "sha256": "ae47bbaa081ce3ac3e7fefd27239a7c1649f6353f5a00dc3851045e4b35b8010"
+  },
+  "read_typed.json": {
+   "how": "path and I32 cases: Read FW INI.vi (vi.lib/MakerHub/LINX/Private/Utilties), which calls Read Key (Path) for FirmwareRelPath and Read Key (I32) for FlashTimeout, on a file '[Firmware]\r\nFirmwareRelPath = <path stored>\r\nFlashTimeout = <int stored>\r\n'; error 0 means no error, then 'value' is LabVIEW's reading. Boolean cases: GPFW NI_ReadToken_Bool.vi read with default TRUE and with default FALSE; null means LabVIEW returned the default both times (not a boolean to it). Double cases: examples/File IO/Configuration (INI)/Read Configuration (INI) File.vi with front-panel datalogging, the Double key holding 'stored'; values are Python reprs of the logged DBL; spellings LabVIEW refused (it raised its error dialog) are not listed",
+   "size": 4466,
+   "sha256": "9a0437646ea6fb0d86ff5d3f6f4eb8c6136c50dd539e0713d38752a9b83f53f4"
+  },
+  "write_example.json": {
+   "how": "examples/File IO/Configuration (INI)/Write Configuration (INI) File.vi run with its default front panel on a Windows system whose decimal separator is a comma; 'file' is the whole file LabVIEW wrote",
+   "size": 189,
+   "sha256": "e2469f40c57f682b05e2751d3e47ad91655e83abb4c38220ff06416ff4aca7a8"
+  },
+  "read_semantics.json": {
+   "how": "GPFW NI_ReadToken_String.vi asked for each (section, key) of 'lookups' in a CRLF file holding 'file'; 'value' and 'found' are what LabVIEW returned, '<absent>' being the default value passed in",
+   "size": 1469,
+   "sha256": "7f71295ff3c89692b9410bf4a82e876020d19631f89ab8ba5b3997eb90d93db4"
+  },
+  "read_more.json": {
+   "how": "a second run on 2026-10-13 with the same VIs: 'strings' are GPFW NI_ReadToken_String.vi lookups of (section, key) in a CRLF file holding 'file' ('<absent>' is the default passed in); 'bools' GPFW NI_ReadToken_Bool.vi on [S] k = <stored>, null when LabVIEW returned its default; 'paths' and 'ints' Read FW INI.vi as in read_typed.json, error 19 meaning LabVIEW refused the number; 'rewrite' writeUserModePref.vi writing LVMode = 'value' (\"new\" when absent) into a file holding 'before'",
+   "size": 13174,
+   "sha256": "35e08e7f92c913be8cffffe3b3d92d968a5e2f0b2456d29ad25b3b7b16ccd029"
+  },
+  "read_third.json": {
+   "how": "a third run on 2026-10-13 with the same VIs and the same shapes as read_more.json, on cases written by an independent reviewer, 320 of the string lookups generated from seed 424242: accented letter case, header-like lines, indented headers, stored codes in typed and path reads",
+   "size": 70335,
+   "sha256": "da053a67b5f7d1f1c8adf49f2914e51a77a237dd67c485f9d60c8d1f854a5133"
+  }
+ },
+ "observed": [
+  "read_semantics.json: Read Key matches section and key names without regard to case.",
+  "read_semantics.json: Read Key sees only the first block of a repeated section and the first line of a repeated key.",
+  "read_semantics.json: Read Key does not see keys placed before the first section header.",
+  "read_semantics.json: Read Key reads a line with no '=' as a key with an empty value.",
+  "read_semantics.json and read_string.json: Read Key treats ';' in an unquoted value as the start of a comment and returns a rejoined text, not the value as written.",
+  "read_string.json: Read Key trims spaces and tabs around values, nothing else; inside quotes they are kept."
+ ]
+}

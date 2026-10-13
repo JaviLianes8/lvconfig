@@ -9,6 +9,7 @@ status and file bytes; nothing is imported in-process or mocked.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import venv
@@ -22,6 +23,12 @@ FIXTURES = Path(__file__).parent / "fixtures" / "handwritten"
 
 @pytest.fixture(scope="module")
 def lvconfig_exe(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    if os.environ.get("LVCONFIG_INSTALLED") == "1":
+        # Running against an installed wheel: drive the console script it put on disk.
+        name = "lvconfig.exe" if sys.platform == "win32" else "lvconfig"
+        installed = Path(sys.executable).parent / name
+        assert installed.is_file(), f"no installed console script at {installed}"
+        return installed
     env_dir = tmp_path_factory.mktemp("venv")
     venv.create(env_dir, with_pip=True)
     scripts = env_dir / ("Scripts" if sys.platform == "win32" else "bin")
@@ -50,7 +57,7 @@ def _copy(tmp_path: Path, name: str) -> Path:
 def test_installed_script_reports_its_version(lvconfig_exe: Path) -> None:
     result = _run(lvconfig_exe, "--version")
     assert result.returncode == 0
-    assert result.stdout.strip() == "lvconfig 0.3.1"
+    assert result.stdout.strip() == "lvconfig 1.0.0"
 
 
 def test_installed_script_reads_typed_values(lvconfig_exe: Path) -> None:

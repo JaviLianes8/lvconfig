@@ -11,8 +11,10 @@ pip install -r requirements-dev.txt
 ## Before you open a pull request
 
 - Keep public API in `src/lvconfig/__init__.py`; internals live in `_`-prefixed modules.
-- Add a test for the behaviour you change. Format behaviour is checked against the
-  hand-written fixtures in `tests/fixtures/handwritten/`. Keep them byte-exact: they
+- Add a test for the behaviour you change. Reading and writing rules are checked against
+  what LabVIEW 2026 itself wrote and read (`tests/fixtures/labview2026/`, with a manifest
+  of how each file was made), and format behaviour against the hand-written fixtures in
+  `tests/fixtures/handwritten/`. Keep them byte-exact: they
   are stored with `CRLF` (see `.gitattributes`). Never commit files copied from a
   LabVIEW install: `python scripts/capture_ni.py` writes the NI excerpts the tests can
   also use into the gitignored `tests/fixtures/ni/`. The end-to-end test installs the

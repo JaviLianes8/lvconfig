@@ -5,9 +5,7 @@ import pytest
 
 from lvconfig._cli import main
 
-SAMPLE = (
-    '[General]\nname="Rig \\22A\\22"\nenabled=TRUE\nretries=3\n\n[Paths]\nlog="/C/Temp/log.txt"\n'
-)
+SAMPLE = '[General]\nname="Rig "A""\nenabled=TRUE\nretries=3\n\n[Paths]\nlog="/C/Temp/log.txt"\n'
 
 
 def _write(tmp_path: Path, name: str, text: str) -> str:
@@ -54,13 +52,31 @@ def test_convert_escapes_a_plain_ini(tmp_path: Path, capsys: pytest.CaptureFixtu
     path = _write(tmp_path, "plain.ini", '[General]\nname = Rig "A"\nenabled = true\nretries = 3\n')
     assert main(["convert", path]) == 0
     out = capsys.readouterr().out
-    assert 'name="Rig \\22A\\22"' in out
-    assert "enabled=TRUE" in out
-    assert "retries=3" in out
+    assert 'name = "Rig "A""' in out
+    assert "enabled = TRUE" in out
+    assert "retries = 3" in out
 
 
 def test_convert_writes_to_a_file(tmp_path: Path) -> None:
     path = _write(tmp_path, "plain.ini", "[A]\nx = hi\n")
     out = tmp_path / "out.ini"
     assert main(["convert", path, str(out)]) == 0
-    assert 'x="hi"' in out.read_text(encoding="utf-8")
+    assert 'x = "hi"' in out.read_text(encoding="utf-8")
+
+
+def test_python_dash_m_runs_the_command() -> None:
+    import os
+    import subprocess
+    import sys
+
+    import lvconfig
+
+    src = str(Path(lvconfig.__file__).resolve().parent.parent)
+    result = subprocess.run(
+        [sys.executable, "-m", "lvconfig", "--version"],
+        capture_output=True,
+        text=True,
+        timeout=60,
+        env={**os.environ, "PYTHONPATH": src},
+    )
+    assert (result.returncode, result.stdout) == (0, f"lvconfig {lvconfig.__version__}\n")

@@ -2,176 +2,115 @@
 
 Typed reader and writer for LabVIEW configuration files, with LabVIEW-correct escaping, path and boolean rules.
 
+LabVIEW's Configuration File VIs write files that look like INI files but follow their own
+rules: control characters become `\XX` codes, backslashes are doubled, strings and paths
+are quoted, paths are stored as `/C/Temp/log.txt`, booleans are `TRUE` and `FALSE`, and
+numbers follow the system's decimal separator. `lvconfig` reads and writes those files from
+Python exactly as LabVIEW 2026 does, edits them without disturbing a single other byte, and
+turns each value into the Python type it stands for. It is pure standard library, typed,
+and has no dependencies.
+
 ## Install
 
 ```
 pip install lvconfig
 ```
 
-## Usage
+Python 3.10 or newer.
 
-```python
-import lvconfig
+## Quick start
 
-text = """
-; rig configuration
-[General]
-name = "Rig \\22A\\22"
+```pycon
+>>> import lvconfig
+>>> text = (
+...     '[Rig]\r\nname = "Bench\\0A2"\r\nenabled = TRUE\r\ngain = 2,500000\r\nlog = "/C/Temp/log.txt"'
+... )
+>>> config = lvconfig.parse(text)
+>>> config.get_str("Rig", "name")
+'Bench\n2'
+>>> config.get_bool("Rig", "enabled"), config.get_float("Rig", "gain")
+(True, 2.5)
+>>> print(config.get_path("Rig", "log"))
+C:\Temp\log.txt
+>>> config.set("Rig", "gain", 3.0)
+>>> print(lvconfig.dump(config).replace("\r\n", "\n"))
+[Rig]
+name = "Bench\0A2"
 enabled = TRUE
-retries = 3
-
-[Paths]
+gain = 3.0
 log = "/C/Temp/log.txt"
-"""
 
-config = lvconfig.parse(text)
-
-config.get_str("General", "name")  # 'Rig "A"' (quotes decoded from \22)
-config.get_bool("General", "enabled")  # True
-config.get_int("General", "retries")  # 3
-config.get_path("Paths", "log")  # 'C:\\Temp\\log.txt'
-
-# Build and write a file LabVIEW reads back correctly.
-out = lvconfig.Config()
-out.set("General", "name", 'Rig "A"\r')  # quoted and escaped on dump
-out.set("General", "enabled", True)  # written as TRUE, not "True"
-out.set_path("Paths", "log", r"C:\Temp\log.txt")  # stored as /C/Temp/log.txt
-print(lvconfig.dump(out))
 ```
 
-## Editing a file without disturbing it
+Only the `gain` line changed; every other byte, the `CRLF` endings included, is the
+original text. `lvconfig.load` and `lvconfig.save` do the same with files.
 
-`dump(parse(text))` returns `text` unchanged, byte for byte. `parse` records the source
-layout: blank lines, `;` and `#` comments, `key = value` spacing, `CRLF` or `LF` line
-endings, a missing final newline, repeated sections and a UTF-8 byte order mark. `dump`
-writes every untouched line back verbatim and rewrites only what you changed:
+Building a file from scratch gives the layout LabVIEW writes itself:
 
-```python
-config = lvconfig.load("settings.ini")
-config.set("General", "retries", 5)  # only this line changes, spacing kept
-config.remove("General", "obsolete")  # the key goes, with its comment lines
-config.set("New", "enabled", False)  # new sections are appended at the end
-lvconfig.save(config, "settings.ini")
+```pycon
+>>> out = lvconfig.Config()
+>>> out.set("Rig", "name", 'Bench "A"')
+>>> out.set("Rig", "enabled", True)
+>>> out.set_path("Rig", "log", r"C:\Temp\log.txt")
+>>> print(lvconfig.dump(out))
+[Rig]
+name = "Bench "A""
+enabled = TRUE
+log = "/C/Temp/log.txt"
+
 ```
 
-`load` and `save` keep the file's own line endings. A config built in code is saved
-with the `CRLF` endings LabVIEW writes on Windows, and `save(..., line_ending="\n")`
-forces one terminator everywhere. `dump(config, normalize=True)` writes the canonical
-form instead: `key=value` with no spaces, one blank line between sections.
+## What it gets right
 
-Comments are also exposed for reading and editing: `Entry.comments`,
-`Config.header_comments` and `Config.trailing_comments`. Replacing a value with `set`
-keeps the comments above it. A repeated key keeps its last value, and keys found before
-the first section header live in the section named `""`. `Config` also offers `items`,
-`to_dict`, `remove` and `remove_section`.
+Every rule below was checked against files LabVIEW 2026 wrote and values it read back
+(the captures ship with the tests, in `tests/fixtures/labview2026/`):
 
-This is checked against LabVIEW-style files: the test suite carries hand-written
-fixtures (`tests/fixtures/handwritten/`) that use the syntax LabVIEW's own configuration
-files use, and round-trips each one byte for byte. NI's files themselves are not
-redistributed: on a machine with LabVIEW 2026, `python scripts/capture_ni.py` cuts the
-excerpts listed in `tests/fixtures/ni/MANIFEST.json` (source path, size, sha256) from the
-install, and the tests round-trip them too; without them those tests skip. When LabVIEW
-is installed locally, the suite also round-trips every `.ini` file of the installation.
-
-Low-level helpers are public too: `escape`/`unescape` for the `\XX` codes,
-`to_labview_path`/`from_labview_path` for the stored path form, and
-`to_bool`/`to_int`/`to_float` for value coercion.
-
-## Paths
-
-| Native (Windows)                 | Stored                           |
-| -------------------------------- | -------------------------------- |
-| `C:\Program Files (x86)\Arduino` | `/C/Program Files (x86)/Arduino` |
-| `D:\`                            | `/D`                             |
-| `\\server\share\dir`             | `//server/share/dir`             |
-| `..\Builds\app.vi`               | `../Builds/app.vi`               |
-| empty (not a path)               | empty                            |
-
-- The drive letter keeps its case. Forward slashes are accepted in Windows input.
-- A value already in native Windows form (`c:\NI Installers`), which some NI files
-  store, is read as is on Windows.
-- For POSIX systems pass `windows=False` to `to_labview_path`, `from_labview_path`,
-  `set_path` or `get_path`: a POSIX path is already in stored form and passes through
-  unchanged.
-- A path with no faithful stored form raises `LvPathError` (a `ValueError`) instead of
-  being rewritten into a path to a different file: a drive-relative `C:file` or bare
-  `C:`, a rooted path without a drive (`\dir`, or `/dir` and `/a/b`, which on Windows
-  mean the current drive), a UNC path without a share and a `\\?\` device path.
-  Reading a POSIX absolute value such as `/usr/lib` as Windows raises too. These are
-  the same rules as the sibling `lvpath` library, which additionally normalises `.`
-  components and repeated separators where lvconfig only swaps separators.
-
-## What `dump` refuses
-
-`set` and `dump` raise `LvConfigError` rather than write text that would read back as
-something else: a key holding `=` or a line break, with edge whitespace or starting
-with `;` or `#`, a section name with a line break, a bare value wrapped in quotes, a
-comment line that does not start with `;` or `#`, and header comments for a section
-that does not exist.
+- Escapes: a backslash is doubled and the control characters below 0x20, except tab, are
+  written as `\XX`. On read only `\00` to `\1F` in upper case are codes; `\22` or `\0a`
+  stay as text, as LabVIEW leaves them.
+- Quoted and bare values are both unescaped; spaces and tabs around a value are trimmed,
+  nothing else.
+- A repeated key reads as its first line, the one LabVIEW sees, and names that differ only
+  in case count as repeats. New keys go into the block of a section LabVIEW reads.
+- A `;` in a bare value starts a comment, read the way LabVIEW reads it; the typed getters
+  stop at it (`TRUE ; note` is `True`).
+- Booleans: `TRUE`, `yes`, `on`, `t`, `y`, `1` and `FALSE`, `no`, `off`, `f`, `0`, in any case.
+- Numbers: `2,5` and `2.5` both read as 2.5 (LabVIEW writes `2,500000` on a system whose
+  decimal separator is a comma); `Inf`, `-Inf` and `NaN`.
+- Paths: `/C/a//b/./c/../d` reads as `C:\a\b\d`, `a/./b/../c` as `a\c`, a UNC path as
+  `//server/share`.
+- Where LabVIEW quietly reads part of a value (`12abc` as 12, `1_000` as 1) or a path that
+  names another file (`/usr/lib` as `u:\sr\lib`), lvconfig raises instead of guessing.
 
 ## Command line
 
-Installing the package puts an `lvconfig` command on the path:
-
 ```
 lvconfig json settings.ini                      # every section as decoded JSON
-lvconfig json settings.ini --section General    # one section only
-lvconfig get settings.ini General enabled --type bool
-lvconfig get settings.ini Paths log --type path # prints C:\Temp\log.txt
-lvconfig set settings.ini General retries 5     # edit in place, nothing else moves
-lvconfig set settings.ini Paths log "D:\logs\run.txt" --type path
-lvconfig fmt settings.ini -o tidy.ini           # canonical LabVIEW form
+lvconfig get settings.ini Rig enabled --type bool
+lvconfig set settings.ini Rig retries 5         # edit in place, nothing else moves
+lvconfig fmt settings.ini -o tidy.ini           # the layout LabVIEW writes
 lvconfig convert plain.ini labview.ini          # plain .ini to LabVIEW form
 ```
 
-`set` keeps the existing key's quoting unless `--type` says otherwise, and `-o` writes
-the result elsewhere. `--posix` reads or writes `--type path` values as POSIX paths.
-`convert` reads a plain INI (the kind `configparser` writes), turns `true`/`false`
-and plain decimal numbers into bare tokens, and writes everything else as a quoted,
-escaped string (values such as `007`, `1e5` or `nan` stay text). Errors, including usage errors, go to stderr with exit status 1. Run
-`lvconfig --help` for the full list.
-
-## Escaping rules it handles
-
-- `\XX` hex codes for control and non-displayable characters (a carriage return is
-  `\0D`, a tab is `\09`), decoded on read and re-encoded on write with uppercase digits.
-- Doubled backslashes: a literal backslash is stored as `\\`.
-- Quoted strings: string and path values are wrapped in double quotes to protect
-  surrounding whitespace, and the quotes come off on read.
-- Stored paths: see [Paths](#paths).
-- Booleans as `TRUE`/`FALSE` on write; `TRUE`, `True`, `true` and `1` (and their false
-  counterparts) on read, all of which LabVIEW's own files use.
-- Special numbers as `Inf`, `-Inf` and `NaN`.
+Errors go to stderr with exit status 1. `lvconfig --help` lists every option.
 
 ## Why
 
-LabVIEW's "Configuration File" format looks like an INI file but is not one. LabVIEW's
-own Configuration File VIs, and the OpenG Variant Configuration File library on top of them,
-encode control characters as `\XX` hex codes (a carriage
-return is `\0D`), double literal backslashes, wrap string and path values in quotation
-marks to protect whitespace, store paths in a platform-neutral form with the drive
-after a leading slash (`C:\Temp` becomes `/C/Temp`), and write booleans as `TRUE` or
-`FALSE`. These rules are described in NI's [Windows configuration settings file
-format](https://www.ni.com/docs/en-US/bundle/labview/page/windows-configuration-settings-file-format.html)
-documentation. All of that runs inside LabVIEW; none of it helps a Python process with no
-LabVIEW present.
+Python's `configparser` reads such a file wrongly: it keeps the quotes as part of a value,
+leaves `\0A` and doubled backslashes undecoded, returns `/C/Temp/log.txt` as it is stored,
+lower-cases key names, and drops every comment when it writes the file back. lvconfig
+follows LabVIEW's rules, checked against LabVIEW's own output, and changes only the lines
+you edit.
 
-Python's standard-library `configparser` honours none of them: it does not decode
-`\XX` escapes, treats backslashes literally, keeps the surrounding quotation marks as
-part of the value, and leaves `/C/Temp` as a broken path. The result is a corrupted
-read and a file LabVIEW cannot load back. This is a long-standing pain point in the NI
-community (for example the "ConfigFile Read Key" doubled-backslash reports on
-forums.ni.com), and at the time of writing no maintained PyPI package implements these
-semantics: the available INI parsers (`configparser`, `iniparse`, `iniparser2`) are all
-generic and share the same gap.
+## Documentation
 
-`lvconfig` reads and writes the format exactly as LabVIEW does, round-trips losslessly,
-and coerces each value to the Python type it stands for. It is pure standard library,
-fully typed, and ships `py.typed`.
+- [Guide](https://github.com/JaviLianes8/lvconfig/blob/main/GUIDE.md): every rule, the
+  error types, the command line and the upgrade notes from 0.2 and 0.3.
+- [Changelog](https://github.com/JaviLianes8/lvconfig/blob/main/CHANGELOG.md)
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/JaviLianes8/lvconfig/blob/main/LICENSE).
 
 ## Links
 

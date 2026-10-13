@@ -1,0 +1,758 @@
+{
+ "strings": [
+  {
+   "file": "[S]\r\nk = 'sq'\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "sq",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = ' pad '\r\n",
+   "section": "S",
+   "key": "k",
+   "value": " pad ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = 'a;b'\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a;b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = 'x' ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "'x'; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"abc\" ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"abc\"; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"abc\";c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"abc\";c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a ; b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a ; b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\" \"b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\" \"b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"x\"y\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "x\"y",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = '\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "'",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = ''\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"\"\"\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"\"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"\\\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\\",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\\\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = abc ;\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "abc;",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = abc;\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "abc;",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = ;c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": ";c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk =   ;  c  \r\n",
+   "section": "S",
+   "key": "k",
+   "value": ";  c  ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a ;b ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a;b ; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\t;\tb\t\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a;\tb\t",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"abc\"\t;c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"abc\";c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = abc #c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "abc #c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\;b\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\;b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a ; \\09\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a; \t",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\09 ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\t; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\\09\" ; \\0A\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"a\t\"; \n",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = 'a\\09'\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\t",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = TRUE ; yes\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "TRUE; yes",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nX=1\r\nx=2\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nX=1\r\nx=2\r\n",
+   "section": "S",
+   "key": "X",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n#k=1\r\n",
+   "section": "S",
+   "key": "#k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n;k=1\r\n",
+   "section": "S",
+   "key": ";k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n  ;k=1\r\n",
+   "section": "S",
+   "key": ";k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk\\09=1\r\n",
+   "section": "S",
+   "key": "k\\09",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk\\09=1\r\n",
+   "section": "S",
+   "key": "k\t",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n\"k\"=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n\"k\"=1\r\n",
+   "section": "S",
+   "key": "\"k\"",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]  \r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "  [S]\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S] ; c\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S];c\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk=1\r\n",
+   "section": "S ",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk=1\r\n[]\r\nk=2\r\n",
+   "section": "",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[a]b]\r\nk=1\r\n",
+   "section": "a]b",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk=1\r\n[T]\r\n[S]\r\nk=2\r\nj=3\r\n",
+   "section": "S",
+   "key": "j",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk = 1\r\nk = 2\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\rk=cr\r",
+   "section": "S",
+   "key": "k",
+   "value": "cr",
+   "found": true
+  },
+  {
+   "file": "[S]\nk=lf\n",
+   "section": "S",
+   "key": "k",
+   "value": "lf",
+   "found": true
+  },
+  {
+   "file": "\u00ef\u00bb\u00bf[S]\r\nk=bom\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk=\u00e9\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\u00e9",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a=b\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a=b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk\t=\tv\t\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "v",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n k k =v\r\n",
+   "section": "S",
+   "key": "k k",
+   "value": "v",
+   "found": true
+  }
+ ],
+ "bools": {
+  "TRUE ; c": true,
+  "TRUE;c": true,
+  "\"yes \"": true,
+  "\" yes\"": true,
+  "'TRUE'": true,
+  "on ": true,
+  "\tY": true,
+  "Yes": true,
+  "oN": true,
+  "tRuE": true,
+  "0 ": false,
+  "+0": null,
+  "-0": null,
+  "00": null,
+  "01": null,
+  "true1": null,
+  "false;": false,
+  "\"\"": null,
+  "'no'": false,
+  "1.5": null,
+  "T ;": true,
+  "F#": null
+ },
+ "paths": [
+  {
+   "stored": "\"a/./b\"",
+   "native": "a\\b",
+   "error": 0
+  },
+  {
+   "stored": "\"a/../b\"",
+   "native": "b",
+   "error": 0
+  },
+  {
+   "stored": "\"a//b\"",
+   "native": "a\\b",
+   "error": 0
+  },
+  {
+   "stored": "\"../../x\"",
+   "native": "..\\..\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"a/b/\"",
+   "native": "a\\b",
+   "error": 0
+  },
+  {
+   "stored": "\"./a\"",
+   "native": "a",
+   "error": 0
+  },
+  {
+   "stored": "\".\"",
+   "native": ".",
+   "error": 0
+  },
+  {
+   "stored": "\"..\"",
+   "native": "..",
+   "error": 0
+  },
+  {
+   "stored": "\"a/..\"",
+   "native": ".",
+   "error": 0
+  },
+  {
+   "stored": "\"C:\\\\a\\\\\"",
+   "native": "C:\\a",
+   "error": 0
+  },
+  {
+   "stored": "\"C:\\\\a\\\\..\\\\b\"",
+   "native": "C:\\b",
+   "error": 0
+  },
+  {
+   "stored": "\"C:\\\\a\\\\\\\\b\"",
+   "native": "C:\\a\\b",
+   "error": 0
+  },
+  {
+   "stored": "\"C:\\\\\"",
+   "native": "C:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"C:/\"",
+   "native": "C:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"C:\"",
+   "native": "C:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/..\"",
+   "native": "",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/../x\"",
+   "native": "x:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a/../../x\"",
+   "native": "x:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"//server/share/\"",
+   "native": "\\\\server\\share",
+   "error": 0
+  },
+  {
+   "stored": "\"//server/share/a/../b\"",
+   "native": "\\\\server\\share\\b",
+   "error": 0
+  },
+  {
+   "stored": "\"//server/share/../x\"",
+   "native": "x",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a/./\"",
+   "native": "C:\\a",
+   "error": 0
+  },
+  {
+   "stored": "\"/c/A\"",
+   "native": "c:\\A",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a b/c\"",
+   "native": "C:\\a b\\c",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a;b\"",
+   "native": "C:\\a;b",
+   "error": 0
+  },
+  {
+   "stored": "/C/a ; c",
+   "native": "C:\\a; c",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/\\09x\"",
+   "native": "C:\\09x",
+   "error": 0
+  },
+  {
+   "stored": "\"\\\\dir\"",
+   "native": "\\\\dir\\",
+   "error": 0
+  },
+  {
+   "stored": "\"rel\\\\..\\\\x\"",
+   "native": "x",
+   "error": 0
+  },
+  {
+   "stored": "\"/C//\"",
+   "native": "C:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"///x\"",
+   "native": "\\\\\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"//server/share//a\"",
+   "native": "\\\\server\\share\\a",
+   "error": 0
+  },
+  {
+   "stored": "'/C/x'",
+   "native": "C:\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"a/./../b\"",
+   "native": "b",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a/..\"",
+   "native": "C:\\",
+   "error": 0
+  }
+ ],
+ "ints": [
+  {
+   "stored": "+0",
+   "value": 0,
+   "error": 0
+  },
+  {
+   "stored": "-0",
+   "value": 0,
+   "error": 0
+  },
+  {
+   "stored": "00",
+   "value": 0,
+   "error": 0
+  },
+  {
+   "stored": " 1 2",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "1 ;c",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "\"  5 \"",
+   "value": 5,
+   "error": 0
+  },
+  {
+   "stored": "'5'",
+   "value": 5,
+   "error": 0
+  },
+  {
+   "stored": "1e",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "-",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "+",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "2147483647x",
+   "value": 2147483647,
+   "error": 0
+  },
+  {
+   "stored": "0010",
+   "value": 10,
+   "error": 0
+  },
+  {
+   "stored": "999999999999999999999999999999",
+   "value": 2147483647,
+   "error": 0
+  },
+  {
+   "stored": "-9999999999999999999999999999999",
+   "value": -2147483648,
+   "error": 0
+  },
+  {
+   "stored": "1\t",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "\t1",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "1;2",
+   "value": 1,
+   "error": 0
+  }
+ ],
+ "rewrite": [
+  {
+   "before": "[A]\r\ny='v'\r\n",
+   "note": "single quoted value rewritten",
+   "after": "[A]\r\ny = 'v'\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\ny=  \"  pad  \"  \r\n",
+   "note": "quoted pad",
+   "after": "[A]\r\ny = \"  pad  \"\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\ny=a\\09b\r\n",
+   "note": "bare escape",
+   "after": "[A]\r\ny = a\\09b\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\ny=\"a\tb\"\r\n",
+   "note": "raw tab",
+   "after": "[A]\r\ny = \"a\tb\"\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\nk=1\r\n[a]\r\nj=2\r\n",
+   "note": "case-variant section",
+   "after": "[A]\r\nk = 1\r\n\r\n[a]\r\nj = 2\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[labview]\r\nlvmode=old\r\n",
+   "note": "lower-case existing",
+   "after": "[labview]\r\nlvmode = \"new\""
+  },
+  {
+   "before": "[LabVIEW]\r\nlvmode=old\r\nLVMode=two\r\n",
+   "note": "case dup key",
+   "after": "[LabVIEW]\r\nlvmode = \"new\"\r\nLVMode = two"
+  },
+  {
+   "before": " [LabVIEW] \r\n  LVMode  =  old ; c \r\n",
+   "note": "spaced line with comment",
+   "after": "[[LabVIEW] \r\nLVMode = old; c \r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[LabVIEW];c\r\nLVMode=old\r\n",
+   "note": "header comment",
+   "after": "[LabVIEW];c\r\nLVMode = \"new\""
+  },
+  {
+   "before": "hk=1\r\n",
+   "note": "headerless only",
+   "after": "hk = 1\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "; top\r\n[A]\r\n; above k\r\nk=1\r\n\r\n\r\n; end of A\r\n\r\n[B]\r\nj=2",
+   "note": "comments placement",
+   "after": "; top\r\n\r\n[A]\r\n; above k\r\nk = 1\r\n; end of A\r\n\r\n[B]\r\nj = 2\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\nk=1\r\n# hash\r\n[B]\r\nj=2\r\n",
+   "note": "hash comment",
+   "after": "[A]\r\nk = 1\r\n# hash\r\n\r\n[B]\r\nj = 2\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\n[B]\r\n[A]\r\nk=1\r\n",
+   "note": "empty sections and repeat",
+   "after": "[A]\r\n\r\n[B]\r\n\r\n[A]\r\nk = 1\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\nk=1\r\n",
+   "value": "a;b",
+   "note": "value with semicolon",
+   "after": "[A]\r\nk = 1\r\n\r\n[LabVIEW]\r\nLVMode = \"a;b\""
+  },
+  {
+   "before": "[A]\r\nk=1\r\n",
+   "value": "  pad ",
+   "note": "value with blanks",
+   "after": "[A]\r\nk = 1\r\n\r\n[LabVIEW]\r\nLVMode = \"  pad \""
+  },
+  {
+   "before": "[A]\r\nk=1\r\n",
+   "value": "",
+   "note": "empty value",
+   "after": "[A]\r\nk = 1\r\n\r\n[LabVIEW]\r\nLVMode = \"\""
+  },
+  {
+   "before": "[A]\r\nk=\r\nj=\"\"\r\n",
+   "note": "empty values kept",
+   "after": "[A]\r\nk = \r\nj = \"\"\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[A]\r\nk=\\0a\r\n",
+   "note": "bare lowercase escape",
+   "after": "[A]\r\nk = \\0a\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  }
+ ]
+}

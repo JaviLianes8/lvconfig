@@ -39,4 +39,4 @@ def test_dump_writes_comments_above_their_target() -> None:
     config.set("A", "x", 1)
     config.sections["A"]["x"] = config.sections["A"]["x"].__class__("1", False, ("; note",))
     config.header_comments["A"] = ("; section note",)
-    assert dump(config) == "; section note\n[A]\n; note\nx=1\n"
+    assert dump(config) == "; section note\n[A]\n; note\nx = 1"

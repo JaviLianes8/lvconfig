@@ -6,9 +6,11 @@ edited value, edited comments, removed keys and sections, and new keys or sectio
 
 from __future__ import annotations
 
+from ._blocks import first_block_ends, moved_keys
 from ._config import Config
-from ._dump import render, section_lines
+from ._dump import line, protect_bom, section_lines
 from ._layout import HeaderItem, KeyItem, Layout, RawLine
+from ._stored import render
 
 
 class _Writer:
@@ -17,12 +19,20 @@ class _Writer:
         self.layout = layout
         self.out: list[RawLine] = []
         self.done_headers: set[str] = set()
+        self.moved: set[tuple[str, str]] = set()  # edits written into the first block
+        self.unchanged: dict[str, bool] = {}  # one comparison per name, not per header
+        # Sections the source held; a line hidden behind a blank one goes with its section.
+        self.parsed = {
+            item.name if isinstance(item, HeaderItem) else item.section
+            for item in layout.items
+            if not (isinstance(item, KeyItem) and item.behind_blank)
+        }
 
     def emit(self, text: str) -> None:
         self.out.append(RawLine(text, self.layout.eol))
 
     def blanks(self, lead: tuple[RawLine, ...]) -> None:
-        self.out.extend(line for line in lead if not line.text.strip())
+        self.out.extend(raw for raw in lead if not raw.text.strip(" \t"))
 
     def comments(self, lead: tuple[RawLine, ...], current: tuple[str, ...], old: bool) -> None:
         # Unchanged comments are copied verbatim with the blank lines among them.
@@ -36,9 +46,13 @@ class _Writer:
     def header(self, item: HeaderItem) -> None:
         name = item.name
         if name not in self.config.sections:
+            # Blank lines above a removed header stay: a line of blanks is a key to LabVIEW.
+            self.blanks(item.lead)
             return
         current = self.config.header_comments.get(name, ())
-        unchanged = current == self.layout.headers.get(name, ())
+        unchanged = self.unchanged.get(name)
+        if unchanged is None:
+            unchanged = self.unchanged[name] = current == self.layout.headers.get(name, ())
         if unchanged or name not in self.done_headers:
             self.comments(item.lead, current, unchanged)
         else:
@@ -48,6 +62,12 @@ class _Writer:
         self.out.append(item.line)
 
     def key(self, item: KeyItem) -> None:
+        if item.behind_blank:
+            if item.section in self.parsed and item.section not in self.config.sections:
+                return  # its section was removed, and with it the blank line hiding it
+            self.out.extend(item.lead)  # LabVIEW never reads it; keep it as written
+            self.out.append(item.line)
+            return
         entries = self.config.sections.get(item.section)
         if entries is None:
             return
@@ -56,7 +76,7 @@ class _Writer:
             # A removed key takes its comments along; the spacing around it stays.
             self.blanks(item.lead)
             return
-        if item.shadowed:
+        if item.shadowed or (item.section, item.key) in self.moved:
             self.out.extend(item.lead)
             self.out.append(item.line)
             return
@@ -65,15 +85,18 @@ class _Writer:
         if (entry.value, entry.quoted) == (old.value, old.quoted):
             self.out.append(item.line)
         else:
-            text = f"{item.prefix}{render(entry)}{item.suffix}"
+            # Blanks after a bare value with ';' would become part of what LabVIEW reads.
+            suffix = "" if not entry.quoted and ";" in render(entry) else item.suffix
+            text = f"{item.prefix}{render(entry)}{suffix}"
             self.out.append(RawLine(text, item.line.eol))
 
     def new_keys(self, name: str, known: set[tuple[str, str]]) -> None:
         for key, entry in self.config.sections.get(name, {}).items():
             if (name, key) not in known:
+                # A moved key's comments go with it (and also stay above its old line).
                 for comment in entry.comments:
                     self.emit(comment)
-                self.emit(f"{key}={render(entry)}")
+                self.emit(line(key, entry))
 
     def new_section(self, name: str) -> None:
         if self.out and name:
@@ -85,17 +108,19 @@ class _Writer:
 def write_lossless(config: Config, layout: Layout) -> str:
     """Render ``config`` over ``layout``, rewriting only what changed since parsing."""
     writer = _Writer(config, layout)
-    known = {(i.section, i.key) for i in layout.items if isinstance(i, KeyItem)}
-    last: dict[str, int] = {}
-    for index, item in enumerate(layout.items):
-        last[item.name if isinstance(item, HeaderItem) else item.section] = index
+    writer.moved = moved_keys(config, layout)
+    known = {
+        (i.section, i.key) for i in layout.items if isinstance(i, KeyItem) and not i.behind_blank
+    }
+    known -= writer.moved
+    last = first_block_ends(layout)
     if "" in config.sections and "" not in last:
         writer.new_section("")
-    elif config.header_comments.get("") and not any(
+    elif (config.header_comments.get("") or config.sections.get("") == {}) and not any(
         isinstance(item, HeaderItem) and not item.name for item in layout.items
     ):
         # Comments for the unnamed section need a [] line above its keys to stay attached.
-        for comment in config.header_comments[""]:
+        for comment in config.header_comments.get("", ()):
             writer.emit(comment)
         writer.emit("[]")
         writer.done_headers.add("")
@@ -115,7 +140,8 @@ def write_lossless(config: Config, layout: Layout) -> str:
         writer.out.extend(layout.tail)
     else:
         writer.comments(layout.tail, config.trailing_comments, False)
-    return layout.bom + _join(writer.out, layout)
+    body = _join(writer.out, layout)
+    return layout.bom + body if layout.bom else protect_bom(body)
 
 
 def _join(lines: list[RawLine], layout: Layout) -> str:

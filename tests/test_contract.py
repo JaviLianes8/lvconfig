@@ -47,3 +47,25 @@ def test_the_cli_entry_point_is_callable() -> None:
     from lvconfig._cli import main
 
     assert callable(main)
+
+
+def test_pyproject_declares_the_release() -> None:
+    import sys
+    from pathlib import Path
+
+    import pytest
+
+    if sys.version_info < (3, 11):
+        pytest.skip("tomllib arrived in Python 3.11")
+    import importlib
+
+    tomllib = importlib.import_module("tomllib")
+
+    pyproject = Path(__file__).resolve().parent.parent / "pyproject.toml"
+    if not pyproject.is_file():
+        pytest.skip("run from a checkout or an sdist")
+    project = tomllib.loads(pyproject.read_text(encoding="utf-8"))["project"]
+    assert project["version"] == lvconfig.__version__
+    assert project["dependencies"] == []
+    assert "Development Status :: 5 - Production/Stable" in project["classifiers"]
+    assert {"Homepage", "Source", "Issues", "Changelog"} <= set(project["urls"])

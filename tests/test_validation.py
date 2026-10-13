@@ -21,16 +21,17 @@ def test_set_refuses_a_section_name_with_a_line_break() -> None:
         Config().set("A\nB", "k", 1)
 
 
-def test_a_bracket_key_is_refused_only_when_it_would_read_as_a_header() -> None:
+def test_a_bracket_key_is_refused_only_when_its_line_would_read_as_a_header() -> None:
     config = Config()
-    config.set("A", "[x", "quoted]")
+    config.set("A", "[x", "plain")
     assert parse(dump(config)) == config
-    config.sections["A"]["[y"] = Entry("bare]", quoted=False)
-    with pytest.raises(LvConfigError, match="header"):
-        dump(config)
+    for key, value in [("[x", "quoted]"), ("[x]y", "1"), ("[y", "bare]")]:
+        config = Config(sections={"A": {key: Entry(value, quoted=key != "[y")}})
+        with pytest.raises(LvConfigError, match="header"):
+            dump(config)
 
 
-@pytest.mark.parametrize("value", ['"x"', "'x'", " x", "x\n"])
+@pytest.mark.parametrize("value", ['"x"', "'x'", " x", "x ", "a ;b", " a;b"])
 def test_dump_refuses_a_bare_value_that_would_change(value: str) -> None:
     config = Config()
     config.sections["A"] = {"k": Entry(value, quoted=False)}
@@ -53,9 +54,10 @@ def test_dump_refuses_header_comments_for_a_missing_section() -> None:
         dump(config)
 
 
-def test_an_empty_unnamed_section_writes_nothing() -> None:
+def test_an_empty_unnamed_section_keeps_its_bracket_line() -> None:
     config = parse("[]\n[a]\nx=1\n")
-    assert dump(config, normalize=True) == "[a]\nx=1\n"
+    assert dump(config, normalize=True) == "[]\n\n[a]\nx = 1"
+    assert parse(dump(config, normalize=True)) == config
     config = parse("k=1\n[a]\nx=1\n")
     config.remove("", "k")
     assert "" not in config.sections
@@ -76,7 +78,7 @@ def test_set_auto_quotes_a_value_that_looks_quoted(tmp_path: Path) -> None:
     target = tmp_path / "s.ini"
     target.write_bytes(b"[A]\r\nretries = 3\r\n")
     assert main(["set", str(target), "A", "retries", '"x"']) == 0
-    assert target.read_bytes() == b'[A]\r\nretries = "\\22x\\22"\r\n'
+    assert target.read_bytes() == b'[A]\r\nretries = ""x""\r\n'
 
 
 def test_cli_set_refuses_a_bad_key(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -94,7 +96,7 @@ def test_convert_keeps_unusual_numbers_as_text(
     source = tmp_path / "plain.ini"
     source.write_text(f"[A]\nv = {token}\n", encoding="utf-8")
     assert main(["convert", str(source)]) == 0
-    assert f'v="{token}"' in capsys.readouterr().out
+    assert f'v = "{token}"' in capsys.readouterr().out
 
 
 def test_get_and_set_paths_in_posix_form(
@@ -107,4 +109,4 @@ def test_get_and_set_paths_in_posix_form(
     assert main(["get", str(target), "P", "lib", "--type", "path", "--posix"]) == 0
     assert capsys.readouterr().out == "/usr/lib\n"
     assert main(["set", str(target), "P", "home", "/home/lv", "--type", "path", "--posix"]) == 0
-    assert target.read_bytes() == b'[P]\r\nlib=/usr/lib\r\nhome="/home/lv"\r\n'
+    assert target.read_bytes() == b'[P]\r\nlib=/usr/lib\r\nhome = "/home/lv"\r\n'

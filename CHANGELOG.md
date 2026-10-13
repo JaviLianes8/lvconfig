@@ -6,7 +6,95 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-13
+
+The public API is now stable: `parse`, `dump`, `load`, `save`, `Config`, `Entry`,
+`escape`, `unescape`, `to_bool`, `to_int`, `to_float`, `to_labview_path`,
+`from_labview_path`, `LvConfigError`, `LvParseError` and `LvPathError`, with the
+`lvconfig` command. Every reading and writing rule was checked against files LabVIEW 2026
+wrote and values it read back; those captures ship with the tests.
+
+### Changed
+
+- `escape` writes what LabVIEW writes: a backslash doubled and the control characters
+  below 0x20 other than tab as `\XX`. The double quote, DEL and tab are no longer escaped;
+  LabVIEW reads `\22` and `\7F` back as text, so values holding them came back wrong.
+- `unescape` decodes only `\00` to `\1F` in upper case, as LabVIEW does; `\0a`, `\22`,
+  `\7F` and `\E9` stay as text.
+- Bare (unquoted) values are unescaped on read and escaped on write, as LabVIEW does.
+- A repeated key reads as its first value, the one LabVIEW reads, and an edit changes that
+  first line. 0.3 used the last value. Names that differ only in letter case are repeats too (a later
+  `x` after `X`, a later `[s]` block of `[S]`), as LabVIEW matches them, and `dump` refuses
+  two names that differ only in case; the capitals of the Windows-1252 code page fold, as
+  in LabVIEW. A line of only spaces or tabs is an empty key to LabVIEW, so a later `=value`
+  line is not read.
+  A new key of a repeated section, or a new value of a key found only in a later block,
+  goes into its first block, the one LabVIEW reads.
+- A line whose first non-blank character is `[` and which holds `]` is a section header, as LabVIEW reads it
+  (`[S] ; note` and `[T] x=y` included); its name runs from the second character to the
+  last `]`. `dump` refuses a key line that would read as a header.
+- A `;` in a bare value is read as LabVIEW reads it: the text before it trimmed, the rest
+  kept as written (`abc ; c` reads as `abc; c`). The typed getters stop at it, as LabVIEW's
+  typed Read Key VIs do, so `TRUE ; note` is `True`. Such values are written bare again
+  whenever LabVIEW would read them back unchanged.
+- `get_bool`, `get_int`, `get_float` and (on Windows) `get_path` read the stored text,
+  without decoding `\XX` codes, as LabVIEW's typed reads do; a parsed value keeps the text it was read
+  from. A tab in a bare value is written as `\09`.
+- Values and keys are trimmed of spaces and tabs only; other characters `str.strip`
+  removes, such as `\x1f` or a no-break space, are kept, as in LabVIEW.
+- `to_bool` reads `yes`, `no`, `on`, `off`, `t`, `f` and `y` as LabVIEW does. `to_bool`,
+  `to_int` and `to_float` trim spaces and tabs only, so `"5\n"` is no longer a number.
+- `to_int` accepts only an optional sign and ASCII digits: `1_000`, which it read as 1000
+  while LabVIEW reads 1, and non-ASCII digits are refused.
+- `to_float` reads `,` as a decimal separator (LabVIEW writes `2,000000` on a system whose
+  separator is a comma) and refuses `1_000`, `-NaN`, non-ASCII digits and blanks other than
+  spaces and tabs.
+- `from_labview_path` and `get_path` resolve empty, `.` and `..` parts as LabVIEW does, in
+  drive, UNC and relative paths alike (`/C/a//b/../c/` is `C:\a\c`, `a/./b/../c` is `a\c`),
+  treat every backslash as a separator, and refuse a `..` above a drive root or share and a
+  UNC path stored with backslashes, or a relative path holding `:`.
+- The canonical form (`dump(config, normalize=True)`, or a config built in code) is the
+  layout LabVIEW writes: `key = value` and no newline after the last line. New keys in an
+  edited file are written as `key = value`.
+- Every public function raises `TypeError` for an argument of the wrong type, including
+  `Entry` fields and `Config.set` values that are not `str`, `bool`, `int` or `float`.
+  `save` raises `ValueError` for a `line_ending` other than CRLF, LF or CR.
+- An `IntEnum` or other `int` subclass is written as its number, and a `float` subclass as
+  the stored double.
+- The library's error messages quote at most 40 characters of the offending text, and the
+  command line cuts every message at 300 characters. The `KeyError` of a
+  getter now reads `no key 'x' in section 'A'`.
+- `save` (and the CLI's `set`, `fmt -o` and `convert`) encode the text first, write it to a
+  temporary file in the same folder and then replace the target: an unknown encoding, a
+  character the encoding cannot hold, a full disk or a locked file no longer leaves an empty
+  file behind. `load` and `save` take only a `str` or text `os.PathLike` path.
+- `Config.set` raises `LvConfigError` for an integer longer than Python turns into text, and
+  `convert` keeps such a number as text.
+- On Windows, `to_labview_path` and `set_path` refuse a `..` above a drive root or share,
+  which the reading side refuses too, and a path holding a control character, which would
+  read back as a different path.
+- A comment line must start with `;` or `#` and must not end in blanks, so it reads back as
+  written. An empty unnamed section is written as `[]`. Untouched lines of a parsed file are
+  copied without being checked again, so `dump(parse(text)) == text` holds for every text
+  `parse` accepts.
+- Section names, keys, values and comments are stored as plain `str`, whatever `str`
+  subclass was passed in.
+- A name that starts with U+FEFF at the very start of the text is written after a byte
+  order mark, so `parse` does not take it for one.
+- `LvParseError` can be pickled and copied. `Config.get` with a `str` default is typed `str`.
+- CLI: an unknown `--encoding` is an error with exit status 1 instead of a traceback, an
+  interrupt exits with 130, and a closed output pipe exits quietly.
+
+### Added
+
+- `GUIDE.md`, the reference for every rule, error and command, with notes on upgrading.
+- Docstring examples for every public name and method, run as tests.
+- `python -m lvconfig` runs the command line.
+- Python 3.10 to 3.14 classifiers and `Production/Stable` status.
+
 ## [0.3.1]
+
+Not published on PyPI.
 
 - The NI configuration file excerpts are no longer tracked or shipped in the sdist. The
   always-on tests use hand-written fixtures with the same syntax features;
@@ -14,6 +102,8 @@ All notable changes to this project are documented here. The format follows
   the tracked manifest) and their tests skip when they are absent.
 
 ## [0.3.0]
+
+Not published on PyPI.
 
 - Byte-identical round-trip: `parse` records the source layout and `dump` writes every
   untouched line back verbatim, so `dump(parse(text)) == text`. Blank lines, `;` and `#`

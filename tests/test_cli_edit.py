@@ -37,7 +37,7 @@ def test_set_with_types_and_output(tmp_path: Path) -> None:
     assert out.read_bytes().endswith(b'\r\n[Paths]\r\nToolchainPath = "/D/Toolchain"')
     assert source.read_bytes() == (FIXTURES / "spaced_path.ini").read_bytes()
     assert main(["set", str(source), "New", "on", "true", "--type", "bool"]) == 0
-    assert source.read_bytes().endswith(b"\r\n\r\n[New]\r\non=TRUE")
+    assert source.read_bytes().endswith(b"\r\n\r\n[New]\r\non = TRUE")
 
 
 def test_set_refuses_a_drive_relative_path(
@@ -60,14 +60,14 @@ def test_set_rejects_a_value_of_the_wrong_type(
 def test_fmt_prints_the_canonical_form(capsys: pytest.CaptureFixture[str]) -> None:
     assert main(["fmt", str(FIXTURES / "spaced_path.ini")]) == 0
     out = capsys.readouterr().out
-    assert out.endswith('\n[Paths]\nToolchainPath="/C/Program Files (x86)/Toolchain"\n')
+    assert out.endswith('\n[Paths]\nToolchainPath = "/C/Program Files (x86)/Toolchain"')
 
 
 def test_fmt_writes_crlf_to_a_file(tmp_path: Path) -> None:
     out = tmp_path / "tidy.ini"
     assert main(["fmt", str(FIXTURES / "semicolon_header.ini"), "-o", str(out)]) == 0
     assert out.read_bytes().startswith(b"; Hand-written")
-    assert b"\r\nDOC_ROOT=" in out.read_bytes()
+    assert b"\r\nDOC_ROOT = " in out.read_bytes()
 
 
 def test_unknown_section_is_an_error(capsys: pytest.CaptureFixture[str]) -> None:

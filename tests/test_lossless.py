@@ -70,19 +70,19 @@ def test_removing_a_section_drops_every_block_of_it() -> None:
 def test_a_new_key_goes_after_the_last_key_of_its_section() -> None:
     config = parse("[A]\nx=1\n\n[B]\ny=2\n")
     config.set("A", "z", 3)
-    assert dump(config) == "[A]\nx=1\nz=3\n\n[B]\ny=2\n"
+    assert dump(config) == "[A]\nx=1\nz = 3\n\n[B]\ny=2\n"
 
 
 def test_a_new_section_is_appended_with_the_file_line_ending() -> None:
     config = parse("[A]\r\nx=1")
     config.set("New", "on", False)
-    assert dump(config) == "[A]\r\nx=1\r\n\r\n[New]\r\non=FALSE"
+    assert dump(config) == "[A]\r\nx=1\r\n\r\n[New]\r\non = FALSE"
 
 
 def test_a_new_headerless_key_goes_at_the_top() -> None:
     config = parse("[A]\nx=1\n")
     config.set("", "top", 1)
-    assert dump(config) == "top=1\n[A]\nx=1\n"
+    assert dump(config) == "top = 1\n[A]\nx=1\n"
     assert parse(dump(config)) == config
 
 
@@ -100,30 +100,30 @@ def test_edited_header_and_trailing_comments_are_written() -> None:
     assert dump(config) == "; changed\n[A]\nx=1\n"
 
 
-def test_a_redefined_key_updates_its_last_line_only() -> None:
+def test_a_redefined_key_reads_and_edits_its_first_line_like_labview() -> None:
     config = parse("[A]\nx=1\nx=2\n")
-    assert config.get_int("A", "x") == 2
+    assert config.get_int("A", "x") == 1
     config.set("A", "x", 5)
-    assert dump(config) == "[A]\nx=1\nx=5\n"
+    assert dump(config) == "[A]\nx=5\nx=2\n"
 
 
 def test_normalize_writes_the_canonical_form() -> None:
     config = parse('[A]\n  x = 1  \n\n\n[B]\ny = "v"\n')
-    assert dump(config, normalize=True) == '[A]\nx=1\n\n[B]\ny="v"\n'
+    assert dump(config, normalize=True) == '[A]\nx = 1\n\n[B]\ny = "v"'
 
 
 def test_canonical_form_puts_headerless_keys_first() -> None:
     config = Config()
     config.set("A", "x", 1)
     config.set("", "top", 2)
-    assert dump(config) == "top=2\n\n[A]\nx=1\n"
+    assert dump(config) == "top = 2\n\n[A]\nx = 1"
     assert parse(dump(config)) == config
 
 
 def test_forgetting_the_layout_gives_the_canonical_form() -> None:
     config = parse("[A]\n x = 1\n")
     config.layout = None
-    assert dump(config) == "[A]\nx=1\n"
+    assert dump(config) == "[A]\nx = 1"
 
 
 def test_layout_takes_no_part_in_equality() -> None:
@@ -136,4 +136,4 @@ def test_layout_takes_no_part_in_equality() -> None:
 def test_special_floats_use_labview_spelling(value: float, token: str) -> None:
     config = Config()
     config.set("N", "v", value)
-    assert dump(config) == f"[N]\nv={token}\n"
+    assert dump(config) == f"[N]\nv = {token}"
