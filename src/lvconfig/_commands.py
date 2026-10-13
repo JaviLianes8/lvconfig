@@ -10,8 +10,9 @@ import sys
 from collections.abc import Callable
 
 from ._coerce import to_bool, to_float, to_int
-from ._config import Config, Entry
+from ._config import Config
 from ._dump import dump
+from ._entry import Entry
 from ._errors import LvConfigError
 from ._io import load, save
 from ._validate import is_bare_safe

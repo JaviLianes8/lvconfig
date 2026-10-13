@@ -2,32 +2,33 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
-
-from ._config import Config, Entry
+from ._check import need_str, short
+from ._config import Config
+from ._entry import Entry
 from ._errors import LvParseError
 from ._escape import unescape
 from ._layout import HeaderItem, KeyItem, Layout, RawLine, is_comment, split_lines
 
 _BOM = "\ufeff"
+_BLANKS = " \t"  # LabVIEW trims spaces and tabs, nothing else
 
 
 def _value(raw: str, comments: tuple[str, ...]) -> Entry:
-    text = raw.strip()
+    text = raw.strip(_BLANKS)
     if len(text) >= 2 and text[0] == text[-1] and text[0] in "\"'":
-        # Quoted strings and paths: the quotes come off and escapes are decoded.
+        # Quotes protect edge whitespace; LabVIEW decodes escapes either way.
         return Entry(unescape(text[1:-1]), quoted=True, comments=comments)
-    return Entry(text, quoted=False, comments=comments)
+    return Entry(unescape(text), quoted=False, comments=comments)
 
 
 def _split_key_line(text: str) -> tuple[str, str, str, str]:
     """Return ``(key, value text, prefix, suffix)`` for a ``key=value`` line."""
     left, right = text.split("=", 1)
-    body = right.strip()
-    start = len(text) - len(right) + (len(right) - len(right.lstrip()))
+    body = right.strip(_BLANKS)
+    start = len(text) - len(right) + (len(right) - len(right.lstrip(_BLANKS)))
     prefix = text[:start]
     suffix = text[start + len(body) :]
-    return left.strip(), body, prefix, suffix
+    return left.strip(_BLANKS), body, prefix, suffix
 
 
 class _Builder:
@@ -39,7 +40,6 @@ class _Builder:
         self.current: str | None = None
         self.lead: list[RawLine] = []
         self.comments: list[str] = []
-        self.seen: dict[tuple[str, str], int] = {}
 
     def header(self, name: str, line: RawLine) -> None:
         self.config.sections.setdefault(name, {})
@@ -54,35 +54,44 @@ class _Builder:
         section = "" if self.current is None else self.current
         key, body, prefix, suffix = _split_key_line(line.text)
         entry = _value(body, tuple(self.comments))
-        self.config.sections.setdefault(section, {})[key] = entry
-        earlier = self.seen.get((section, key))
-        if earlier is not None:
-            # Last definition wins on read; the earlier line is kept verbatim.
-            previous = self.items[earlier]
-            assert isinstance(previous, KeyItem)
-            self.items[earlier] = replace(previous, shadowed=True)
-        self.seen[(section, key)] = len(self.items)
-        self.items.append(KeyItem(section, key, tuple(self.lead), line, prefix, suffix, entry))
+        entries = self.config.sections.setdefault(section, {})
+        # LabVIEW reads the first line of a repeated key; later ones are kept verbatim.
+        shadowed = key in entries
+        if not shadowed:
+            entries[key] = entry
+        self.items.append(
+            KeyItem(section, key, tuple(self.lead), line, prefix, suffix, entry, shadowed)
+        )
         self.lead, self.comments = [], []
 
 
 def parse(text: str) -> Config:
-    """Parse configuration text into ordered sections and keys.
+    r"""Parse configuration text into ordered sections and keys.
 
     Sections are ``[name]`` headers, keys are ``key = value`` lines, and whole-line
     comments start with ``;`` or ``#``. Comment lines are kept and attached to the
-    section or key that follows them. Repeated sections merge in order, and a repeated
-    key takes its last value. Keys before the first header go in the section ``""``.
-    A non-blank line that is none of the above raises :class:`LvParseError`.
+    section or key that follows them. Values are trimmed of spaces and tabs, quotes come
+    off, and escapes are decoded in quoted and bare values alike, as LabVIEW reads them.
+    A repeated key keeps its first value, the one LabVIEW reads; the later lines stay in
+    the text. Repeated sections merge in order. Keys before the first header go in the
+    section ``""``. A non-blank line that is none of the above raises
+    :class:`LvParseError`.
 
     The returned config records the source layout, so :func:`dump` reproduces
     ``text`` exactly until a value is changed.
+
+    >>> config = parse('[Rig]\nname = "Bench \\09A"\nretries = 3\nretries = 9\n')
+    >>> config.get_str("Rig", "name"), config.get_int("Rig", "retries")
+    ('Bench \tA', 3)
+
+    Raises ``TypeError`` when ``text`` is not a ``str``.
     """
+    text = need_str("text", text)
     bom = _BOM if text.startswith(_BOM) else ""
     lines = split_lines(text[len(bom) :])
     build = _Builder()
     for number, line in enumerate(lines, start=1):
-        stripped = line.text.strip()
+        stripped = line.text.strip(_BLANKS)
         if not stripped or is_comment(stripped):
             build.lead.append(line)
             if stripped:
@@ -92,7 +101,7 @@ def parse(text: str) -> Config:
         elif "=" in stripped:
             build.key(line)
         else:
-            raise LvParseError(f"expected a key=value pair: {stripped!r}", number)
+            raise LvParseError(f"expected a key=value pair: {short(stripped)}", number)
     config = build.config
     config.trailing_comments = tuple(build.comments)
     eol = next((line.eol for line in lines if line.eol), "\n")

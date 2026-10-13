@@ -7,7 +7,7 @@ edited value, edited comments, removed keys and sections, and new keys or sectio
 from __future__ import annotations
 
 from ._config import Config
-from ._dump import render, section_lines
+from ._dump import line, render, section_lines
 from ._layout import HeaderItem, KeyItem, Layout, RawLine
 
 
@@ -22,7 +22,7 @@ class _Writer:
         self.out.append(RawLine(text, self.layout.eol))
 
     def blanks(self, lead: tuple[RawLine, ...]) -> None:
-        self.out.extend(line for line in lead if not line.text.strip())
+        self.out.extend(raw for raw in lead if not raw.text.strip(" \t"))
 
     def comments(self, lead: tuple[RawLine, ...], current: tuple[str, ...], old: bool) -> None:
         # Unchanged comments are copied verbatim with the blank lines among them.
@@ -73,7 +73,7 @@ class _Writer:
             if (name, key) not in known:
                 for comment in entry.comments:
                     self.emit(comment)
-                self.emit(f"{key}={render(entry)}")
+                self.emit(line(key, entry))
 
     def new_section(self, name: str) -> None:
         if self.out and name:

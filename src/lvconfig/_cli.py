@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import configparser
 import io
+import os
 import sys
 from collections.abc import Sequence
 from typing import NoReturn
@@ -23,7 +24,7 @@ examples:
   lvconfig fmt settings.ini -o tidy.ini           # canonical LabVIEW form
   lvconfig convert plain.ini labview.ini          # plain .ini to LabVIEW form
 
-Errors go to stderr with exit status 1.
+Errors go to stderr with exit status 1; an interrupt exits with 130.
 """
 
 _SET_HELP = """\
@@ -108,10 +109,30 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     try:
         exit_code: int = args.func(args)
+        sys.stdout.flush()
         return exit_code
-    except (LvConfigError, OSError, ValueError, configparser.Error) as exc:
-        print(f"lvconfig: {exc}", file=sys.stderr)
+    except BrokenPipeError:
+        # The reader went away (``lvconfig json x.ini | head``); nothing left to say.
+        _silence_stdout()
         return 1
+    except KeyboardInterrupt:
+        return 130
+    except (LvConfigError, OSError, ValueError, LookupError, configparser.Error) as exc:
+        print(f"lvconfig: {_bounded(str(exc))}", file=sys.stderr)
+        return 1
+
+
+def _bounded(message: str) -> str:
+    # Messages can quote input (a configparser error quotes the offending line).
+    return message if len(message) <= 300 else message[:300] + "..."
+
+
+def _silence_stdout() -> None:
+    try:
+        devnull = open(os.devnull, "w")  # noqa: SIM115 - replaces stdout until exit
+        os.dup2(devnull.fileno(), sys.stdout.fileno())
+    except (OSError, ValueError, AttributeError):
+        pass
 
 
 if __name__ == "__main__":

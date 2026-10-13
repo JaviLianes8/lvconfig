@@ -12,9 +12,11 @@ from typing import TYPE_CHECKING
 from ._errors import LvConfigError
 
 if TYPE_CHECKING:
-    from ._config import Config, Entry
+    from ._config import Config
+    from ._entry import Entry
 
 _BREAKS = ("\r", "\n")
+_BLANKS = " \t"
 
 
 def check_section(name: str) -> None:
@@ -27,7 +29,7 @@ def check_key(key: str, entry: Entry) -> None:
     """Refuse a key that would read back as a different key, a comment or a header."""
     if "=" in key or any(char in key for char in _BREAKS):
         raise LvConfigError(f"key {key!r} contains '=' or a line break")
-    if key != key.strip():
+    if key != key.strip(_BLANKS):
         raise LvConfigError(f"key {key!r} has leading or trailing whitespace")
     if key.startswith((";", "#")):
         raise LvConfigError(f"key {key!r} starts with ';' or '#'")
@@ -39,10 +41,11 @@ def check_key(key: str, entry: Entry) -> None:
 def is_bare_safe(value: str) -> bool:
     """Report whether ``value`` reads back unchanged when written without quotes.
 
-    A bare token cannot be escaped, so it must hold no line break, carry no edge
-    whitespace and not look like a quoted string.
+    LabVIEW trims spaces and tabs around a bare token, removes a pair of quotes around
+    it, and treats a ``;`` in it as the start of a comment, so a bare value must have
+    none of those.
     """
-    if value != value.strip() or any(char in value for char in _BREAKS):
+    if value != value.strip(_BLANKS) or ";" in value:
         return False
     return not (len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'")
 
@@ -59,7 +62,7 @@ def check_comments(comments: tuple[str, ...]) -> None:
     for comment in comments:
         if any(char in comment for char in _BREAKS):
             raise LvConfigError(f"comment {comment!r} contains a line break")
-        if not comment.strip().startswith((";", "#")):
+        if not comment.strip(_BLANKS).startswith((";", "#")):
             raise LvConfigError(f"comment {comment!r} does not start with ';' or '#'")
 
 

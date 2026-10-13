@@ -12,7 +12,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from ._config import Entry
+from ._entry import Entry
 
 _EOL = re.compile(r"\r\n|\n|\r")
 

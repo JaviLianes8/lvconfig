@@ -5,7 +5,7 @@ from lvconfig import Config, LvParseError, parse
 SAMPLE = """
 ; a comment line
 [General]
-name = "Rig \\22A\\22"
+name = "Rig "A""
 enabled = TRUE
 retries = 3
 threshold = 2.5

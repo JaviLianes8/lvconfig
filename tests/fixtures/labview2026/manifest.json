@@ -14,7 +14,7 @@
    "sha256": "95be066e704fb56815213bca0bde6a647c71de47590669364c3b843521acfd07"
   },
   "rewrite.json": {
-   "how": "writeUserModePref.vi writing LVMode = \"new\" under [LabVIEW] into a file holding 'before'; 'after' is the whole file LabVIEW wrote back",
+   "how": "writeUserModePref.vi writing LVMode = \"new\" under [LabVIEW] into a file holding 'before'; 'after' is the whole file LabVIEW wrote back. In the case escapes_kept the quoted value q holds raw NUL and 0x12 characters, which LabVIEW writes back unchanged",
    "size": 1541,
    "sha256": "ae47bbaa081ce3ac3e7fefd27239a7c1649f6353f5a00dc3851045e4b35b8010"
   },
@@ -27,14 +27,19 @@
    "how": "examples/File IO/Configuration (INI)/Write Configuration (INI) File.vi run with its default front panel on a Windows system whose decimal separator is a comma; 'file' is the whole file LabVIEW wrote",
    "size": 189,
    "sha256": "e2469f40c57f682b05e2751d3e47ad91655e83abb4c38220ff06416ff4aca7a8"
+  },
+  "read_semantics.json": {
+   "how": "GPFW NI_ReadToken_String.vi asked for each (section, key) of 'lookups' in a CRLF file holding 'file'; 'value' and 'found' are what LabVIEW returned, '<absent>' being the default value passed in",
+   "size": 1469,
+   "sha256": "7f71295ff3c89692b9410bf4a82e876020d19631f89ab8ba5b3997eb90d93db4"
   }
  },
  "observed": [
-  "Read Key matches section and key names without regard to case.",
-  "Read Key sees only the first block of a repeated section and the first line of a repeated key.",
-  "Read Key does not see keys placed before the first section header.",
-  "Read Key reads a line with no '=' as a key with an empty value.",
-  "Read Key treats ';' in an unquoted value as the start of a comment and returns a rejoined text, not the line as written.",
-  "Read Key trims spaces and tabs around values; inside double quotes they are kept."
+  "read_semantics.json: Read Key matches section and key names without regard to case.",
+  "read_semantics.json: Read Key sees only the first block of a repeated section and the first line of a repeated key.",
+  "read_semantics.json: Read Key does not see keys placed before the first section header.",
+  "read_semantics.json: Read Key reads a line with no '=' as a key with an empty value.",
+  "read_semantics.json and read_string.json: Read Key treats ';' in an unquoted value as the start of a comment and returns a rejoined text, not the value as written.",
+  "read_string.json: Read Key trims spaces and tabs around values, nothing else; inside quotes they are kept."
  ]
 }

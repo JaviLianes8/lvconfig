@@ -10,8 +10,9 @@ writes them faithfully, and coerces values to the Python types they stand for.
 from __future__ import annotations
 
 from ._coerce import to_bool, to_float, to_int
-from ._config import Config, Entry
+from ._config import Config
 from ._dump import dump
+from ._entry import Entry
 from ._errors import LvConfigError, LvParseError, LvPathError
 from ._escape import escape, unescape
 from ._io import load, save

@@ -2,14 +2,21 @@
 
 from __future__ import annotations
 
-from ._config import Config, Entry
+from ._check import need_bool, type_name
+from ._config import Config
+from ._entry import Entry
 from ._escape import escape
 from ._validate import check_config
 
 
 def render(entry: Entry) -> str:
     """Return the stored text of one value: quoted and escaped, or a bare token."""
-    return f'"{escape(entry.value)}"' if entry.quoted else entry.value
+    return f'"{escape(entry.value)}"' if entry.quoted else escape(entry.value)
+
+
+def line(key: str, entry: Entry) -> str:
+    """Return one key line in the spacing LabVIEW writes: ``key = value``."""
+    return f"{key} = {render(entry)}"
 
 
 def section_lines(config: Config, name: str) -> list[str]:
@@ -24,7 +31,7 @@ def section_lines(config: Config, name: str) -> list[str]:
         lines.append(f"[{name}]")
     for key, entry in config.sections[name].items():
         lines.extend(entry.comments)
-        lines.append(f"{key}={render(entry)}")
+        lines.append(line(key, entry))
     return lines
 
 
@@ -33,11 +40,12 @@ def _canonical(config: Config) -> str:
     blocks = [lines for lines in (section_lines(config, name) for name in names) if lines]
     if config.trailing_comments:
         blocks.append(list(config.trailing_comments))
-    return "\n\n".join("\n".join(lines) for lines in blocks) + "\n" if blocks else ""
+    # LabVIEW ends the file right after the last line, with no final newline.
+    return "\n\n".join("\n".join(lines) for lines in blocks)
 
 
 def dump(config: Config, *, normalize: bool = False) -> str:
-    """Render ``config`` as LabVIEW configuration text.
+    r"""Render ``config`` as LabVIEW configuration text.
 
     A config returned by :func:`parse` keeps its source layout: every untouched line,
     blank line, comment, line ending and spacing is written back byte for byte, so
@@ -47,14 +55,28 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     repeated header), and new sections go at the end.
 
     A config built in code, or any config with ``normalize=True``, is written in the
-    canonical form: sections in order separated by a blank line, ``key=value`` with no
-    spaces, strings and paths escaped and quoted, booleans and numbers bare, comments
-    above their section or key, ``\\n`` line endings and a final newline.
+    layout LabVIEW's Configuration File VIs write: ``key = value``, a blank line before
+    each section header, strings and paths escaped and quoted, booleans and numbers
+    bare, comments above their section or key, and no newline after the last line.
+    Lines end in ``\n``; :func:`save` writes LabVIEW's ``\r\n``.
+
+    >>> config = Config()
+    >>> config.set("Rig", "name", "Bench\n2")
+    >>> config.set("Rig", "enabled", True)
+    >>> print(dump(config))
+    [Rig]
+    name = "Bench\0A2"
+    enabled = TRUE
 
     Raises :class:`LvConfigError` when the config holds something that would not read
-    back as written: a key with ``=`` or a line break, a bare value wrapped in quotes,
-    a comment not starting with ``;`` or ``#``, or header comments for a missing section.
+    back as written: a key with ``=`` or a line break, a bare value with edge blanks,
+    surrounding quotes or a ``;``, a comment not starting with ``;`` or ``#``, or header
+    comments for a missing section. Raises ``TypeError`` for a ``config`` that is not a
+    :class:`Config` or a ``normalize`` that is not a ``bool``.
     """
+    if not isinstance(config, Config):
+        raise TypeError(f"config must be a Config, not {type_name(config)}")
+    need_bool("normalize", normalize)
     check_config(config)
     if config.layout is None or normalize:
         return _canonical(config)
