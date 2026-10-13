@@ -26,10 +26,11 @@ Each item was checked against configuration files shipped with LabVIEW 2026.
 4. **Line endings and BOM survive `load`/`save`.** `load` read in universal-newline
    mode and dropped `CRLF`. It now keeps the exact endings. `save` keeps them unless a
    `line_ending` is passed. A UTF-8 byte order mark is kept too.
-5. **Golden fixtures from a real install.** Verbatim excerpts of LabVIEW 2026 files
-   are committed under `tests/fixtures/labview2026/` with their source paths. Contract
-   tests prove a byte-identical round-trip, typed reads and path conversion against
-   them. When LabVIEW is installed, an extra test round-trips every shipped `.ini`.
+5. **Golden fixtures from a real install.** Contract tests prove a byte-identical
+   round-trip, typed reads and path conversion against excerpts of files a LabVIEW 2026
+   install ships. Since 0.3.1 those excerpts stay local (`tests/fixtures/ni/`, cut by
+   `scripts/capture_ni.py`) and hand-written fixtures carry the same syntax. When LabVIEW
+   is installed, an extra test round-trips every shipped `.ini`.
 6. **`dump(config, normalize=True)`.** Writes the canonical form on demand, which is
    the 0.2.0 behaviour.
 7. **CLI `set` and `fmt` commands.** `set` edits one key in place and leaves every
