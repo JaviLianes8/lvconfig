@@ -7,7 +7,8 @@ edited value, edited comments, removed keys and sections, and new keys or sectio
 from __future__ import annotations
 
 from ._config import Config
-from ._dump import line, render, section_lines
+from ._dump import line, protect_bom, render, section_lines
+from ._entry import Entry
 from ._layout import HeaderItem, KeyItem, Layout, RawLine
 
 
@@ -82,6 +83,21 @@ class _Writer:
             self.emit(text)
 
 
+def kept_keys(config: Config, layout: Layout) -> set[tuple[str, str]]:
+    """Return the keys whose source line a lossless dump copies unchanged."""
+    kept: set[tuple[str, str]] = set()
+    sections = config.sections if isinstance(config.sections, dict) else {}
+    for item in layout.items:
+        if isinstance(item, KeyItem) and not item.shadowed:
+            entries = sections.get(item.section)
+            entry = entries.get(item.key) if isinstance(entries, dict) else None
+            if not isinstance(entry, Entry):
+                continue
+            if (entry.value, entry.quoted) == (item.entry.value, item.entry.quoted):
+                kept.add((item.section, item.key))
+    return kept
+
+
 def write_lossless(config: Config, layout: Layout) -> str:
     """Render ``config`` over ``layout``, rewriting only what changed since parsing."""
     writer = _Writer(config, layout)
@@ -115,7 +131,8 @@ def write_lossless(config: Config, layout: Layout) -> str:
         writer.out.extend(layout.tail)
     else:
         writer.comments(layout.tail, config.trailing_comments, False)
-    return layout.bom + _join(writer.out, layout)
+    body = _join(writer.out, layout)
+    return layout.bom + body if layout.bom else protect_bom(body)
 
 
 def _join(lines: list[RawLine], layout: Layout) -> str:

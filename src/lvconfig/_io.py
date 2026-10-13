@@ -24,7 +24,7 @@ _EOL = re.compile(r"\r\n|\n|\r")
 
 
 def load(path: StrPath, *, encoding: str = "utf-8") -> Config:
-    """Read a LabVIEW configuration file and parse it into a :class:`Config`.
+    r"""Read a LabVIEW configuration file and parse it into a :class:`Config`.
 
     The text is read without newline translation, so the recorded layout keeps the
     file's own ``CRLF`` or ``LF`` endings and a missing final newline. LabVIEW writes
@@ -34,6 +34,13 @@ def load(path: StrPath, *, encoding: str = "utf-8") -> Config:
     Raises ``OSError`` when the file cannot be read, ``UnicodeDecodeError`` when it is
     not in ``encoding``, ``LookupError`` for an unknown encoding and
     :class:`LvParseError` for a line that is not a section, key or comment.
+
+    >>> import pathlib, tempfile
+    >>> path = pathlib.Path(tempfile.mkdtemp(), "rig.ini")
+    >>> _ = path.write_bytes(b"[Rig]\r\nretries = 3")
+    >>> load(path).get_int("Rig", "retries")
+    3
+    >>> import shutil; shutil.rmtree(path.parent)
     """
     need_str("encoding", encoding)
     with open(path, encoding=encoding, newline="") as handle:
@@ -47,17 +54,26 @@ def save(
     encoding: str = "utf-8",
     line_ending: str | None = None,
 ) -> None:
-    """Write ``config`` to ``path`` as LabVIEW configuration text.
+    r"""Write ``config`` to ``path`` as LabVIEW configuration text.
 
     With ``line_ending`` left as ``None``, a loaded or parsed config keeps the line
     endings it was read with and a config built in code gets ``CRLF``. Passing
-    ``"\\r\\n"`` or ``"\\n"`` forces that terminator on every line. Value content stays
+    ``"\r\n"`` or ``"\n"`` forces that terminator on every line. Value content stays
     escaped, so no raw newline leaks in. The text is rendered before the file is
     opened, so a config :func:`dump` refuses leaves the file untouched.
 
     Raises :class:`LvConfigError` for a config :func:`dump` refuses, ``ValueError`` for
     a ``line_ending`` other than ``None``, CRLF, LF or CR, and ``OSError``,
     ``UnicodeEncodeError`` or ``LookupError`` from writing the file.
+
+    >>> import pathlib, tempfile
+    >>> path = pathlib.Path(tempfile.mkdtemp(), "rig.ini")
+    >>> config = Config()
+    >>> config.set("Rig", "retries", 3)
+    >>> save(config, path)
+    >>> path.read_bytes()
+    b'[Rig]\r\nretries = 3'
+    >>> import shutil; shutil.rmtree(path.parent)
     """
     need_str("encoding", encoding)
     if line_ending is not None and need_str("line_ending", line_ending) not in _ENDINGS:

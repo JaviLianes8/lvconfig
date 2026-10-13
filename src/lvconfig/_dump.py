@@ -41,7 +41,12 @@ def _canonical(config: Config) -> str:
     if config.trailing_comments:
         blocks.append(list(config.trailing_comments))
     # LabVIEW ends the file right after the last line, with no final newline.
-    return "\n\n".join("\n".join(lines) for lines in blocks)
+    return protect_bom("\n\n".join("\n".join(lines) for lines in blocks))
+
+
+def protect_bom(text: str) -> str:
+    """Keep a name that starts with U+FEFF intact: parse takes one leading one as a BOM."""
+    return "\ufeff" + text if text.startswith("\ufeff") else text
 
 
 def dump(config: Config, *, normalize: bool = False) -> str:
@@ -77,9 +82,10 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     if not isinstance(config, Config):
         raise TypeError(f"config must be a Config, not {type_name(config)}")
     need_bool("normalize", normalize)
-    check_config(config)
     if config.layout is None or normalize:
+        check_config(config)
         return _canonical(config)
-    from ._lossless import write_lossless
+    from ._lossless import kept_keys, write_lossless
 
+    check_config(config, kept_keys(config, config.layout))
     return write_lossless(config, config.layout)

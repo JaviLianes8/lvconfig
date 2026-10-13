@@ -19,7 +19,7 @@ from ._io import load, save
 from ._parse import parse
 from ._path import from_labview_path, to_labview_path
 
-__version__ = "0.3.1"
+__version__ = "1.0.0"
 
 __all__ = [
     "Config",

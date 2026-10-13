@@ -39,7 +39,7 @@ _POSIX_HELP = "with --type path: use POSIX paths instead of Windows ones"
 class _Parser(argparse.ArgumentParser):
     def error(self, message: str) -> NoReturn:
         self.print_usage(sys.stderr)
-        self.exit(1, f"{self.prog}: error: {message}\n")
+        self.exit(1, f"{self.prog}: error: {_bounded(message)}\n")
 
 
 def _build_parser() -> argparse.ArgumentParser:

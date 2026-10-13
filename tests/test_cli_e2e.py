@@ -50,7 +50,7 @@ def _copy(tmp_path: Path, name: str) -> Path:
 def test_installed_script_reports_its_version(lvconfig_exe: Path) -> None:
     result = _run(lvconfig_exe, "--version")
     assert result.returncode == 0
-    assert result.stdout.strip() == "lvconfig 0.3.1"
+    assert result.stdout.strip() == "lvconfig 1.0.0"
 
 
 def test_installed_script_reads_typed_values(lvconfig_exe: Path) -> None:
