@@ -60,7 +60,7 @@ def save(
 
     With ``line_ending`` left as ``None``, a loaded or parsed config keeps the line
     endings it was read with and a config built in code gets ``CRLF``. Passing
-    ``"\r\n"`` or ``"\n"`` forces that terminator on every line. Value content stays
+    ``"\r\n"``, ``"\n"`` or ``"\r"`` forces that terminator on every line. Value content stays
     escaped, so no raw newline leaks in. The text is rendered before the file is
     opened, so a config :func:`dump` refuses leaves the file untouched.
 

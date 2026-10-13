@@ -35,8 +35,8 @@ wrote and values it read back; those captures ship with the tests.
   kept as written (`abc ; c` reads as `abc; c`). The typed getters stop at it, as LabVIEW's
   typed Read Key VIs do, so `TRUE ; note` is `True`. Such values are written bare again
   whenever LabVIEW would read them back unchanged.
-- `get_bool`, `get_int`, `get_float` and `get_path` read the stored text, without decoding
-  `\XX` codes, as LabVIEW's typed reads do; a parsed value keeps the text it was read
+- `get_bool`, `get_int`, `get_float` and (on Windows) `get_path` read the stored text,
+  without decoding `\XX` codes, as LabVIEW's typed reads do; a parsed value keeps the text it was read
   from. A tab in a bare value is written as `\09`.
 - Values and keys are trimmed of spaces and tabs only; other characters `str.strip`
   removes, such as `\x1f` or a no-break space, are kept, as in LabVIEW.
@@ -68,9 +68,9 @@ wrote and values it read back; those captures ship with the tests.
   file behind. `load` and `save` take only a `str` or text `os.PathLike` path.
 - `Config.set` raises `LvConfigError` for an integer longer than Python turns into text, and
   `convert` keeps such a number as text.
-- `to_labview_path` and `set_path` refuse a `..` above a drive root or share, which the
-  reading side refuses too, and a path holding a control character, which would read back
-  as a different path.
+- On Windows, `to_labview_path` and `set_path` refuse a `..` above a drive root or share,
+  which the reading side refuses too, and a path holding a control character, which would
+  read back as a different path.
 - A comment line must start with `;` or `#` and must not end in blanks, so it reads back as
   written. An empty unnamed section is written as `[]`. Untouched lines of a parsed file are
   copied without being checked again, so `dump(parse(text)) == text` holds for every text

@@ -41,6 +41,8 @@ class Reading:
         >>> config.get("A", "x"), config.get("A", "y"), config.get("A", "y", "fallback")
         ('text', None, 'fallback')
         """
+        if default is not None:
+            need_str("default", default)
         entry = self.sections.get(need_str("section", section), {}).get(need_str("key", key))
         return entry.value if entry is not None else default
 

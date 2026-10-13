@@ -78,8 +78,9 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     blank line, comment, line ending and spacing is written back byte for byte, so
     ``dump(parse(text)) == text``. An edited key is rewritten in place with its
     original ``key = `` spacing, a removed key or section disappears with its comments,
-    new keys go after the section's last line in the source (its last key, or a later
-    repeated header), and new sections go at the end.
+    new keys, and new values of keys found only in a later block of a repeated section,
+    go into the section's first block (the one LabVIEW reads), and new sections go at
+    the end.
 
     A config built in code, or any config with ``normalize=True``, is written in the
     layout LabVIEW's Configuration File VIs write: ``key = value``, a blank line before
@@ -96,8 +97,9 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     enabled = TRUE
 
     Raises :class:`LvConfigError` when the config holds something that would not read
-    back as written: a key with ``=`` or a line break, a bare value with edge blanks,
-    surrounding quotes or a blank just before a ``;``, a comment not starting with ``;``
+    back as written: a key with ``=`` or a line break, a bare value LabVIEW would read
+    differently (a leading blank, a trailing one not after a ``;``, surrounding quotes, a
+    blank just before a ``;``), a comment not starting with ``;``
     or ``#`` or ending in blanks, two names that differ only in case, or header comments
     for a missing section. Raises ``TypeError`` for a ``config`` that is not a
     :class:`Config` or a ``normalize`` that is not a ``bool``.

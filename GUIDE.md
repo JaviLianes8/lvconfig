@@ -92,7 +92,8 @@ not an integer: '12abc'
 Escaping follows LabVIEW's writer exactly: a backslash is doubled, control characters below
 0x20 except tab become `\XX` in upper case, and everything else, the double quote included,
 is written as it is. A bare value (a number, or an entry made with `quoted=False`) is
-written bare only when LabVIEW reads it back unchanged: no edge blanks, no surrounding
+written bare only when LabVIEW reads it back unchanged: no leading blank, no trailing one
+except after a `;`, no surrounding
 quotes and no blank just before a `;`; `set` quotes every `str`.
 
 ```pycon
@@ -120,8 +121,9 @@ True
 | `//server/share/a/../b` | `\\server\share\b` |
 
 As LabVIEW's Read Key (Path) does, every `/` and every backslash of the stored text is a
-separator, empty and `.` parts are dropped and `..` goes up one level. `get_path` resolves
-the stored text itself, without decoding `\XX` codes, as LabVIEW does: `/C/\09x` is `C:\09x`.
+separator, empty and `.` parts are dropped and `..` goes up one level. On Windows
+`get_path` resolves the stored text itself, without decoding `\XX` codes, as LabVIEW does:
+`/C/\09x` is `C:\09x`. With `windows=False` it returns the decoded value unchanged.
 
 `to_labview_path` and `set_path` go the other way. Pass `windows=False` (or `--posix` on
 the command line) for POSIX paths, which are already in stored form.
@@ -181,7 +183,7 @@ separates lines with `\n`; `save` writes LabVIEW's `\r\n` for a config built in 
 the captured files without comments or repeated keys it is byte for byte what LabVIEW
 wrote; values keep the text they were read from, and a value built in code is written in
 lvconfig's own spelling (double quotes, a tab in a bare value as `\09`), which LabVIEW
-reads as the same value. An empty unnamed section is written as a `[]` line.
+reads as the same string. An empty unnamed section is written as a `[]` line.
 
 A bare value with a `;` is written bare again only when LabVIEW reads it back unchanged
 (no blank just before the first `;`); a value parsed from a file always is.

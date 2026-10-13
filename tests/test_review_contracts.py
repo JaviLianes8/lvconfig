@@ -176,3 +176,8 @@ def test_convert_errors_name_the_input_file(
     source.write_text("[A]\nx = 1\nx = 2\n", encoding="utf-8")
     assert main(["convert", str(source)]) == 1
     assert "plain.ini" in capsys.readouterr().err
+
+
+def test_get_refuses_a_default_that_is_not_a_str() -> None:
+    with pytest.raises(TypeError, match="default"):
+        parse("[A]\nx=1\n").get("A", "y", 5)  # type: ignore[call-overload]

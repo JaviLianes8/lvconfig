@@ -9,7 +9,7 @@ from ._errors import LvParseError
 from ._layout import HeaderItem, KeyItem, Layout, RawLine, is_comment, split_lines
 from ._stored import body_of, read, remember
 
-_BOM = "﻿"
+_BOM = "\ufeff"
 _BLANKS = " \t"  # LabVIEW trims spaces and tabs, nothing else
 
 

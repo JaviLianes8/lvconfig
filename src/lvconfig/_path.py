@@ -99,7 +99,8 @@ def to_labview_path(path: str, *, windows: bool = True) -> str:
 
     Raises :class:`LvPathError` on Windows for a drive-relative, drive-less rooted
     (``\dir`` or ``/dir``, including a value already in stored form), incomplete
-    UNC or device path, since any stored form would name a different file. Raises
+    UNC or device path, a ``..`` above a drive root or share, or a path holding a
+    control character, since any stored form would read as a different file. Raises
     ``TypeError`` when ``path`` is not a ``str`` or ``windows`` not a ``bool``.
     """
     path = need_str("path", path)
