@@ -54,12 +54,12 @@ class _Writer:
         self.out.append(item.line)
 
     def key(self, item: KeyItem) -> None:
-        entries = self.config.sections.get(item.section)
-        if entries is None:
-            return
         if item.behind_blank:
             self.out.extend(item.lead)  # LabVIEW never reads it; keep it as written
             self.out.append(item.line)
+            return
+        entries = self.config.sections.get(item.section)
+        if entries is None:
             return
         entry = entries.get(item.key)
         if entry is None:
