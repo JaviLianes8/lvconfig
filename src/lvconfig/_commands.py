@@ -35,10 +35,10 @@ def _infer(value: str) -> str | bool | int | float:
     return value
 
 
-def _plain_to_config(text: str) -> Config:
+def _plain_to_config(text: str, source: str) -> Config:
     parser = configparser.ConfigParser(interpolation=None)
     parser.optionxform = str  # type: ignore[method-assign,assignment]
-    parser.read_string(text)
+    parser.read_string(text, source=source)
     config = Config()
     for section in parser.sections():
         for key, value in parser.items(section):
@@ -123,6 +123,6 @@ def cmd_fmt(args: argparse.Namespace) -> int:
 
 def cmd_convert(args: argparse.Namespace) -> int:
     with open(args.input, encoding=args.encoding) as handle:
-        config = _plain_to_config(handle.read())
+        config = _plain_to_config(handle.read(), args.input)
     _emit(dump(config), args.output, args.encoding)
     return 0

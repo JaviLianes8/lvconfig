@@ -59,8 +59,8 @@ Entry(value='3', quoted=False, comments=('; how many tries',))
 | `get_float`, `to_float` | `2.5`, `2,5`, `,5`, `5.`, `1e3`, `Inf`, `-Infinity`, `NaN` | `12abc`, `1_000`, `1,234,5`, `0x10`, `-NaN` |
 | `get_path` | see [Paths](#paths) | paths with no faithful native form |
 
-The getters read a bare value only up to its first `;`, as LabVIEW's typed Read Key VIs
-do (`TRUE ; note` reads as `True`). LabVIEW's Read Key (I32) clamps to 32 bits; `get_int`
+`get_bool`, `get_int` and `get_float` read a bare value only up to its first `;`, as
+LabVIEW's typed Read Key VIs do (`TRUE ; note` reads as `True`). LabVIEW's Read Key (I32) clamps to 32 bits; `get_int`
 returns the full Python integer.
 
 ```pycon
@@ -89,8 +89,9 @@ not an integer: '12abc'
 
 Escaping follows LabVIEW's writer exactly: a backslash is doubled, control characters below
 0x20 except tab become `\XX` in upper case, and everything else, the double quote included,
-is written as it is. A value with a `;`, edge blanks or surrounding quotes is never written
-bare, because LabVIEW would read it differently.
+is written as it is. A bare value (a number, or an entry made with `quoted=False`) is
+written bare only when LabVIEW reads it back unchanged: no edge blanks, no surrounding
+quotes and no blank just before a `;`; `set` quotes every `str`.
 
 ```pycon
 >>> from lvconfig import escape, unescape
@@ -127,7 +128,8 @@ A path that has no faithful counterpart raises `LvPathError` instead of turning 
 path to another file: a drive-relative `C:file` or bare `C:`, a rooted path without a drive
 (`\dir`, `/dir`), a UNC path without a share, a `\\?\` device path, a POSIX absolute value
 such as `/usr/lib` read as Windows (LabVIEW reads it as `u:\sr\lib`), a malformed `/C:/x`,
-a `..` above the drive root, and a UNC path stored with backslashes.
+a `..` above a drive root or share, a UNC path stored with backslashes, and (when storing)
+a path holding a control character.
 
 ```pycon
 >>> from lvconfig import LvPathError, from_labview_path, to_labview_path
@@ -149,7 +151,8 @@ C:\a\b\d
 comments, `key = value` spacing, `CRLF`, `LF` or `CR` endings, a missing final newline,
 repeated sections and a UTF-8 byte order mark all survive. After an edit:
 
-- an edited key is rewritten in place, keeping its `key = ` spacing and line ending;
+- an edited key is rewritten in place, keeping its `key = ` spacing and line ending; a
+  `; note` after a bare value is part of that value, so setting the key replaces it too;
 - a removed key or section disappears with its comment lines, and a removed key takes its
   repeated lines along, so no older value comes back;
 - a new key goes after the last line of its section's first block (the block LabVIEW
@@ -211,8 +214,9 @@ is rendered before the file is opened, so a refused config leaves the file untou
 | `OSError`, `UnicodeDecodeError`, `LookupError` | `load` | the file cannot be read, is not in `encoding`, or `encoding` is unknown |
 | `OSError`, `UnicodeEncodeError`, `LookupError` | `save` | the file cannot be written, a value is not in `encoding`, or `encoding` is unknown; the text is encoded before the file is opened, so the file is left as it was |
 
-Messages quote at most 40 characters of the offending text, so a huge value never floods a
-log. `Config`'s fields are plain data: the getters assume they hold what their types say,
+The library's messages quote at most 40 characters of the offending text, so a huge value
+never floods a log; the command line cuts any message, its own or Python's, at 300
+characters. `Config`'s fields are plain data: the getters assume they hold what their types say,
 and only `dump` checks them. `Config.layout` is an opaque record of the source text; keep
 the one `parse` made, or set it to `None`.
 
@@ -234,7 +238,7 @@ test against LabVIEW's own reading:
 - Lines. LabVIEW reads a line with no `=` as a key with an empty value and a `;` or `#`
   line holding `=` as a key named `;k` or `#k`; it does not take an indented `[S]` as a
   header but takes `[S] ; note` as one. `parse` raises `LvParseError` for a line with no
-  `=` and for `[S] ; note`, reads `;` and `#` lines as comments, and accepts an indented
+  `=` and for `[S] ; note` (or reads `[S] ; a=b` as a key named `[S] ; a`), reads `;` and `#` lines as comments, and accepts an indented
   header. LabVIEW does not skip a UTF-8 byte order mark; `parse` does.
 - Numbers. LabVIEW reads the leading part of `12abc`, `1_000` or `0x10` and clamps
   integers to 32 bits; lvconfig refuses partial numbers and keeps every digit.

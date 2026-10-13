@@ -103,8 +103,11 @@ def to_labview_path(path: str, *, windows: bool = True) -> str:
     path = need_str("path", path)
     if not need_bool("windows", windows):
         return path
+    if any(char < " " for char in path):
+        raise LvPathError(f"{short(path)} holds a control character LabVIEW would not keep")
     text = path.replace("/", "\\")
     _windows_check(text, path)
+    _native(text, path)  # refuse what the reading side would refuse
     if text.startswith("\\\\"):
         return "/" + text[1:].replace("\\", "/")
     match = _WIN_DRIVE.match(text)
@@ -148,6 +151,8 @@ def from_labview_path(path: str, *, windows: bool = True) -> str:
     if path.startswith("/") and not path.startswith(("//", "/\\")):
         raise LvPathError(f"{short(path)} is a POSIX absolute path with no Windows equivalent")
     text = path.replace("/", "\\")
+    if text.startswith(_DEVICE):
+        raise LvPathError(f"{short(path)} is a device path with no stored form")
     if text.startswith("\\\\") and not path.startswith("//"):
         raise LvPathError(f"{short(path)} is a UNC path in native form; store it as //server")
     _windows_check(text, path)

@@ -148,3 +148,31 @@ def test_cli_lookup_errors_quote_names_briefly(
     target.write_bytes(b"[A]\r\nx=1")
     assert main(["get", str(target), "S" * 1000, "k"]) == 1
     assert len(capsys.readouterr().err) < 120
+
+
+@pytest.mark.parametrize("path", [r"\\s\sh\..\x", r"\\s\sh\a\..\..\x"])
+def test_a_unc_path_above_its_share_is_refused_when_stored(path: str) -> None:
+    with pytest.raises(LvPathError, match="climbs"):
+        Config().set_path("P", "p", path)
+
+
+@pytest.mark.parametrize("path", ["C:\a\tb", "rel\nx", "C:\a\x00"])
+def test_a_path_with_a_control_character_is_refused_when_stored(path: str) -> None:
+    with pytest.raises(LvPathError, match="control character"):
+        Config().set_path("P", "p", path)
+
+
+def test_a_device_path_is_named_as_one_when_read() -> None:
+    from lvconfig import from_labview_path
+
+    with pytest.raises(LvPathError, match="device path"):
+        from_labview_path(r"\\?\C:\x")
+
+
+def test_convert_errors_name_the_input_file(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    source = tmp_path / "plain.ini"
+    source.write_text("[A]\nx = 1\nx = 2\n", encoding="utf-8")
+    assert main(["convert", str(source)]) == 1
+    assert "plain.ini" in capsys.readouterr().err

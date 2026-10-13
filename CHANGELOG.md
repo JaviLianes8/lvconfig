@@ -53,15 +53,17 @@ wrote and values it read back; those captures ship with the tests.
   `save` raises `ValueError` for a `line_ending` other than CRLF, LF or CR.
 - An `IntEnum` or other `int` subclass is written as its number, and a `float` subclass as
   the stored double.
-- Error messages quote at most 40 characters of the offending text. The `KeyError` of a
+- The library's error messages quote at most 40 characters of the offending text, and the
+  command line cuts every message at 300 characters. The `KeyError` of a
   getter now reads `no key 'x' in section 'A'`.
 - `save` (and the CLI's `set`, `fmt -o` and `convert`) encode the text before opening the
   file: an unknown encoding or a character the encoding cannot hold no longer leaves an
   empty file behind. `load` and `save` take only a `str` or text `os.PathLike` path.
 - `Config.set` raises `LvConfigError` for an integer longer than Python turns into text, and
   `convert` keeps such a number as text.
-- `to_labview_path` and `set_path` refuse a `..` above the drive root, which the reading
-  side refuses too.
+- `to_labview_path` and `set_path` refuse a `..` above a drive root or share, which the
+  reading side refuses too, and a path holding a control character, which would read back
+  as a different path.
 - A comment line must start with `;` or `#` and must not end in blanks, so it reads back as
   written. An empty unnamed section is written as `[]`. Untouched lines of a parsed file are
   copied without being checked again, so `dump(parse(text)) == text` holds for every text

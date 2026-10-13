@@ -76,8 +76,9 @@ def dump(config: Config, *, normalize: bool = False) -> str:
 
     Raises :class:`LvConfigError` when the config holds something that would not read
     back as written: a key with ``=`` or a line break, a bare value with edge blanks,
-    surrounding quotes or a ``;``, a comment not starting with ``;`` or ``#``, or header
-    comments for a missing section. Raises ``TypeError`` for a ``config`` that is not a
+    surrounding quotes or a blank just before a ``;``, a comment not starting with ``;``
+    or ``#`` or ending in blanks, two names that differ only in case, or header comments
+    for a missing section. Raises ``TypeError`` for a ``config`` that is not a
     :class:`Config` or a ``normalize`` that is not a ``bool``.
     """
     if not isinstance(config, Config):
