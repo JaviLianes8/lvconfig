@@ -35,3 +35,11 @@ def test_a_key_that_is_not_a_str_is_named_in_the_type_error() -> None:
     config = parse("[S]\nk=1\n")
     with pytest.raises(TypeError, match="key must be a str, not int"):
         config.get_str("S", 5)  # type: ignore[arg-type]
+
+
+def test_the_multiplication_and_division_signs_are_not_folded() -> None:
+    from lvconfig._check import fold
+
+    assert fold("\u00d7") == "\u00d7" and fold("\u00f7") == "\u00f7"
+    config = parse("[a\u00d7]\nk=1\n[a\u00f7]\nk=2\n")
+    assert config.section_names() == ["a\u00d7", "a\u00f7"]

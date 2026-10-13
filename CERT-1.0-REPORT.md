@@ -9,11 +9,11 @@ Progress:
 - [x] Contract, fuzz and author mutation round (items 6, 9, 18)
 - [x] Docs: README, GUIDE, CHANGELOG (items 11, 12)
 - [x] Packaging, e2e and upgrade from PyPI 0.2.0 (items 8, 10, 13, 14)
-- [ ] Independent reviewer and five QA lenses report PASS (items 16, 19)
-- [ ] Gates (item 15)
-- [ ] PR and trace guard CLEAN (item 17); merge and publish left to the maintainer
+- [x] Independent reviewer and five QA lenses report PASS (items 16, 19)
+- [x] Gates (item 15)
+- [x] PR #4 and trace guard CLEAN (item 17); merge and publish left to the maintainer
 
-## Scorecard
+## Scorecard (final, at the head of PR #4)
 
 | # | Item | Verdict | Evidence |
 | --- | --- | --- | --- |
@@ -31,10 +31,10 @@ Progress:
 | 12 | CHANGELOG dated 1.0.0 | PASS | `## [1.0.0] - 2026-10-13` with the stable surface and every behaviour change; unpublished 0.3.x marked |
 | 13 | pyproject | PASS | 1.0.0, Production/Stable, 3.10 to 3.14, MIT, Homepage/Source/Issues/Changelog, keywords, `dependencies = []` (contract-tested) |
 | 14 | sdist and wheel contents | PASS | wheel: package modules, `py.typed`, LICENSE; sdist: source, tests with the LabVIEW captures and their manifest, docs, dev files; no NI `.ini` excerpts (a planted one stayed out) |
-| 15 | Gates exit 0 alone | pending | final run on the PR head |
-| 16 | Independent reviewer | pending | |
-| 17 | PR, trace guard | pending | |
-| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 53 survivors closed by contracts, 10 shown equivalent, 1 superseded by a later fix; independent reviewer: 17 more, 4 survivors closed in `test_review_contracts_two.py`, 3 equivalent |
+| 15 | Gates exit 0 alone | PASS | `ruff format --check .`, `ruff check .`, `mypy --strict src`, `pytest` each exit 0 alone (2669 passed, 22 skipped with the NI excerpts local; reviewer run on ce207e6, author run on the PR head) |
+| 16 | Independent reviewer | PASS | review 1 failures (4 survivors, report fixes) fixed; review 2: every earlier finding fixed, 18 new mutations, the one survivor proven equivalent and pinned |
+| 17 | PR, trace guard | ready | PR #4 from `release/1.0.0`, trace guard CLEAN; merge and PyPI publish left to the maintainer |
+| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 53 survivors closed by contracts, 10 shown equivalent, 1 superseded by a later fix; independent reviewer: 17 + 18 more, 4 survivors closed in `test_review_contracts_two.py`, 4 equivalent |
 | 19 | Five QA lenses | PASS | a, b, c, d, e all PASS after their findings were fixed and re-verified by fresh reviewers (see the lens table) |
 
 ## Baseline on 0.3.1 (before any change)
@@ -193,6 +193,54 @@ re-run by a new reviewer with the same lens after the fixes.
 | b | 6 | b090cc2 | PASS | 1,290 capture lookups: 950 the same, 0 different, every one-sided case listed; 60,000 seeded files against an independent model of LabVIEW's rules, 0 failures |
 | c | 5 | 85c2de2 | FAIL | the same removal case |
 | c | 6 | b090cc2 | PASS | about 1.1 million fuzz calls, 0 crashes; scaling linear; CLI and file safety clean |
+
+## Independent reviewer (item 16)
+
+| Review | Head | Verdict | Findings and outcome |
+| --- | --- | --- | --- |
+| 1 | 85c2de2 | FAIL | items 6 and 18: 17 mutations of its own, 4 real survivors (R04, R05, R14, R15), 3 equivalent; a placeholder and a miscount in this report; item 10 wording. Contracts in `test_review_contracts_two.py`, report fixed in ce207e6 |
+| 2 | ce207e6 | PASS after one note | R04, R05, R14 and R15 killed on re-application; 18 new mutations, 17 killed; N10 (fold the multiplication sign) proven equivalent, since that character has no lower case and folds to itself, and pinned anyway; gates each exit 0 alone (2669 passed); wheel e2e green; no trace of tooling anywhere |
+
+Reviewer mutations:
+
+| Id | Mutation | File | Result | Caught by |
+| --- | --- | --- | --- | --- |
+| R01 | Y with diaeresis not folded | `_check.py` | killed | `test_case_and_blocks.py::test_windows_1252_capitals_fold_as_labview_folds_them` |
+| R02 | `on` not a boolean | `_coerce.py` | killed | `test_labview_captures.py::test_a_boolean_reads_as_labview_reads_it[on-True]` |
+| R03 | `+Inf` refused | `_coerce.py` | killed | `test_labview_captures.py::test_a_double_reads_as_labview_reads_it_or_is_refused[+Inf-inf]` |
+| R04 | `e+` exponent refused | `_coerce.py` | survived, then killed | `test_review_contracts_two.py::test_an_exponent_with_a_plus_sign_reads_and_lvconfig_reads_its_own_large_floats` |
+| R05 | integers past 10 digits refused | `_coerce.py` | survived, then killed | `test_review_contracts_two.py::test_to_int_keeps_every_digit` |
+| R06 | `\0F` and `\1F` not decoded | `_escape.py` | killed | `test_escape.py::test_escape_round_trips_through_unescape` |
+| R07 | 0x1F written raw | `_escape.py` | killed | `test_labview_captures.py::test_a_string_is_written_exactly_as_labview_writes_it[31]` |
+| R08 | malformed `/C\x` drive accepted | `_path.py` | killed | `test_mutation_contracts_three.py::test_a_malformed_drive_is_refused_as_malformed_not_as_a_posix_path` |
+| R09 | key starting with `;` accepted | `_validate.py` | killed | `test_validation.py::test_set_refuses_a_key_that_would_read_back_differently` |
+| R10 | comment type check dropped | `_validate.py` | equivalent | another check raises the same `TypeError` |
+| R11 | entries-dict check dropped | `_validate.py` | equivalent | another check raises the same `TypeError` |
+| R12 | blank-looking line not an empty key | `_parse.py` | killed | `test_case_and_blocks.py::test_a_line_of_blanks_is_an_empty_key_to_labview_so_a_later_one_is_not_read` |
+| R13 | key behind a blank line treated as a plain repeat | `_parse.py` | equivalent | no observable difference in parse, edits or dump |
+| R14 | CLI bound `<= 300` changed to `< 300` | `_cli.py` | survived, then killed | `test_review_contracts_two.py::test_the_cli_keeps_a_message_of_exactly_300_characters_whole` |
+| R15 | key type unchecked in `_require` | `_reading.py` | survived, then killed | `test_review_contracts_two.py::test_a_key_that_is_not_a_str_is_named_in_the_type_error` |
+| R16 | `to_dict` returns the stored text | `_reading.py` | killed | `test_promises.py::test_parse_and_dump_promise` |
+| R17 | LF line ending refused by `save` | `_io.py` | killed | `test_io.py::test_save_can_use_plain_newlines` |
+| N01 | `f` not a boolean | `_coerce.py` | killed | `test_labview_captures.py::test_a_boolean_reads_as_labview_reads_it[f-False]` |
+| N02 | NaN only in lower case | `_coerce.py` | killed | `test_coerce.py::test_labview_nan_reads_as_nan` |
+| N03 | `,5` refused | `_coerce.py` | killed | `test_labview_captures.py::test_a_double_reads_as_labview_reads_it_or_is_refused[,5-0.5]` |
+| N04 | trailing backslash read past | `_escape.py` | killed | `test_escape.py::test_unescape_keeps_a_backslash_that_is_not_a_labview_code` |
+| N05 | `\20` to `\2F` decoded | `_escape.py` | killed | `test_docs.py::test_module_doctests_pass[lvconfig._escape]` |
+| N06 | lone quote counts as quoted | `_stored.py` | killed | `test_labview_more.py::test_a_string_lookup_agrees_with_labview_or_is_a_listed_difference[9]` |
+| N07 | quoting ignored when the value holds `;` | `_stored.py` | killed | `test_labview_third.py::test_a_found_value_is_labviews_value[172]` |
+| N08 | bare tab not stored as `\09` | `_stored.py` | killed | `test_mutation_contracts_two.py` |
+| N09 | a 40-character value cut | `_check.py` | killed | `test_mutation_contracts.py::test_error_message_quotes_exactly_forty_characters_in_full` |
+| N10 | multiplication sign added to the folded capitals | `_check.py` | equivalent | it has no lower case, so it folds to itself; pinned by `test_review_contracts_two.py::test_the_multiplication_and_division_signs_are_not_folded` |
+| N11 | relative `..` pops an earlier `..` | `_path.py` | killed | `test_labview_more.py::test_a_path_reads_as_labview_reads_it_or_is_refused[../../x]` |
+| N12 | `C:\` stored as `/C/` | `_path.py` | killed | `test_path.py::test_bare_drive_stores_without_a_trailing_slash` |
+| N13 | comment ending in a tab accepted | `_validate.py` | killed | `test_review_contracts.py::test_a_comment_parse_would_trim_is_refused` |
+| N14 | header named up to the first `]` | `_parse.py` | killed | `test_fuzz.py::test_any_config_built_in_code_reads_back_as_itself` |
+| N15 | forced line ending ignored for a built config | `_io.py` | killed | `test_io.py::test_save_can_use_plain_newlines` |
+| N16 | headerless section not first | `_dump.py` | killed | `test_fuzz.py::test_any_config_built_in_code_reads_back_as_itself` |
+| N17 | `-inf` written as `Inf` | `_entry.py` | killed | `test_lossless.py::test_special_floats_use_labview_spelling[-inf--Inf]` |
+| N18 | typed reads not cut at a bare `;` | `_reading.py` | killed | `test_case_and_blocks.py::test_typed_getters_stop_at_a_bare_semicolon_as_labview_does` |
+
 ## Blind mutation rounds by lens e (items 18 and 19e)
 
 Each round was designed from the source and GUIDE.md alone, run one mutation at a time on
