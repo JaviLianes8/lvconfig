@@ -53,6 +53,7 @@ wrote and values it read back; those captures ship with the tests.
 
 - `GUIDE.md`, the reference for every rule, error and command, with notes on upgrading.
 - Docstring examples for every public name and method, run as tests.
+- `python -m lvconfig` runs the command line.
 - Python 3.10 to 3.14 classifiers and `Production/Stable` status.
 
 ## [0.3.1]
