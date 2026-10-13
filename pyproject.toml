@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "lvconfig"
-version = "0.3.0"
+version = "0.3.1"
 description = "Typed reader and writer for LabVIEW configuration files, with LabVIEW-correct escaping, path and boolean rules"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -36,6 +36,20 @@ Funding = "https://buymeacoffee.com/jlianesglrs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/lvconfig"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "src/lvconfig",
+    "tests",
+    "scripts/capture_ni.py",
+    "README.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "pyproject.toml",
+]
+# NI's configuration file excerpts are local test references only; only their manifest ships.
+exclude = ["**/__pycache__", "**/*.pyc", "tests/fixtures/ni/*.ini"]
 
 [tool.ruff]
 line-length = 100

@@ -65,10 +65,13 @@ keeps the comments above it. A repeated key keeps its last value, and keys found
 the first section header live in the section named `""`. `Config` also offers `items`,
 `to_dict`, `remove` and `remove_section`.
 
-This is checked against real files: the test suite carries verbatim excerpts of
-configuration files installed with LabVIEW 2026 (`tests/fixtures/labview2026/`, with
-their source paths) and round-trips each one byte for byte. When LabVIEW is installed
-locally, it also round-trips every `.ini` file of the installation.
+This is checked against LabVIEW-style files: the test suite carries hand-written
+fixtures (`tests/fixtures/handwritten/`) that use the syntax LabVIEW's own configuration
+files use, and round-trips each one byte for byte. NI's files themselves are not
+redistributed: on a machine with LabVIEW 2026, `python scripts/capture_ni.py` cuts the
+excerpts listed in `tests/fixtures/ni/MANIFEST.json` (source path, size, sha256) from the
+install, and the tests round-trip them too; without them those tests skip. When LabVIEW
+is installed locally, the suite also round-trips every `.ini` file of the installation.
 
 Low-level helpers are public too: `escape`/`unescape` for the `\XX` codes,
 `to_labview_path`/`from_labview_path` for the stored path form, and

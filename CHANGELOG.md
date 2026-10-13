@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.1]
+
+- The NI configuration file excerpts are no longer tracked or shipped in the sdist. The
+  always-on tests use hand-written fixtures with the same syntax features;
+  `scripts/capture_ni.py` cuts the NI excerpts from a local LabVIEW install (checked against
+  the tracked manifest) and their tests skip when they are absent.
+
 ## [0.3.0]
 
 - Byte-identical round-trip: `parse` records the source layout and `dump` writes every

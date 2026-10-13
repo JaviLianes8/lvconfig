@@ -1,0 +1,133 @@
+{
+  "labview": "LabVIEW 2026 (64-bit), Windows, paths relative to the installation folder",
+  "licence": "NI proprietary, installed with LabVIEW; not redistributed",
+  "retrieved": "2026-10-13",
+  "files": {
+    "linx_firmware_wizard_config.ini": {
+      "origin": "project/Hobbyist/LINX Firmware Wizard Config.ini",
+      "lines": null,
+      "skip": [],
+      "source_size": 59,
+      "source_sha256": "befb1b2580dbed61e9f5948889ccb8699d2cc078ed08576e211eae22ce8e9005",
+      "size": 59,
+      "sha256": "befb1b2580dbed61e9f5948889ccb8699d2cc078ed08576e211eae22ce8e9005"
+    },
+    "air_cooler_app.ini": {
+      "origin": "ProjectTemplates/Source/Core/Feedback Evaporative Cooler/Air Cooler App.ini",
+      "lines": null,
+      "skip": [],
+      "source_size": 69,
+      "source_sha256": "c8ac0c2ffa4312047be4d0bf919f8384c79b18906e3f6f111d0cd8c008e9a5ab",
+      "size": 69,
+      "sha256": "c8ac0c2ffa4312047be4d0bf919f8384c79b18906e3f6f111d0cd8c008e9a5ab"
+    },
+    "arduino_uno_dev.ini": {
+      "origin": "vi.lib/MakerHub/LINX/Firmware/Builds/Arduino/Uno/Arduino_Uno_DEV.ini",
+      "lines": null,
+      "skip": [],
+      "source_size": 136,
+      "source_sha256": "9ae888f9b57c8f5fdc7fc7ffc21f4b9bcee1d3be0dd60248745ee04ecd3a03f4",
+      "size": 136,
+      "sha256": "9ae888f9b57c8f5fdc7fc7ffc21f4b9bcee1d3be0dd60248745ee04ecd3a03f4"
+    },
+    "linx_target_rpi.ini": {
+      "origin": "resource/Framework/Providers/LINXPlugins/RPi/LINXTarget.ini",
+      "lines": null,
+      "skip": [],
+      "source_size": 488,
+      "source_sha256": "265e8d227b32012a742c87bbea723bf9cf3ab6f45f03bc1c05db524cef832107",
+      "size": 488,
+      "sha256": "265e8d227b32012a742c87bbea723bf9cf3ab6f45f03bc1c05db524cef832107"
+    },
+    "tags_default.ini": {
+      "origin": "resource/webserver/tags.default.ini",
+      "lines": null,
+      "skip": [],
+      "source_size": 255,
+      "source_sha256": "c80e865bb0d76fe6050bfe2c9c0fe3b5598035658a30f7ef4bd173ee075bd332",
+      "size": 255,
+      "sha256": "c80e865bb0d76fe6050bfe2c9c0fe3b5598035658a30f7ef4bd173ee075bd332"
+    },
+    "mx_lv_provider.ini": {
+      "origin": "resource/Framework/Providers/mxLvProvider.ini",
+      "lines": null,
+      "skip": [],
+      "source_size": 113,
+      "source_sha256": "00cd8f12220d817ef5d660c6e7356f15ed56747f03d1b84ec3c18d6522726e92",
+      "size": 113,
+      "sha256": "00cd8f12220d817ef5d660c6e7356f15ed56747f03d1b84ec3c18d6522726e92"
+    },
+    "exe_provider.ini": {
+      "origin": "resource/Framework/Providers/GProviders/EXE.ini",
+      "lines": [
+        [
+          1,
+          15
+        ]
+      ],
+      "skip": [],
+      "source_size": 620,
+      "source_sha256": "8e374590b929a373c6ba833439f6c701a2b4a96e968f7fe0d4b8cb7303aae880",
+      "size": 578,
+      "sha256": "c4dae33dc52438dcb2b9d42588d087f78e55a8894e03246c326dd06f215b84fb",
+      "note": "line 16, a license signature, left out"
+    },
+    "def_rtcommon.ini": {
+      "origin": "resource/Framework/Providers/lvrealtime/default ini/Def_RTCommon.ini",
+      "lines": null,
+      "skip": [
+        37
+      ],
+      "source_size": 1297,
+      "source_sha256": "4486c99ae5c8ab020de3b85982d95bfc596e51118850cb3158a57995e1960da2",
+      "size": 1177,
+      "sha256": "fee05f99acfd2d7b036f4cc804b94a042b23c86e5517c0899c07a436f2f495ce",
+      "note": "line 37, a default web services key, left out"
+    },
+    "def_remote_windows_common.ini": {
+      "origin": "resource/Framework/Providers/lvremotewindows/default ini/Def_RemoteWindowsCommon.ini",
+      "lines": null,
+      "skip": [
+        37
+      ],
+      "source_size": 1620,
+      "source_sha256": "636a7cb52cb8a89c6806f1947a72918f7121a8e8074b361cbbd03cfb545c540f",
+      "size": 1500,
+      "sha256": "a5fb697747593c910203e07d23e65b20b13393132d134bbac04c5f525155181b",
+      "note": "line 37, a default web services key, left out"
+    },
+    "webservice_sysadmin.ini": {
+      "origin": "resource/webserver/services/LVWSSysAdmin/WebService.ini",
+      "lines": [
+        [
+          1,
+          26
+        ]
+      ],
+      "skip": [],
+      "source_size": 10636,
+      "source_sha256": "41547614bd19f190eea81d9bfebf95cc306192aeff32b6bed5d2f4131407116f",
+      "size": 913,
+      "sha256": "c334be43c80c6d35a8ad9ee1e80ab024f5b038f6c3d33e2a4bba3acd26500c6a"
+    },
+    "labview_ini_excerpt.ini": {
+      "origin": "LabVIEW.ini",
+      "lines": [
+        [
+          1,
+          1
+        ],
+        [
+          4,
+          14
+        ]
+      ],
+      "skip": [],
+      "source_size": 441,
+      "source_sha256": "757916e37599a270abec9a6c19c645c263bacfe270ea98e0afff8e0154897cbc",
+      "size": 275,
+      "sha256": "76443521a52662935a5787f86086f96ee5b65fc8a34931f17674e710d8f35e52",
+      "note": "lines 2-3, a machine-specific path and install id, left out; the file differs per machine"
+    }
+  }
+}
