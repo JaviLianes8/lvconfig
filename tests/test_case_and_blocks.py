@@ -133,3 +133,9 @@ def test_a_moved_key_takes_its_comment_from_a_later_block() -> None:
     config = parse("[A]\n[B]\nb=1\n[A]\nk=1\n; about j\nj=2\n")
     config.set("A", "j", "x")
     assert parse(dump(config)) == config
+
+
+def test_removing_a_section_keeps_the_blank_looking_line_above_it() -> None:
+    config = parse("[A]\n  \n[C]\n[A]\n=x\n")
+    config.remove_section("C")
+    assert parse(dump(config)) == config

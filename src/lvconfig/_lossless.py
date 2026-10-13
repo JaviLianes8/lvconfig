@@ -40,6 +40,8 @@ class _Writer:
     def header(self, item: HeaderItem) -> None:
         name = item.name
         if name not in self.config.sections:
+            # Blank lines above a removed header stay: a line of blanks is a key to LabVIEW.
+            self.blanks(item.lead)
             return
         current = self.config.header_comments.get(name, ())
         unchanged = self.unchanged.get(name)
