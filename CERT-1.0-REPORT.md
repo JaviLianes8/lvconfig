@@ -24,9 +24,16 @@ Progress:
 ## Ground truth (item 7)
 
 `tests/fixtures/labview2026/` holds what LabVIEW 2026 Community 26.3.1f1 wrote and read on
-this PC on 2026-10-13. Shipped VIs that call the Configuration File VIs were run headless
-through LabVIEW's ActiveX server with inputs chosen by the author; `manifest.json` records
-which VI produced each file, its size and SHA-256.
+this PC on 2026-10-13, in three capture runs. Shipped VIs that call the Configuration File
+VIs (GPFW NI_ReadToken_String and _Bool, Read FW INI, writeUserModePref, and the Read and
+Write Configuration (INI) File examples) were run headless through LabVIEW's ActiveX server;
+`manifest.json` records which VI produced each file, its size and SHA-256. The first run used
+the author's inputs (551 writes, 812 string reads, 26 paths, 26 integers, 39 booleans, 31
+doubles, 8 rewrites, the lookup semantics file); the second and third used case lists written
+by the two independent ground-truth reviewers (53 + 392 lookups, 41 booleans, 63 paths, 36
+integers, 22 rewrites; 320 of the third run's lookups seeded). The tests compare lvconfig with
+every capture: wherever both find a value it is the same value, and every place where they do
+not both find one is listed in GUIDE.md and pinned by a test.
 
 Defects in 0.3.1 found against these captures:
 
@@ -43,6 +50,16 @@ Defects in 0.3.1 found against these captures:
   itself on a system whose decimal separator is a comma.
 - Values were trimmed with `str.strip`, which also removes `\x1f`, `\x0b`, `\xa0` and other
   characters LabVIEW keeps; LabVIEW trims only spaces and tabs.
+- Names were matched exactly; LabVIEW treats names differing only in the case of A-Z or the
+  Latin-1 capitals as one, so a later `x` after `X` gave lvconfig a different value.
+- A bare `;` was text to lvconfig; LabVIEW reads it as a comment and returns a rejoined value,
+  and its typed reads stop at it.
+- Any line starting with `[` and holding `]` is a header to LabVIEW (`[S] ; note`, `[T] x=y`);
+  lvconfig refused the first and read the second as a key.
+- LabVIEW's typed and path reads work on the stored text without decoding `\XX` codes, and it
+  resolves `.`, `..`, empty parts and backslashes in every path form; lvconfig decoded and kept
+  them.
+- New keys and edits of a repeated section went into its last block, which LabVIEW never reads.
 
 ## Author mutation round (item 18)
 
@@ -100,5 +117,5 @@ CLI mutations are caught in process), and the file restored. Bytecode was never 
 | M44 | get_path ignores windows | `_reading.py` | killed | `test_config.py::test_get_path_can_decode_for_posix` |
 | M45 | get ignores its default | `_reading.py` | killed | `test_config.py::test_get_returns_the_default_when_missing` |
 | M46 | set drops the key's comments | `_config.py` | killed | `test_lossless.py::test_setting_the_same_value_changes_nothing` |
-| M47 | empty unnamed section kept | `_config.py` | killed | `test_validation.py::test_an_empty_unnamed_section_writes_nothing` |
+| M47 | empty unnamed section kept | `_config.py` | killed | `test_validation.py::test_an_empty_unnamed_section_writes_nothing` (since renamed `test_an_empty_unnamed_section_keeps_its_bracket_line`) |
 | M48 | set_path ignores windows | `_config.py` | killed | `test_path_refusals.py::test_posix_encoding_keeps_the_path` |
