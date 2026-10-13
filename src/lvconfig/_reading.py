@@ -18,7 +18,7 @@ def _typed(entry: Entry) -> str:
 
 
 class Reading:
-    """The read side of :class:`Config`: every getter decodes the stored text."""
+    """The read side of :class:`Config`: string reads decode, typed reads use the stored text."""
 
     sections: dict[str, dict[str, Entry]]
 

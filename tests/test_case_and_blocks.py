@@ -95,3 +95,21 @@ def test_a_line_starting_with_a_bracket_and_holding_one_is_a_header(line: str) -
     config = parse(f"[P]\nk=1\n{line}\nj=2\n")
     assert config.keys("P") == ["k"] and len(config.section_names()) == 2
     assert dump(config) == f"[P]\nk=1\n{line}\nj=2\n"
+
+
+@pytest.mark.parametrize(
+    ("upper", "lower"), [("\u0160", "\u0161"), ("\u0152", "\u0153"), ("\u0178", "\u00ff")]
+)
+def test_windows_1252_capitals_fold_as_labview_folds_them(upper: str, lower: str) -> None:
+    config = parse(f"[S]\n{upper}=1\n{lower}=2\n[{upper}]\na=1\n[{lower}]\na=2\n")
+    assert config.items("S") == [(upper, "1")] and config.items(upper) == [("a", "1")]
+
+
+def test_a_line_of_blanks_is_an_empty_key_to_labview_so_a_later_one_is_not_read() -> None:
+    text = "[S]\n \n=v\nk=1\n"
+    config = parse(text)
+    assert config.get("S", "") is None and config.get("S", "k") == "1"
+    assert dump(config) == text
+    config.set("S", "k", 2)
+    assert dump(config) == "[S]\n \n=v\nk=2\n"
+    assert parse("[S]\n\n=v\n").get("S", "") == "v"  # a truly empty line is skipped

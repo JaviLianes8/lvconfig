@@ -55,6 +55,7 @@ class KeyItem:
     suffix: str
     entry: Entry
     shadowed: bool = False
+    behind_blank: bool = False
 
 
 @dataclass(frozen=True)

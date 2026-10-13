@@ -10,6 +10,7 @@ from ._layout import HeaderItem, KeyItem, Layout, RawLine, is_comment, split_lin
 from ._stored import body_of, read, remember
 
 _BOM = "\ufeff"
+_BLANK_KEY = "\x00blank"  # marks a key LabVIEW reads from a blank-looking line
 _BLANKS = " \t"  # LabVIEW trims spaces and tabs, nothing else
 
 
@@ -46,6 +47,12 @@ class _Builder:
         self.current = name
         self.lead, self.comments = [], []
 
+    def blank_key(self) -> None:
+        # LabVIEW reads a line of only spaces or tabs as a key named "" with no value: a
+        # later "=..." line is a repeat of it, which lvconfig keeps as text and does not read.
+        section = "" if self.current is None else self.current
+        self.keys.setdefault(section, {}).setdefault("", _BLANK_KEY)
+
     def key(self, line: RawLine) -> None:
         section = "" if self.current is None else self.current
         key, body, prefix, suffix = _split_key_line(line.text)
@@ -56,13 +63,16 @@ class _Builder:
         # LabVIEW reads the first line of a repeated key; later ones are kept verbatim and
         # recorded under the first spelling, so they follow that key's fate.
         shadowed = fold(key) in seen
-        if shadowed:
+        behind_blank = shadowed and seen[fold(key)] is _BLANK_KEY
+        if shadowed and not behind_blank:
             key = seen[fold(key)]
-        else:
+        elif not shadowed:
             seen[fold(key)] = key
             entries[key] = entry
         self.items.append(
-            KeyItem(section, key, tuple(self.lead), line, prefix, suffix, entry, shadowed)
+            KeyItem(
+                section, key, tuple(self.lead), line, prefix, suffix, entry, shadowed, behind_blank
+            )
         )
         self.lead, self.comments = [], []
 
@@ -95,6 +105,8 @@ def parse(text: str) -> Config:
     for number, line in enumerate(lines, start=1):
         stripped = line.text.strip(_BLANKS)
         if not stripped or is_comment(stripped):
+            if line.text and not stripped:
+                build.blank_key()
             build.lead.append(line)
             if stripped:
                 build.comments.append(stripped)

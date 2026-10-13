@@ -57,6 +57,10 @@ class _Writer:
         entries = self.config.sections.get(item.section)
         if entries is None:
             return
+        if item.behind_blank:
+            self.out.extend(item.lead)  # LabVIEW never reads it; keep it as written
+            self.out.append(item.line)
+            return
         entry = entries.get(item.key)
         if entry is None:
             # A removed key takes its comments along; the spacing around it stays.
@@ -95,7 +99,9 @@ def write_lossless(config: Config, layout: Layout) -> str:
     """Render ``config`` over ``layout``, rewriting only what changed since parsing."""
     writer = _Writer(config, layout)
     writer.moved = moved_keys(config, layout)
-    known = {(i.section, i.key) for i in layout.items if isinstance(i, KeyItem)}
+    known = {
+        (i.section, i.key) for i in layout.items if isinstance(i, KeyItem) and not i.behind_blank
+    }
     known -= writer.moved
     last = first_block_ends(layout)
     if "" in config.sections and "" not in last:

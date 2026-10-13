@@ -25,10 +25,12 @@ wrote and values it read back; those captures ship with the tests.
 - A repeated key reads as its first value, the one LabVIEW reads, and an edit changes that
   first line. 0.3 used the last value. Names that differ only in letter case are repeats too (a later
   `x` after `X`, a later `[s]` block of `[S]`), as LabVIEW matches them, and `dump` refuses
-  two names that differ only in case; A-Z and the Latin-1 capitals fold, as in LabVIEW.
+  two names that differ only in case; the capitals of the Windows-1252 code page fold, as
+  in LabVIEW. A line of only spaces or tabs is an empty key to LabVIEW, so a later `=value`
+  line is not read.
   A new key of a repeated section, or a new value of a key found only in a later block,
   goes into its first block, the one LabVIEW reads.
-- A line starting with `[` and holding `]` is a section header, as LabVIEW reads it
+- A line whose first non-blank character is `[` and which holds `]` is a section header, as LabVIEW reads it
   (`[S] ; note` and `[T] x=y` included); its name runs from the second character to the
   last `]`. `dump` refuses a key line that would read as a header.
 - A `;` in a bare value is read as LabVIEW reads it: the text before it trimmed, the rest
