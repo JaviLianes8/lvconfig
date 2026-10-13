@@ -23,8 +23,8 @@ STRINGS = CAPTURE["strings"]
 # Index: lvconfig finds nothing where LabVIEW finds a value (documented differences).
 ABSENT_HERE = {28: "case", 30: "# line is a comment", 31: "; line", 32: "; line"}
 # Index: lvconfig finds a value where LabVIEW finds nothing (documented differences).
-FOUND_HERE = {38: "indented header", 42: "[] section", 44: "later block"}
-REFUSED = {39: "header with a comment", 40: "header with a comment", 48: "BOM in latin-1"}
+FOUND_HERE = {42: "[] section", 44: "later block"}
+REFUSED = {48: "BOM in latin-1"}
 
 
 @pytest.mark.parametrize("index", range(len(STRINGS)))

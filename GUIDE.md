@@ -42,6 +42,7 @@ Entry(value='3', quoted=False, comments=('; how many tries',))
 | `X = 1` then `x = 2` | `'1'` under `X` | names differing only in case are repeats, as in LabVIEW |
 | `note = abc ; c  ` | `'abc; c  '` | a bare `;` starts a comment: the text before it is trimmed, the rest kept as written |
 | `note = "a ; b"` | `'a ; b'` | inside quotes `;` is text |
+| `[T] x=y` or `[S] ; note` | a header | a line starting with `[` and holding `]` is a header, named by the text between its first character and its last `]` (so `  [T]` names ` [T`), as LabVIEW reads it |
 
 ```pycon
 >>> config = parse('[S]\nq = "a\\09b\\\\c"\nbare = a\\0Ab\nx = 1\nx = 2\n')
@@ -59,9 +60,10 @@ Entry(value='3', quoted=False, comments=('; how many tries',))
 | `get_float`, `to_float` | `2.5`, `2,5`, `,5`, `5.`, `1e3`, `Inf`, `-Infinity`, `NaN` | `12abc`, `1_000`, `1,234,5`, `0x10`, `-NaN` |
 | `get_path` | see [Paths](#paths) | paths with no faithful native form |
 
-`get_bool`, `get_int` and `get_float` read a bare value only up to its first `;`, as
-LabVIEW's typed Read Key VIs do (`TRUE ; note` reads as `True`). LabVIEW's Read Key (I32) clamps to 32 bits; `get_int`
-returns the full Python integer.
+`get_bool`, `get_int`, `get_float` and `get_path` read the stored text, as LabVIEW's
+typed Read Key VIs do: `\XX` codes are not decoded (`TRUE\09` is not a boolean), and the
+first three stop at a bare `;` (`TRUE ; note` reads as `True`). LabVIEW's Read Key (I32)
+clamps to 32 bits; `get_int` returns the full Python integer.
 
 ```pycon
 >>> from lvconfig import LvConfigError, to_bool, to_float, to_int
@@ -175,9 +177,11 @@ True
 A config built in code, or `dump(config, normalize=True)`, is written in the layout of
 LabVIEW's own Configuration File VIs: `key = value`, a blank line before each section
 header, comments above their section or key, and no newline after the last line. `dump`
-separates lines with `\n`; `save` writes LabVIEW's `\r\n` for a config built in code. For a
-file without comments or repeated keys, this is byte for byte the file LabVIEW writes after
-the same change. An empty unnamed section is written as a `[]` line, so it reads back.
+separates lines with `\n`; `save` writes LabVIEW's `\r\n` for a config built in code. For
+the captured files without comments or repeated keys it is byte for byte what LabVIEW
+wrote; values keep the text they were read from, and a value built in code is written in
+lvconfig's own spelling (double quotes, a tab in a bare value as `\09`), which LabVIEW
+reads as the same value. An empty unnamed section is written as a `[]` line.
 
 A bare value with a `;` is written bare again only when LabVIEW reads it back unchanged
 (no blank just before the first `;`); a value parsed from a file always is.
@@ -226,29 +230,32 @@ the one `parse` made, or set it to `None`.
 
 ## Where lvconfig and LabVIEW differ
 
-In each case lvconfig either finds nothing or raises where LabVIEW reads something, or
-keeps a value LabVIEW cannot see; it never returns a different value. Each is pinned by a
-test against LabVIEW's own reading:
+Wherever both find a value it is the same value, checked against three LabVIEW capture
+runs. These are the places where they do not both find one; each is pinned by a test:
 
-- Lookups. LabVIEW matches section and key names without regard to case. lvconfig reads
-  a file the same way (a later `x` after `X` is a repeat, a later `[s]` is a block of
-  `[S]`, and the first spelling stands), but its methods match names exactly, so
-  `get("S", "x")` finds nothing when the file spells it `X`; the command line looks names
-  up the same way. `dump` refuses two names that
-  differ only in case, because LabVIEW would see only one.
+- Lookups. LabVIEW matches section and key names without regard to the case of A-Z and
+  the Latin-1 capitals. lvconfig reads a file the same way (a later `x` after `X` is a
+  repeat, a later `[s]` is a block of `[S]`, the first spelling stands), but its methods
+  and the command line match names exactly, so `get("S", "x")` finds nothing when the
+  file spells it `X`. `dump` refuses two names that differ only in case.
 - Hidden keys. LabVIEW sees only the first block of a repeated section and nothing before
   the first header or under `[]`. lvconfig merges every block of a section and keeps
-  headerless keys in the section `""`, so it returns values LabVIEW never reads. New keys
-  go into the first block, where LabVIEW reads them.
-- Lines. LabVIEW reads a line with no `=` as a key with an empty value and a `;` or `#`
-  line holding `=` as a key named `;k` or `#k`; it does not take an indented `[S]` as a
-  header but takes `[S] ; note` as one. `parse` raises `LvParseError` for a line with no
-  `=` and for `[S] ; note` (or reads `[S] ; a=b` as a key named `[S] ; a`), reads `;` and `#` lines as comments, and accepts an indented
-  header. LabVIEW does not skip a UTF-8 byte order mark; `parse` does.
-- Numbers. LabVIEW reads the leading part of `12abc`, `1_000` or `0x10` and clamps
-  integers to 32 bits; lvconfig refuses partial numbers and keeps every digit.
-- Paths. LabVIEW reads `C:` as `C:\`, and a `..` above a drive root or share as some
-  other path; lvconfig refuses them.
+  headerless keys in the section `""`, so it returns values LabVIEW never reads. Edits
+  follow LabVIEW: new keys, and new values of keys found only in a later block, are
+  written into the first block. `dump(config, normalize=True)` writes the merged
+  sections, so keys LabVIEW could not see become visible to it: it is a rewrite, not a
+  reformat.
+- Lines. LabVIEW reads a line with no `=` as a key with an empty value, and a `;` or `#`
+  line holding `=` as a key named `;k` or `#k`. `parse` raises `LvParseError` for a line
+  with no `=` and reads `;` and `#` lines as comments.
+- Text. LabVIEW reads files in the system code page and does not skip a UTF-8 byte order
+  mark; `load` reads UTF-8 by default and skips one. Pass `encoding="cp1252"` (or your
+  system's code page) to read and write what LabVIEW does.
+- Numbers. LabVIEW reads the leading part of `12abc`, `1_000` or `0x10`, and clamps
+  integers to 32 bits; lvconfig refuses partial numbers and returns every digit, so
+  `get_int` of `4294967295` is 4294967295 where LabVIEW's Read Key (I32) gives 2147483647.
+- Paths. LabVIEW reads `C:` as `C:\`, `:x` as `C:\x`, and a `..` above a drive root or
+  share as some other path; lvconfig refuses them.
 
 ## Command line
 

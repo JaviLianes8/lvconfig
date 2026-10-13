@@ -66,3 +66,32 @@ def test_a_stored_path_resolves_its_backslashes_as_labview_does() -> None:
     config = parse('[P]\np = "/C/\\09x"\nq = "/C/a\\\\b"\n')
     assert config.get_path("P", "p") == "C:\\09x"
     assert config.get_path("P", "q") == "C:\\a\\b"
+
+
+def test_an_edit_of_a_key_in_a_later_block_goes_into_the_first_block() -> None:
+    text = "[LabVIEW]\r\n[X]\r\n[labview]\r\nLVMode=old\r\n"
+    config = parse(text)
+    config.set("LabVIEW", "LVMode", "new")
+    assert dump(config) == '[LabVIEW]\r\nLVMode = "new"\r\n[X]\r\n[labview]\r\nLVMode=old\r\n'
+    assert parse(dump(config)).get("LabVIEW", "LVMode") == "new"
+
+
+def test_latin_1_capitals_fold_like_ascii_ones() -> None:
+    config = parse("[S]\n\u00c9=1\n\u00e9=2\n")
+    assert config.items("S") == [("\u00c9", "1")]
+    clash = Config()
+    clash.set("S", "\u00d8", 1)
+    clash.set("S", "\u00f8", 2)
+    with pytest.raises(LvConfigError, match="differ only in case"):
+        dump(clash)
+    sharp = Config()
+    sharp.set("S", "\u00df", 1)
+    sharp.set("S", "ss", 2)
+    assert dump(sharp) == "[S]\n\u00df = 1\nss = 2"
+
+
+@pytest.mark.parametrize("line", ["[T] x=y", "[T]z=1", '[x = "a]"', "[S] ; note"])
+def test_a_line_starting_with_a_bracket_and_holding_one_is_a_header(line: str) -> None:
+    config = parse(f"[P]\nk=1\n{line}\nj=2\n")
+    assert config.keys("P") == ["k"] and len(config.section_names()) == 2
+    assert dump(config) == f"[P]\nk=1\n{line}\nj=2\n"

@@ -25,12 +25,19 @@ wrote and values it read back; those captures ship with the tests.
 - A repeated key reads as its first value, the one LabVIEW reads, and an edit changes that
   first line. 0.3 used the last value. Names that differ only in letter case are repeats too (a later
   `x` after `X`, a later `[s]` block of `[S]`), as LabVIEW matches them, and `dump` refuses
-  two names that differ only in case. A new key of a repeated section goes into its first
-  block, the one LabVIEW reads.
+  two names that differ only in case; A-Z and the Latin-1 capitals fold, as in LabVIEW.
+  A new key of a repeated section, or a new value of a key found only in a later block,
+  goes into its first block, the one LabVIEW reads.
+- A line starting with `[` and holding `]` is a section header, as LabVIEW reads it
+  (`[S] ; note` and `[T] x=y` included); its name runs from the second character to the
+  last `]`. `dump` refuses a key line that would read as a header.
 - A `;` in a bare value is read as LabVIEW reads it: the text before it trimmed, the rest
   kept as written (`abc ; c` reads as `abc; c`). The typed getters stop at it, as LabVIEW's
   typed Read Key VIs do, so `TRUE ; note` is `True`. Such values are written bare again
   whenever LabVIEW would read them back unchanged.
+- `get_bool`, `get_int`, `get_float` and `get_path` read the stored text, without decoding
+  `\XX` codes, as LabVIEW's typed reads do; a parsed value keeps the text it was read
+  from. A tab in a bare value is written as `\09`.
 - Values and keys are trimmed of spaces and tabs only; other characters `str.strip`
   removes, such as `\x1f` or a no-break space, are kept, as in LabVIEW.
 - `to_bool` reads `yes`, `no`, `on`, `off`, `t`, `f` and `y` as LabVIEW does. `to_bool`,
@@ -43,8 +50,7 @@ wrote and values it read back; those captures ship with the tests.
 - `from_labview_path` and `get_path` resolve empty, `.` and `..` parts as LabVIEW does, in
   drive, UNC and relative paths alike (`/C/a//b/../c/` is `C:\a\c`, `a/./b/../c` is `a\c`),
   treat every backslash as a separator, and refuse a `..` above a drive root or share and a
-  UNC path stored with backslashes. `get_path` resolves the stored text without decoding
-  `\XX` codes, as LabVIEW does.
+  UNC path stored with backslashes, or a relative path holding `:`.
 - The canonical form (`dump(config, normalize=True)`, or a config built in code) is the
   layout LabVIEW writes: `key = value` and no newline after the last line. New keys in an
   edited file are written as `key = value`.

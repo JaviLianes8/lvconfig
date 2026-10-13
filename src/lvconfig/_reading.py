@@ -7,13 +7,14 @@ from typing import overload
 from ._check import need_str, short
 from ._coerce import to_bool, to_float, to_int
 from ._entry import Entry
-from ._escape import escape
 from ._path import from_labview_path
+from ._stored import stored
 
 
 def _typed(entry: Entry) -> str:
-    # LabVIEW's typed Read Key VIs stop at a bare ';', which starts a comment.
-    return entry.value if entry.quoted else entry.value.partition(";")[0]
+    # LabVIEW's typed Read Key VIs read the stored text, up to a bare ';' comment.
+    text = stored(entry)
+    return text if entry.quoted else text.partition(";")[0]
 
 
 class Reading:
@@ -95,11 +96,8 @@ class Reading:
         stored text is a separator. So on Windows the stored text, not its decoded string,
         is what is resolved: ``/C/\\09x`` reads as ``C:\\09x``.
         """
-        value = self._require(section, key).value
-        if windows:
-            # Back to the stored text LabVIEW resolves; a tab counts as its \09 code.
-            value = escape(value).replace("\t", "\\09")
-        return from_labview_path(value, windows=windows)
+        entry = self._require(section, key)
+        return from_labview_path(stored(entry) if windows else entry.value, windows=windows)
 
     def to_dict(self) -> dict[str, dict[str, str]]:
         """Return the decoded sections and values as plain nested dictionaries.

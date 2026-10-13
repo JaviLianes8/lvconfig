@@ -77,6 +77,8 @@ def _native(text: str, original: str) -> str:
     match = _WIN_DRIVE.match(text)
     if match:
         return _drive_path(match.group(1), match.group(2), original)
+    if ":" in text:  # LabVIEW reads ":x" as a drive path; no faithful reading exists
+        raise LvPathError(f"{short(original)} has a ':' outside a drive")
     return "\\".join(_resolve(text, original, rooted=False)) or "."
 
 

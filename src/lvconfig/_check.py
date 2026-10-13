@@ -40,12 +40,15 @@ def need_bool(what: str, value: object) -> bool:
     return value
 
 
-_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+# LabVIEW folds A-Z and the Latin-1 capitals (but not the sharp s), as captured.
+_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "".join(
+    chr(code) for code in range(0xC0, 0xDF) if code != 0xD7
+)
 _FOLD = str.maketrans(_UPPER, _UPPER.lower())
 
 
 def fold(name: str) -> str:
-    """Return ``name`` with ASCII letters lower-cased, the way names are compared.
+    """Return ``name`` with A-Z and Latin-1 capitals lower-cased, as names are compared.
 
     >>> fold("LVMode") == fold("lvmode")
     True

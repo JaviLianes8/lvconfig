@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING
 from ._check import fold, need_str, short, type_name
 from ._entry import Entry
 from ._errors import LvConfigError
+from ._stored import reads_back, render
 
 if TYPE_CHECKING:
     from ._config import Config
@@ -36,29 +37,11 @@ def check_key(key: str, entry: Entry, *, bare_checked: bool = True) -> None:
         raise LvConfigError(f"key {short(key)} has leading or trailing whitespace")
     if key.startswith((";", "#")):
         raise LvConfigError(f"key {short(key)} starts with ';' or '#'")
-    if key.startswith("[") and not entry.quoted and entry.value.rstrip(_BLANKS).endswith("]"):
-        raise LvConfigError(f"key {short(key)} with a bare value ending in ']' reads as a header")
-    if bare_checked and not entry.quoted and not is_bare_safe(entry.value):
+    if key.startswith("[") and ("]" in key or "]" in render(entry)):
+        raise LvConfigError(f"key {short(key)} starts with '[' and its line holds ']': a header")
+    if bare_checked and not entry.quoted and not reads_back(entry):
         raise LvConfigError(f"bare value of {short(key)} cannot be written unquoted")
     check_comments(entry.comments)
-
-
-def is_bare_safe(value: str) -> bool:
-    """Report whether ``value`` reads back unchanged when written without quotes.
-
-    LabVIEW trims spaces and tabs around a bare token and removes a pair of quotes
-    around it. A ``;`` starts a comment: the text before it is trimmed and the rest is
-    kept as written. So a bare value must not start with a blank, must not end with one
-    unless it holds a ``;``, must have no blank just before its first ``;``, and must not
-    be wrapped in quotes.
-    """
-    before, semicolon, _ = value.partition(";")
-    if value != value.lstrip(_BLANKS) or before != before.rstrip(_BLANKS):
-        return False
-    if not semicolon and value != value.rstrip(_BLANKS):
-        return False
-    seen = value.rstrip(_BLANKS)  # parse trims before it looks for quotes
-    return not (len(seen) >= 2 and seen[0] == seen[-1] and seen[0] in "\"'")
 
 
 def check_comments(comments: object) -> None:

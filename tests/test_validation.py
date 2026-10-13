@@ -21,16 +21,17 @@ def test_set_refuses_a_section_name_with_a_line_break() -> None:
         Config().set("A\nB", "k", 1)
 
 
-def test_a_bracket_key_is_refused_only_when_it_would_read_as_a_header() -> None:
+def test_a_bracket_key_is_refused_only_when_its_line_would_read_as_a_header() -> None:
     config = Config()
-    config.set("A", "[x", "quoted]")
+    config.set("A", "[x", "plain")
     assert parse(dump(config)) == config
-    config.sections["A"]["[y"] = Entry("bare]", quoted=False)
-    with pytest.raises(LvConfigError, match="header"):
-        dump(config)
+    for key, value in [("[x", "quoted]"), ("[x]y", "1"), ("[y", "bare]")]:
+        config = Config(sections={"A": {key: Entry(value, quoted=key != "[y")}})
+        with pytest.raises(LvConfigError, match="header"):
+            dump(config)
 
 
-@pytest.mark.parametrize("value", ['"x"', "'x'", " x", "x\t", "a ;b", " a;b"])
+@pytest.mark.parametrize("value", ['"x"', "'x'", " x", "x ", "a ;b", " a;b"])
 def test_dump_refuses_a_bare_value_that_would_change(value: str) -> None:
     config = Config()
     config.sections["A"] = {"k": Entry(value, quoted=False)}

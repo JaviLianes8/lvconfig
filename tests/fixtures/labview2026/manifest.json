@@ -37,6 +37,11 @@
    "how": "a second run on 2026-10-13 with the same VIs: 'strings' are GPFW NI_ReadToken_String.vi lookups of (section, key) in a CRLF file holding 'file' ('<absent>' is the default passed in); 'bools' GPFW NI_ReadToken_Bool.vi on [S] k = <stored>, null when LabVIEW returned its default; 'paths' and 'ints' Read FW INI.vi as in read_typed.json, error 19 meaning LabVIEW refused the number; 'rewrite' writeUserModePref.vi writing LVMode = 'value' (\"new\" when absent) into a file holding 'before'",
    "size": 13174,
    "sha256": "35e08e7f92c913be8cffffe3b3d92d968a5e2f0b2456d29ad25b3b7b16ccd029"
+  },
+  "read_third.json": {
+   "how": "a third run on 2026-10-13 with the same VIs and the same shapes as read_more.json, on cases written by an independent reviewer, 320 of the string lookups generated from seed 424242: accented letter case, header-like lines, indented headers, stored codes in typed and path reads",
+   "size": 70335,
+   "sha256": "da053a67b5f7d1f1c8adf49f2914e51a77a237dd67c485f9d60c8d1f854a5133"
   }
  },
  "observed": [

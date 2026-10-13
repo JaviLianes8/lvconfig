@@ -5,13 +5,8 @@ from __future__ import annotations
 from ._check import need_bool, need_str, type_name
 from ._config import Config
 from ._entry import Entry
-from ._escape import escape
+from ._stored import render
 from ._validate import check_config
-
-
-def render(entry: Entry) -> str:
-    """Return the stored text of one value: quoted and escaped, or a bare token."""
-    return f'"{escape(entry.value)}"' if entry.quoted else escape(entry.value)
 
 
 def line(key: str, entry: Entry) -> str:
@@ -118,7 +113,8 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     if config.layout is None or normalize:
         check_config(config)
         return _canonical(config)
-    from ._lossless import kept_keys, write_lossless
+    from ._blocks import kept_keys
+    from ._lossless import write_lossless
 
     check_config(config, kept_keys(config, config.layout))
     return write_lossless(config, config.layout)

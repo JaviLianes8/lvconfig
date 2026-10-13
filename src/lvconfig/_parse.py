@@ -6,33 +6,17 @@ from ._check import fold, need_str, short
 from ._config import Config
 from ._entry import Entry
 from ._errors import LvParseError
-from ._escape import unescape
 from ._layout import HeaderItem, KeyItem, Layout, RawLine, is_comment, split_lines
+from ._stored import body_of, read, remember
 
 _BOM = "﻿"
 _BLANKS = " \t"  # LabVIEW trims spaces and tabs, nothing else
 
 
-def _quoted(text: str) -> bool:
-    return len(text) >= 2 and text[0] == text[-1] and text[0] in "\"'"
-
-
-def _value(body: str, comments: tuple[str, ...]) -> Entry:
-    if _quoted(body):
-        # Quotes protect edge whitespace; LabVIEW decodes escapes either way.
-        return Entry(unescape(body[1:-1]), quoted=True, comments=comments)
-    before, semicolon, after = body.partition(";")
-    # LabVIEW reads a bare ';' as the start of a comment and returns the value, trimmed,
-    # joined to the comment as written.
-    return Entry(unescape(before.rstrip(_BLANKS) + semicolon + after), False, comments)
-
-
 def _split_key_line(text: str) -> tuple[str, str, str, str]:
     """Return ``(key, value text, prefix, suffix)`` for a ``key=value`` line."""
     left, right = text.split("=", 1)
-    body = right.strip(_BLANKS)
-    if not _quoted(body) and ";" in body:
-        body = right.lstrip(_BLANKS)  # blanks after a comment are part of what LabVIEW reads
+    body = body_of(right)
     start = len(text) - len(right) + (len(right) - len(right.lstrip(_BLANKS)))
     prefix = text[:start]
     suffix = text[start + len(body) :]
@@ -65,7 +49,8 @@ class _Builder:
     def key(self, line: RawLine) -> None:
         section = "" if self.current is None else self.current
         key, body, prefix, suffix = _split_key_line(line.text)
-        entry = _value(body, tuple(self.comments))
+        value, quoted, stored = read(body)
+        entry = remember(Entry(value, quoted, tuple(self.comments)), stored)
         entries = self.config.sections.setdefault(section, {})
         seen = self.keys.setdefault(section, {})
         # LabVIEW reads the first line of a repeated key; later ones are kept verbatim and
@@ -113,8 +98,11 @@ def parse(text: str) -> Config:
             build.lead.append(line)
             if stripped:
                 build.comments.append(stripped)
-        elif stripped.startswith("[") and stripped.endswith("]"):
-            build.header(stripped[1:-1], line)
+        elif stripped.startswith("[") and "]" in stripped:
+            # LabVIEW takes any line starting with '[' and holding ']' as a header, named
+            # by what lies between its first character and its last ']'.
+            text = line.text.rstrip(_BLANKS)
+            build.header(text[1 : text.rindex("]")], line)
         elif "=" in stripped:
             build.key(line)
         else:

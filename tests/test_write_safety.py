@@ -33,7 +33,7 @@ def test_a_save_replaces_the_file_with_the_new_text(tmp_path: Path) -> None:
     assert [p.name for p in tmp_path.iterdir()] == ["a.ini"]
 
 
-@pytest.mark.parametrize("value", ["'x;' ", '"a;b"\t', "'v;'"])
+@pytest.mark.parametrize("value", ["'x;' ", '"a;b" ', "'v;'"])
 def test_a_bare_value_that_reads_as_quoted_after_trimming_is_refused(value: str) -> None:
     config = Config(sections={"S": {"k": Entry(value, quoted=False)}})
     with pytest.raises(LvConfigError, match="unquoted"):

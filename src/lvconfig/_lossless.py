@@ -6,10 +6,11 @@ edited value, edited comments, removed keys and sections, and new keys or sectio
 
 from __future__ import annotations
 
+from ._blocks import first_block_ends, moved_keys
 from ._config import Config
-from ._dump import line, protect_bom, render, section_lines
-from ._entry import Entry
+from ._dump import line, protect_bom, section_lines
 from ._layout import HeaderItem, KeyItem, Layout, RawLine
+from ._stored import render
 
 
 class _Writer:
@@ -18,6 +19,7 @@ class _Writer:
         self.layout = layout
         self.out: list[RawLine] = []
         self.done_headers: set[str] = set()
+        self.moved: set[tuple[str, str]] = set()  # edits written into the first block
         self.unchanged: dict[str, bool] = {}  # one comparison per name, not per header
 
     def emit(self, text: str) -> None:
@@ -60,7 +62,7 @@ class _Writer:
             # A removed key takes its comments along; the spacing around it stays.
             self.blanks(item.lead)
             return
-        if item.shadowed:
+        if item.shadowed or (item.section, item.key) in self.moved:
             self.out.extend(item.lead)
             self.out.append(item.line)
             return
@@ -70,14 +72,15 @@ class _Writer:
             self.out.append(item.line)
         else:
             # Blanks after a bare value with ';' would become part of what LabVIEW reads.
-            suffix = "" if not entry.quoted and ";" in entry.value else item.suffix
+            suffix = "" if not entry.quoted and ";" in render(entry) else item.suffix
             text = f"{item.prefix}{render(entry)}{suffix}"
             self.out.append(RawLine(text, item.line.eol))
 
     def new_keys(self, name: str, known: set[tuple[str, str]]) -> None:
         for key, entry in self.config.sections.get(name, {}).items():
             if (name, key) not in known:
-                for comment in entry.comments:
+                # A moved key's comments stay above its old line.
+                for comment in () if (name, key) in self.moved else entry.comments:
                     self.emit(comment)
                 self.emit(line(key, entry))
 
@@ -88,47 +91,13 @@ class _Writer:
             self.emit(text)
 
 
-def kept_keys(config: Config, layout: Layout) -> set[tuple[str, str]]:
-    """Return the keys whose source line a lossless dump copies unchanged."""
-    kept: set[tuple[str, str]] = set()
-    sections = config.sections if isinstance(config.sections, dict) else {}
-    for item in layout.items:
-        if isinstance(item, KeyItem) and not item.shadowed:
-            entries = sections.get(item.section)
-            entry = entries.get(item.key) if isinstance(entries, dict) else None
-            if not isinstance(entry, Entry):
-                continue
-            if (entry.value, entry.quoted) == (item.entry.value, item.entry.quoted):
-                kept.add((item.section, item.key))
-    return kept
-
-
-def _first_block_ends(layout: Layout) -> dict[str, int]:
-    """Map each section to the index of the last item of its first block.
-
-    LabVIEW reads only the first block of a repeated section, so new keys go there.
-    """
-    last: dict[str, int] = {}
-    closed: set[str] = set()
-    current = ""
-    for index, item in enumerate(layout.items):
-        if isinstance(item, HeaderItem):
-            if current in last:
-                closed.add(current)
-            current = item.name
-            if current in closed:
-                continue
-        elif item.section in closed:
-            continue
-        last[current] = index
-    return last
-
-
 def write_lossless(config: Config, layout: Layout) -> str:
     """Render ``config`` over ``layout``, rewriting only what changed since parsing."""
     writer = _Writer(config, layout)
+    writer.moved = moved_keys(config, layout)
     known = {(i.section, i.key) for i in layout.items if isinstance(i, KeyItem)}
-    last = _first_block_ends(layout)
+    known -= writer.moved
+    last = first_block_ends(layout)
     if "" in config.sections and "" not in last:
         writer.new_section("")
     elif (config.header_comments.get("") or config.sections.get("") == {}) and not any(

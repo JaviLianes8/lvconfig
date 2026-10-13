@@ -1,0 +1,3026 @@
+{
+ "strings": [
+  {
+   "file": "[S]\r\n\u00c9=1\r\n\u00e9=2\r\n",
+   "section": "S",
+   "key": "\u00e9",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n\u00c9=1\r\n\u00e9=2\r\n",
+   "section": "S",
+   "key": "\u00c9",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n\u00c9=1\r\n",
+   "section": "S",
+   "key": "\u00e9",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[\u00c9]\r\nk=1\r\n[\u00e9]\r\nk=2\r\n",
+   "section": "\u00e9",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n\u00c0=1\r\n",
+   "section": "S",
+   "key": "\u00e0",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n\u00d8=1\r\n",
+   "section": "S",
+   "key": "\u00f8",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nss=1\r\n",
+   "section": "S",
+   "key": "\u00df",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n\u00de=1\r\n",
+   "section": "S",
+   "key": "\u00fe",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[T]z=1\r\nk=2\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "2",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[T]z=1\r\nk=2\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[T]z=1\r\nk=2\r\n",
+   "section": "S",
+   "key": "[T]z",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[T] x=y\r\nk=2\r\n[T]\r\nk=3\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "2",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[x = \"a]\"\r\nk=2\r\n",
+   "section": "x = \"a",
+   "key": "k",
+   "value": "2",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[x = \"a]\"\r\nk=2\r\n",
+   "section": "S",
+   "key": "[x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[x = \"a]\"\r\nk=2\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[S = 1\r\n",
+   "section": "S",
+   "key": "[S",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk=0\r\n[T\r\nk=2\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "0",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[T\r\nj=2\r\n",
+   "section": "S",
+   "key": "j",
+   "value": "2",
+   "found": true
+  },
+  {
+   "file": "  [T]\r\nk=1\r\n[T]\r\nk=2\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "2",
+   "found": true
+  },
+  {
+   "file": "\t[T]\r\nk=1\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n  [T]\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n  [T]\r\nk=1\r\n",
+   "section": "S",
+   "key": "[T]",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "\u00ef\u00bb\u00bf[T]\r\nk=1\r\n[T]\r\nk=2\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "2",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk=\u00c3\u00a9\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\u00c3\u00a9",
+   "found": true
+  },
+  {
+   "file": "[S ]\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[\tS]\r\nk=1\r\n",
+   "section": "\tS",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a;b\" ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"a;b\" ; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\" ; \"b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\" ; \"b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"abc'\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"abc'",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = 'abc\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "'abc\"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a;b\";c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"a;b\";c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = 'a;b' ;c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "'a;b' ;c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"x\" ;\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"x\";",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \";\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": ";",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \" ; \"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": " ; ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \";\" ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\";\" ; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\" ;\"b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\" ;\"b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \" a ; b \"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": " a ; b ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\"b\"c\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\"b\"c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\\09;b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\t;b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a ; \"b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a; \"b\"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"\" ; \"\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\" ; \"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"\\\\\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\\",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"a\\\"b\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\\"b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = '\"'\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"'\"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "'",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \"\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \" \r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\"",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\3Bb\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\3Bb",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\1F\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\u001f",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\20b\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\20b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\1Gb\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\1Gb",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\\\\09b\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\\09b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \\09\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\t",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = \\09 ; x\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\t; x",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = x \\09; y\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "x \t; y",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a;b;c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a;b;c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk =   a  ;  \r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a;  ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\t;\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a;",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = ;\r\n",
+   "section": "S",
+   "key": "k",
+   "value": ";",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk =  ; \r\n",
+   "section": "S",
+   "key": "k",
+   "value": "; ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = #a\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "#a",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a # b ; c\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a # b; c",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n=v\r\n",
+   "section": "S",
+   "key": "",
+   "value": "v",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n = v\r\nk=1\r\n",
+   "section": "S",
+   "key": "",
+   "value": "v",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n\"a=b\"=1\r\n",
+   "section": "S",
+   "key": "\"a",
+   "value": "b\"=1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n=\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[T]\r\n[s]\r\nk=1\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk=1\r\n[s]\r\nk=2\r\n",
+   "section": "s",
+   "key": "k",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\na\tb=1\r\n",
+   "section": "S",
+   "key": "a\tb",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nk = a\u0000b\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "a\u0000b",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n x=  /C/x-5  \r\nk =\t\"\"1\"  \r\nX =\t\t-5\t2,5\\0a \r\na b = \\ ;\r\n s\t=\t; x  \r\n",
+   "section": "\u00e9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\ns= \"\\2,5\"  \r\nT =   \"\"\r\nx =\t\"  \"\t; x \t\r\n",
+   "section": "\u00e9",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n \u00e9 =   \\0a\\0a\\09# \r\ns=]\"  \r\n  [T]\r\n  [\u00e9]\r\n LVMode=\"\\\\abc#\" \r\n",
+   "section": "\u00e9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nk\t=\"]]\"  \r\n K\t=\t'[\u00e9a b'\t\r\nS =\t  x;y#\\  # h\t\r\n",
+   "section": "\u00c9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[a b]\r\n X =\t[\u00e9x;y/C/x\t\r\n K\t=\t\"\"\r\n",
+   "section": "\u00c9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " S =\t\t\"'\\1 ; c\r\n k\t=\t\"#\\0a\\09\" \r\n K\t=\\\t\r\n\r\n a b= ;a b\t \r\n K\t= \r\n[LVMode]\r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00e9 =\t  -5-5  \r\n# c\r\n[K]\r\n \u00c9 =\t '' \r\n;k=1\r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00c9 =\t\t\\\\\t\r\n; c\r\n S\t=  'a b\"  '\t\r\nX\t=\t\"\u00e92,5#\"\t\r\n \u00e9 =\t  ; \r\n",
+   "section": "\u00e9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T =\t /C/x[  \r\nS\t=  ;\t\r\n[S]\r\n",
+   "section": "T",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[x]\r\n",
+   "section": "\u00e9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nS\t=\t \r\n  [K]\r\n LVMode='/C/x\r\nS =\t\t'-5'  \r\n",
+   "section": "\u00e9",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nS\t=\"\"  \r\n",
+   "section": "\u00e9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n lvmode =\t ]\\\r\n k = \t  \r\n[LVMode]  \r\nLVMode =\tx;y\t\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "x\t=  \t ; c \r\nLVMode = ' abcx;yTRUE' \r\n[lvmode]\r\n a b = \\x;y  \r\n T=\"abc==;\"\r\n",
+   "section": "T",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nS=\t  \r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[K]\r\n S =\t   ;  \r\ns\t=\t\"abc;\" # h\t\r\n",
+   "section": "S",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " K =\t\t\t\r\n\u00c9 =\t\t\"\"  \r\n  [k]\r\nLVMode=  \u00e9 \t; x \r\nLVMode =   # h  \r\n a b=  \r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nT =\t  \";abc\\0a\"\r\nx = \t\"-5-5/C/xa b\"\r\n[]\r\n s\t= \"1\\09'TRUE\"\t\r\n[X]\r\n[\u00e9]  \r\n",
+   "section": "s",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n T =   \"\"  \r\n[a b]\r\n[T] ; c\r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n\r\nT =\t  \"abc\\09]\"\r\n[LVMode]\r\nlvmode =\t  \"\"TRUE'\\\\\"\r\n \u00e9=  /C/x=a b\\09\t\r\nS= a b\\\\ \r\n",
+   "section": "S",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n \u00c9=\t\r\n  [T]\r\n S =\t  ;][ \r\n[\u00c9]\r\na b =\t \"]2,5-5\\09\" ;  \r\n",
+   "section": "s",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n S\t=\r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n T =   /C/x \r\n a b =\t \u00e9]#2,5  \r\n k=  \r\n X=\t\\2,51/C/x ;\t\r\n x = a b[[ \r\n  \r\n \u00c9\t= \\\\x;y ;\t\r\n",
+   "section": "T",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00e9=\t1\r\n \u00c9=\t[  \r\nS =  x;y=\t\t\r\n[LVMode]\r\n",
+   "section": "\u00c9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[]\r\nK =\t\u00e9#= \r\n S = [ \r\nT\t=  1\\09\r\n \u00c9=\ta b2,5\\#\t\r\n[X]\r\n LVMode= \\09\\09\t; x \r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[S]\r\nx\t=\"[\\\\\"\r\nX\t= \" abc]\"  \r\ns\t= abc#\\\\\t\t; x   \r\nlvmode =\t  \r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nT=  #[x;y\t\r\n\u00e9 =\t\t x;y\t  \r\nK\t=\t; x  \r\n[S]\r\n; c\r\n[a b]\r\n",
+   "section": "T",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[k]\r\nk\t=\t= \\0a]\t\r\n LVMode\t=a bTRUE;;\t\r\nK\t=\"'\t[abc\" \r\n\u00e9= \r\n LVMode =\t'\\ -5a b'  \r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nk =    1\"\t\r\n x =\t\t \\\\\t; x \t\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nlvmode\t=\"-5\\09[\"\t\r\n LVMode=\tx;y-5TRUE\u00e9\t\r\n lvmode =\t\t  \r\n\u00e9\t=  2,5\t ; c  \r\n",
+   "section": "T",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n a b='2,5''\t\r\n K\t= \r\na b=\"2,5=[=\"  \r\n",
+   "section": "\u00c9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nS =\t\"\\\\  \r\n lvmode =\t  [\r\n",
+   "section": "S",
+   "key": "S",
+   "value": "\"\\",
+   "found": true
+  },
+  {
+   "file": "[T]\r\nlvmode\t=  \\0a ; c \r\n k=TRUEx;y \r\n\u00c9= \r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\ns= \"-5\" \r\n\r\nLVMode =\t\r\n LVMode =\t\\0a;x;y \r\n",
+   "section": "T",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00c9 =\t  \t\r\n K =\t\"\"  \r\n[X]\r\n k =   /C/xabc ;\r\n k =\t\t2,5\t \r\na b =\t\t  \r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " a b\t=\tx;y'\t  \r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\u00e9\t=\t\t\r\n  [LVMode]\r\n x =\t  \";\"abc\" \r\n[x]\r\n lvmode = ;;\\09\" \r\nlvmode =\t\t\\\\]\r\n",
+   "section": "S",
+   "key": "\u00c9",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "[T]\r\nX=  \"\\\\\\\u00e9[\"\r\n S=\t  \r\nT\t=\t\"  '\"  \r\n  []\r\n  \r\n",
+   "section": "\u00e9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n T=  2,5;\u00e9\r\n",
+   "section": "T",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[X]\r\nk=\t\r\n s\t='\r\n x=  \\\\ \r\n k =  #\"\\0a\" ; c\t\r\n a b =\t\t\\\\abc\\=\r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n lvmode =  ; c \r\n# c\r\n \u00e9=\t'a b'' ;  \r\n[\u00e9]\r\n X\t=\t\r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00c9 =\t 1  \r\n",
+   "section": "S",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n s =\t #-5\t\r\nlvmode\t=\" \r\n  \r\na b =   ='] ; c\t\r\n[S]\r\n[\u00c9]\r\ns\t== # h  \r\n",
+   "section": "T",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\ns =\t\t-5\u00e9]  \r\nS\t=  #x;yTRUE\r\n\u00c9\t=  /C/x'1 \r\nLVMode\t=  =\\09\r\ns= \t\r\nlvmode=\t  \r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nK= a b-5#\t\r\n[\u00e9]\r\n T=\t\t; x \r\n\u00c9\t= \\0a\r\n",
+   "section": "S",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n# c\r\nX=\t\"\"\r\n s\t=  \r\nK\t=  -5\\0a\t; x   \r\n[x]  \r\n T\t=\t\t\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nX = \t]\r\n T =  x;y ; c  \r\nLVMode\t=  \u00e9 \r\nS =\t\t# ;\t\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " a b=  \\  \r\n[T]\r\ns=TRUE\\09\t\r\n[x]\r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\u00e9=    \r\n X\t=\t\\\\\u00e9\t\r\n s =  ]\\0a#\u00e9\t\r\nK =   abc\t\r\nT =   \r\nS\t= \"\u00e9-5\"\r\n\r\n",
+   "section": "T",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00c9=\t   \r\n[X]\r\n[S]\r\nT\t=\r\nS\t= '\\09]['  \r\n",
+   "section": "\u00c9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n\u00c9 =\t ''\t\r\n \u00c9=#-5\"\\09 \r\n[\u00e9]\r\n[x]\r\n[lvmode]\r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nk =\t\t/C/x[\\\\\u00e9  \r\n\u00e9 =\t \\' \r\nLVMode=']abc'\r\n a b = \t\r\n x =\t \"\"1\" \r\n S\t=\"1\"  \r\n X =   '\\' ;\t\r\n",
+   "section": "S",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nT=\t=\u00e9 ;\t\r\n[]\r\n",
+   "section": "S",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00c9 =\t \t; x \r\n \u00e9 =  ]#\t=\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n lvmode =\t\"\"\r\n\u00c9=  ''  \r\n[lvmode]z=1\r\n",
+   "section": "T",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[]\r\n  ; k=1\r\na b\t=\t= ;  \r\n T =  ''\r\n[a b]\r\nLVMode\t=\t'\\\r\n",
+   "section": "T",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "\u00e9\t=\t\\0a [=\t\r\n s =\t =\r\n LVMode =\t\"TRUE\\09\" ; \r\n X=[\u00e9'\t\r\na b =\t\"-5\"  \r\n \u00c9= '\u00e9a b' # h\t\r\n\u00e9= ;'\\09\r\n",
+   "section": "\u00e9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n# c\r\nT =   -5x;y\t\r\n\u00c9 =\t  a b[  \r\n",
+   "section": "\u00c9",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[x]\r\n k=\t'TRUE\\09]\\' ;  \r\na b =\t\t\"]x;y1\"\t\r\n[\u00c9]  \r\nLVMode\t=\"1\" \r\n[\u00c9]\r\nS =  -5TRUE\t\r\n",
+   "section": "s",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n  []\r\n[K] ; c\r\n\u00e9=\"\" ;\r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00c9 =\t\t\r\n[K]\r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[\u00c9]\r\n",
+   "section": "\u00c9",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n k= 1/C/x-5  \r\n\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00c9 =\t\"\\\\;/C/x-5\" # h\r\n x=\" ] ; \r\n \u00c9 = ;  \r\n lvmode =\t\"\u00e9=\"#\"  \r\n",
+   "section": "S",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk =\t ; # h\r\nlvmode=\t[ # h\t\r\n",
+   "section": "T",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n a b =   \r\n x =\t\t\r\n a b\t=  \"#\\\\TRUE]\"\t\r\n[X]\r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K = \r\n",
+   "section": "s",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n  ; k=1\r\n[k]\r\n T = \t\"x;y1\" ; c  \r\n[k]  \r\n\u00c9=   \r\nK=  \t\r\n",
+   "section": "T",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n  \r\n k=\t'  \r\n \u00e9=\t#x;ya b\r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "X=  \"]\u00e9\"\r\nLVMode =\t  \"\\\\/C/x]\"  \r\n \u00c9 =\t 1-5\\0a\r\n LVMode =\t  1\\0a  \r\n X =\t'TRUE\\a b';c \r\n LVMode=\t\\09 \r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nLVMode\t=\t; ;\t\r\n a b =\t\t\\;c\t\r\n lvmode =\t ; c \r\nK =   \"\t\u00e9/C/x\\\\\" \r\na b\t= 1\t \r\n LVMode\t= a b'\r\nX=\tTRUETRUE/C/x\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "\t\u00e9/C/x\\",
+   "found": true
+  },
+  {
+   "file": "[T]\r\nk = \t\";\"\t\r\n \u00c9=  \"/C/x\"\t\r\nK = '\\/C/x1\t\r\n x=\t\\\\\\0a2,5abc\r\n lvmode=\t\\/C/xabc\t # h\r\n \u00c9 =\t \t\r\n\u00e9 = \t\\09/C/xabc \r\n",
+   "section": "\u00e9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n k =   \\0a/C/x; \r\n \u00c9 =     \r\n S = \t;# \r\ns=\r\n",
+   "section": "S",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n k =\ta babc \r\n[lvmode]\r\nX=TRUE\\\r\n T=\tTRUE\r\nT =\t \\0a=\u00e9  \r\n[\u00e9]\r\nS =\t    \r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "X =\t1-5\t; x \r\nS=    \r\n  [\u00e9]\r\n[k]\r\n x\t= /C/x \r\n S=\t=  \r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n\r\na b =   \"\"\r\n[\u00c9]\r\n\r\na b= \"#\"\t\r\n",
+   "section": "S",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n lvmode\t=\t\"\\]\\09]\";c\t\r\n# c\r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk =   abc=  \r\na b =\t2,5 # h \r\n",
+   "section": "\u00c9",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nx= TRUE\"\t\r\n[]\r\nLVMode =\t\"#\" \r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n s\t=\t1' \r\n k =  x;yabc # h\t\r\nT\t= ''  \r\n;k=1\r\n",
+   "section": "\u00e9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n\u00c9 =   \\\\\\\\ ;c\r\n\u00e9=\t'\\x;y[abc' \r\n  [lvmode]\r\n x\t= \"2,5\\0a\"\t\r\n T = \ta b\\=\t\r\n S= \\\\TRUE\r\nX =   \" '\t\" ; c\r\n",
+   "section": "s",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n x\t=  =;c\r\n s = \t1-51-5 \r\n",
+   "section": "S",
+   "key": "s",
+   "value": "1-51-5",
+   "found": true
+  },
+  {
+   "file": "[s]\r\n S\t=  -5;c  \r\n X=\\\\-5\r\n[T]\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "-5;c  ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nlvmode=]TRUE\r\nS = \t]'  \r\nS =   \r\n S = \t\"\u00e9\"  \r\n",
+   "section": "s",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "k\t=\t'-5'\t\r\nK = \t'/C/x[\\09'\r\n lvmode=abc\u00e9\t\r\n X =\t   \r\n X\t=  \r\nk=  \\0a\t\"  \r\na b=\"\u00e9x;y \"  \r\n",
+   "section": "s",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[K]\r\n\u00e9=\tTRUE\\\\\\ ; c \r\n[]\r\n K =  \\0a\\\\'\u00e9  \r\n",
+   "section": "s",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n\r\ns\t= \"abc1\"\r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nLVMode=\t-5\"\t; x   \r\n K\t=  \r\n[a b]\r\n\u00c9 =   \r\n\u00e9= ; c \r\n",
+   "section": "s",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n LVMode\t= \r\n  [a b]\r\n\u00e9\t= \"\t\r\n[T]\r\n",
+   "section": "\u00e9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T= ''\t; x  \r\ns\t=\t ; c\r\n LVMode=\t[\\'\\0a\t; x \r\n \u00e9 = a b;']  \r\n# c\r\n  [lvmode]\r\n \u00e9 = \tabc/C/x;c\t\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "[\\'\\0a; x ",
+   "found": true
+  },
+  {
+   "file": "[s]\r\nT=]abc # h\t\r\n k =   \r\n",
+   "section": "S",
+   "key": "K",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "[T]\r\ns =\t\t#x;y\\\\\\\\ ; c  \r\ns =  \t\r\n S =  ; c\t\r\n x =\t-5 # h  \r\nx= \"\r\n[LVMode]z=1\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " lvmode =\t\t ; \r\n s\t=\t]2,5]1\t\r\n[X]\r\n[s]\r\n T = \t##\\09\t; x \t\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n x = \t\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "K= \"2,5\" \r\n",
+   "section": "\u00e9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n  [T]\r\n S =  /C/x\t2,5]\t\r\n \u00c9=\t\u00e9\\09\t\r\n[lvmode]\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nX = a ba b\" \r\n[K]\r\nX =  \"\"  \r\n[LVMode] ; c\r\nK=\t/C/x\\\\0a  \r\n[K]z=1\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n a b\t=\t\t\r\nX\t=\t\"\"\r\n lvmode=\t/C/x # h\t\r\n[X]\r\n",
+   "section": "\u00e9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "a b=\"abc#\t\"\r\nx =\t\t[;\\\r\n \u00e9\t=]\u00e9 \r\n lvmode =\t  \"TRUE;\"\"\" \r\n LVMode =\t\"\\0ax;y= ; \r\n\u00c9 =\t' -5abc'\r\ns=\t\"]\u00e9\"\t\r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n S =\t\\092,5]\t\r\n K\t=\t\t\r\n\r\n X =   a b\\ \r\nK=\t\t\"\t; x \r\n",
+   "section": "s",
+   "key": "S",
+   "value": "\t2,5]",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nx\t=  ;c \r\nLVMode =\t  \\\\''\t\r\n a b =\t \";=a bx;y\"\t\r\n",
+   "section": "S",
+   "key": "a b",
+   "value": ";=a bx;y",
+   "found": true
+  },
+  {
+   "file": "[s]\r\n \u00e9 =\t '\"a b=' # h\r\n x\t=\"\\09;\tTRUE\" \r\n K = \"\\09\" ; \r\n",
+   "section": "s",
+   "key": "k",
+   "value": "\"\t\"; ",
+   "found": true
+  },
+  {
+   "file": " lvmode\t=  \u00e9abc\r\n s=-5/C/x # h  \r\nk = \t\"\\09\\2,5\" \r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[LVMode] ; c\r\n \u00c9=2,5  \r\nS=abc\r\n[T]\r\n \u00e9 = ]TRUE\\\\\\\t\r\n  [K]\r\n",
+   "section": "s",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T =   =x;y\r\n; c\r\nS=  abc'a b\t; x \r\n",
+   "section": "T",
+   "key": "T",
+   "value": "=x;y",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[S]  \r\nS=  \r\nk =   \\TRUE ;\t\r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n S\t=a b=#  \r\nx= abc \r\n\u00e9= \"2,5\r\n[X]\r\nk =\t  ;\t\r\nk =   \"\\\\##\"\t; x \r\n",
+   "section": "\u00e9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[lvmode]\r\n",
+   "section": "s",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nT=  a b\\09\t\r\ns=\t#\\\t\r\nx\t==abc ; c\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n x =\t 1\\09abc\t ;  \r\n a b= [a b  \r\nx =\t  ;1\t]  \r\n K=\\\tabc-5  \r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "[a b",
+   "found": true
+  },
+  {
+   "file": "[T]\r\n[a b]\r\na b\t='';c  \r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n lvmode =\t'a b\"TRUE1'\r\n lvmode=\t#\u00e9TRUEx;y  \r\n",
+   "section": "T",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n \u00e9 =\t\t\\ x;y2,5 \r\n[X]\r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n X =\t  \u00e9;a babc;c \r\n x\t=  \t\r\n\u00e9 =  [\\\\=-5\t\r\nk=  TRUE;c\r\n \u00c9\t=\t\";=\" \r\n K\t=   \r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nS = \t\"[\"  \r\n[\u00c9]  \r\n LVMode\t= \"\\\\\t;\t\"\t\r\nK=  \"x;y  ; c\r\n",
+   "section": "S",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K=  ]]\\09;c \r\n[\u00c9]\r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n k = \t\"a b\\\\=\";c\t\r\n lvmode =\t  \\ \r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[\u00c9]\r\n x =\t x;y\u00e9\u00e9TRUE \r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[k]\r\n s\t=x;y  \r\n lvmode =   \"TRUE;;\r\n[a b]\r\n",
+   "section": "S",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nk\t=\t\t \r\nLVMode =\t '\\\\\t;'\t\r\nLVMode =  ; c  \r\n lvmode\t=[ \r\nLVMode= a b]  \r\n",
+   "section": "T",
+   "key": "k",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "[T]\r\n \u00e9=\"/C/x[\"-5\" ; c  \r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "\u00e9= abc#1 \r\nT =\t  \"\"\t; x \r\n k\t= =2,5\r\n T = 1\r\n k\t=\t''\r\na b =\t \t\r\n[a b]\r\n",
+   "section": "T",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nLVMode\t=  x;y#] \r\n[a b]\r\na b=/C/x[\\0a;c \r\n[k]\r\n",
+   "section": "\u00e9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n s =\t\tx;y;\"2,5\t\r\nLVMode= \"/C/x\" \r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\ns\t=\t'' ; c  \r\n \u00c9\t= \"\" \r\n\u00e9\t=\t\r\n T =  a b]=\\0a\t\r\nX=\t\"TRUE\" \r\nX\t= ]#;  \r\n K\t=\\x;y/C/x-5 \r\n",
+   "section": "\u00c9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "  ; k=1\r\nx\t=\"x;y[TRUE\"\t\r\nLVMode=  \"/C/xabc\r\n[\u00e9]\r\nX =   \r\nS =\t\t\\\\ \r\n",
+   "section": "\u00e9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n k\t=\t;\u00e9\r\ns =   \"#\\0a\";c\r\n s =\t  \"-5=\\09 \"\t\r\n K\t=\t\"  \r\nx\t=\t\"\t[\" ;\t\r\n",
+   "section": "T",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n a b= \"\\\\TRUE;\"  \r\nK =  \r\nlvmode = \\\\x;y\t; x  \r\n \u00e9\t=\ta b\\\\\u00e91 \r\nT = ''  \r\n X = \t/C/x \r\n",
+   "section": "s",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n s\t=  \"'/C/x2,5;\"\t\r\n[a b]\r\nk =   \"\\\"  \r\nlvmode\t=  '\\\\ ; c  \r\n  \r\n X\t=\"#\\-5\" \r\nT=  -5\u00e9  \r\n",
+   "section": "T",
+   "key": "s",
+   "value": "'/C/x2,5;",
+   "found": true
+  },
+  {
+   "file": "[s]\r\n[] ; c\r\n\u00e9 =   =#\t \r\nlvmode\t=\\\t\\09\\ \r\n LVMode= #= ; \r\n s =   #\\0a\t[\t\r\n",
+   "section": "T",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\ns=\t;1\\ ; c  \r\n",
+   "section": "S",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "X =\ta b\\0a\\\\1  \r\n[K]\r\n\u00c9 = '\u00e92,5'\t\r\n[LVMode]\r\nlvmode =\t [  # h\t\r\n[S]  \r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nX\t=\"\\\\\\'\"\r\n s\t=  [\\0a\r\n \u00e9= \\09\"\\09=  \r\n k=  \r\nS\t=\t\\\\  \r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[lvmode]\r\n \u00e9 =  \"\" \r\n[k]\r\n\u00c9\t=\t\t; x  \r\nX =   \r\n  \r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n  ; k=1\r\n  [X]\r\nLVMode\t= \\\\x;y ; \r\n",
+   "section": "s",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\u00e9 =\t\t\"\\09\"\t; x \r\nT= 'x;y' \r\nk\t=\t\\09[\r\ns = \"abc\\\"\t\r\n[T]\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n\u00e9=\\x;y\u00e9TRUE ;\t\r\n S =\t\"\" \r\n",
+   "section": "\u00e9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " X\t=  \r\n",
+   "section": "\u00c9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "k =\t   \r\n \u00e9 = \t[abc\\\\   \r\nS =\t \\\\/C/x  \r\n lvmode=    \r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n k\t= x;yx;yx;y  \r\n[a b] ; c\r\n S =   \\09x;y\t\r\n s=  #=\t-5 \r\nx\t=\t\u00e9 \r\n",
+   "section": "T",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n K =  \\\t; x \t\r\nK =\t \t; x   \r\n \u00c9=\\09\\09\ta b\r\nLVMode =\t /C/x\\09 \r\n lvmode =\t \t\\\\ \r\ns\t=\"\";c \r\nlvmode\t= 2,5\\ # h \r\n",
+   "section": "T",
+   "key": "s",
+   "value": "\"\";c ",
+   "found": true
+  },
+  {
+   "file": "[S]\r\nx\t='1TRUE#' ; c\r\n lvmode = \tabc  \r\n[s]\r\n s=\t  \r\n[a b]\r\n LVMode=   \r\n",
+   "section": "\u00c9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n a b =   \" ] \" \r\nS\t=;\\1 \r\nk =   \t\u00e9 ;\r\n \u00c9 =\t\t\"\" ; c \r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[k]\r\nT = \" a b=[\" # h  \r\ns = \t  \r\n",
+   "section": "T",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "  [T]\r\n X = \t\"TRUEabc1\t\" \r\nk =\t \\0a \r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[x]\r\n[X]\r\n  [a b]\r\n[X]\r\n",
+   "section": "\u00c9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n X =\t\t' \r\nT = \t\"'\\09\\09;\"\r\n S = \t1\r\ns=]abc\\\\ \r\nT= \\]x;y\t\r\n k = \t[/C/x\r\n",
+   "section": "s",
+   "key": "s",
+   "value": "1",
+   "found": true
+  },
+  {
+   "file": "[T]\r\n a b= \r\n  \r\n K\t=\"; \"#\"\r\n lvmode\t=\\\\;\\0a] ; c\t\r\n k =   \r\n[T]\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "\\;\\0a] ; c\t",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[LVMode]\r\n T =\t\t[ \r\n[x]\r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T\t=\\09\r\n s = 'TRUE\"=\t; x   \r\n[LVMode]\r\n",
+   "section": "\u00e9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n x\t= \"\"\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nS =\t \"\";c\r\n[LVMode]\r\n T =\t #  \r\n a b=   \r\n X=   ; \r\n s =\t\"  ' \" \r\nT\t= 'x;yx;y\t\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "x =\t  \";\\'\"\r\n[LVMode] ; c\r\n k==\t\r\n\u00c9\t=\t\"\" # h\r\n\u00c9=\t[\t \r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n k\t=  \r\n x=  ;c\t\r\n[X]\r\n[\u00c9]\r\nX= \"'\"\"abc\"\t\r\n",
+   "section": "S",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nK\t=1\r\n S =  \"\" \r\n[s]\r\n a b\t=  \"\t\" \r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K = =TRUE2,5\\09\t\r\n",
+   "section": "s",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n LVMode = \"]   \r\n",
+   "section": "s",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00e9= \"x;y\\\\\\09\" \r\n T=\t=1\r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nX = \ta b\\09\t; x  \r\n[K]  \r\n a b = '\"''-5'\t\r\nK\t=  TRUEx;y' ;  \r\n LVMode=\t[\\\\\r\n[T]  \r\n",
+   "section": "s",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "a b='/C/x\\\\ \u00e9'\r\n[LVMode]\r\n S=\t\\ \r\nlvmode =\t  -5  \r\n[lvmode]  \r\n X =\t\t\t\r\n",
+   "section": "T",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[s]\r\n K =\t  \\\\  \r\nT =   [a b\" # h\t\r\nT =   \"/C/x/C/x[\u00e9\"\r\n",
+   "section": "S",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nS\t=\t\\0a \r\nk=  '\\0a\"' \r\nK\t=\t\"#'\"\t\r\n",
+   "section": "\u00e9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk=\"a b\\\\abc\"\r\n[K]\r\n k=\t  \r\nX\t= [\u00e9[-5 \r\nS =   \u00e9TRUE\t\r\nX=\\0a]\u00e9  \r\n  ; k=1\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "T=\\\r\nk\t=\t'\"'\r\nlvmode=  ;c  \r\ns=  /C/x  \r\n",
+   "section": "s",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\na b =\t\\[\\\r\nX =  \r\n LVMode=  ]\t; x \t\r\n[x]\r\n; c\r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n k\t=\"'\\0a-5=\" \r\n K =   '\r\n k=  \\0a\t\r\n[S]\r\n lvmode =\t[]\\  \r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " S =   \" ; c\t\r\n s = \t\"-5\t/C/x/C/x\" \r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nS=   \r\n",
+   "section": "\u00e9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n S\t=/C/x[abc;  \r\nS =\t\t\"-5 \r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " x =\t \"\"\r\n LVMode\t= \" 1x;y#\" \r\n \u00c9 =   x;y= ;\t\r\nx= \t \r\n a b =\t \"\"\r\n S =\t a b1abc  \r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n K\t=  '\r\n X= abc# ;\r\n",
+   "section": "S",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nlvmode\t=  1\\\\\t;\r\n\u00c9 =  \"\r\n[a b]\r\n  [\u00c9]\r\n LVMode=  TRUE\r\n[LVMode]\r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " T =\t  \u00e9\\ \\\\\t\r\n[x]\r\n\u00c9 =\t \r\n",
+   "section": "S",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n K\t= \\09a b\t\r\n k\t=\t'\t\\09\t\r\nlvmode=\tx;y # h \r\n a b\t=TRUE\\09#\\\\\r\nX =  \"]\"\r\n",
+   "section": "s",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[\u00c9] ; c\r\n K=\tx;y \r\n S =\t\t;TRUE1[ \r\n",
+   "section": "\u00e9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nX =\t\\0aabc[ \r\nT = \t # h  \r\nS = \t\"\\09abc\" \r\n",
+   "section": "s",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n x =\t-5/C/x[\u00e9\t\r\n \u00e9 =  = ;  \r\nx=2,5-5  \r\n a b\t=\t=\\091\r\n k\t=\t/C/x#;  \r\n",
+   "section": "S",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n  [S]\r\nK =\t   \r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\u00e9 =\t\t\r\n",
+   "section": "T",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[X]\r\nS =  \";2,5x;y\"  \r\n LVMode =\t\t\"\\0a\r\nLVMode\t=  ]\\\\   \r\nK= \\09\\\\\u00e9\r\n",
+   "section": "S",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\na b =  \"\\0a\"\t\r\nlvmode\t= \"[[\"\t; x \t\r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nlvmode =   -512,5\\0a ; c  \r\n S=\t\r\n \u00e9=\t \t; x  \r\n",
+   "section": "s",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\u00c9 =\t  \t\" ; c\t\r\n a b =\t  \\\\\\0a\t\r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "\\\\0a",
+   "found": true
+  },
+  {
+   "file": "\u00c9 =\t\ta b \r\n LVMode = \t\t  \r\n[\u00c9]z=1\r\n",
+   "section": "S",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n lvmode =  \"'\t\r\n \u00e9\t=\t  \r\n[LVMode]\r\nS = \u00e91 # h\r\nX = \tTRUE2,5\r\nLVMode=\"\";c \r\n S=  -5#\t\r\n",
+   "section": "T",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "a b=  2,5a babcTRUE\t\r\n k\t=x;y \r\nK\t= \"\\0a;=\"  \r\n",
+   "section": "s",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T\t=\\0a  \r\n lvmode = \"\\0a\t\" ; c \r\n  [lvmode]\r\n a b =  ''\t\r\n x =  \\] \r\n lvmode = \t#] \r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n \u00e9 =\t  x;y\\0a \r\n[x]\r\n a b\t= \\\\  \r\nX= # # h\t\r\nS =\t ='2,5  \r\n T =\t  \r\n",
+   "section": "s",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[\u00c9]\r\nk =\t  \"\r\n[\u00e9]  \r\n",
+   "section": "T",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00c9 =  \"\\09abc\\09\";c \r\n\r\n[\u00e9]\r\n[T]\r\n[T]\r\n LVMode=  a b ; \r\n",
+   "section": "S",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\ns =  \"\" \r\nx =\t  \t\t\r\ns = \t#[ \r\na b\t= 1\t\r\n \u00c9 =   ;  \r\n lvmode =\t a b  \r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\ns= '\t';c\r\n T =    # h\r\n \u00e9 =   \"]\"2,5x;y\"\t\r\n  ; k=1\r\n",
+   "section": "T",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "lvmode=  \t\r\n x=\t\"TRUE\"\t\r\n \u00e9\t=   \r\n[lvmode]  \r\n s =  'x;y'\t; x   \r\n",
+   "section": "S",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[X]\r\n",
+   "section": "\u00e9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n X= x;y\r\nK\t= \r\n",
+   "section": "T",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nX =\t \u00e9-5  \r\ns=\\0a\u00e9 \r\n[K]\r\n  [s]\r\n",
+   "section": "S",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n a b = ]abcx;y\t\r\ns =\t\t\"\";c \r\n\u00c9=   \r\n \u00c9 =\t  ;]#  \r\n[x]\r\n; c\r\n",
+   "section": "\u00e9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n X =  -5;;x;y \r\nLVMode =\t  \r\n[lvmode]\r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "[s]\r\n[T] ; c\r\nT=\"'a b\" ; c \r\n S=abca b\t\r\n;k=1\r\nT\t= \u00e9\\\\TRUE  \r\n K =\t12,5\\09 # h \r\n",
+   "section": "s",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "X\t= \t/C/x ; c\r\n[LVMode]\r\n T=  \\09 ;c\t\r\n",
+   "section": "S",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n T\t=  '2,5[='\t\r\n\u00e9 =   \r\n lvmode\t=\"\" ; \r\n s =\t \"[\\0a ; c  \r\n",
+   "section": "s",
+   "key": "LVMode",
+   "value": "\"\"; ",
+   "found": true
+  },
+  {
+   "file": "[T]\r\nLVMode= ''\r\nS\t=\"\t\r\n S\t=\r\n[X]\r\nk =\t#] \r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n x =  \r\nLVMode=\"1\\ \"\t\r\n s = \t2,5\\09abcabc\t\r\n \u00c9=  \"\\09\t\"\"\t\r\n\u00c9=\u00e91\t\r\n[LVMode]  \r\n;k=1\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K = \"#TRUE\\\\\"\t\r\n \u00e9=\t1# \r\n s\t=   \r\n\u00e9=\"a b-5a b;\" \r\n[LVMode]\r\n LVMode = \t;TRUE\\09 # h\r\n",
+   "section": "\u00e9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " \u00e9 = [\\ ; c\r\n",
+   "section": "T",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nx= \\\\\"]\\\\  \r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nT\t=\t\"\\\\=a b[\" \r\n \u00e9 =   ; c  \r\n",
+   "section": "T",
+   "key": "\u00c9",
+   "value": "; c  ",
+   "found": true
+  },
+  {
+   "file": "[T]\r\n[a b]\r\nT =\t #\t\r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n S\t=  x;y\\0a  \r\nLVMode=\t'x;y\u00e9a b' \r\n K =\t   \r\n T =\t\t\t\r\nx =\tTRUE==-5  \r\n[s]\r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n;k=1\r\n[s]\r\n T =\t\t'1][\"'\r\n\u00c9\t=\t\t; x   \r\nk =\t 1;\r\n",
+   "section": "T",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[X]\r\n s =\t  a b  \r\n  [\u00c9]\r\n S=  ]\"a b;\t\r\ns =\t \t/C/x  \r\n lvmode =\t    \r\n",
+   "section": "\u00c9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "LVMode = \t\\\u00e9TRUE=\t\r\n T\t=\t\\0aTRUE[-5  \r\n x==;c\t\r\n[]\r\n[lvmode]\r\n s\t= \"abc\\abc\\\" # h\t\r\n",
+   "section": "S",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n\r\n x=' \\0a/C/x'  \r\nT =     \r\n lvmode\t=  1\t ; c  \r\n\u00e9 =\t abc\u00e9 \r\n",
+   "section": "s",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[LVMode]\r\n lvmode\t= \t\r\n S\t=\r\n a b=  \"x;y\" \r\nk =  #abc= ; c\r\na b =   '[]\\09\\'\r\n",
+   "section": "s",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n\u00e9=\t1# \t\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nS=TRUE ;c \r\n[S]\r\n k = \"#abc\"\\\\\"\t\r\n[lvmode]\r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[X]\r\nS =\t\t'\t[ # h  \r\n[S]\r\nS\t='x;y\u00e9  \r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n x\t=  \t; x \r\nx=  \r\n[k]\r\n x = \" \\09\"\t\r\n X =  /C/x\u00e9a b\r\n",
+   "section": "\u00c9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K\t= ;TRUE]  \r\n;k=1\r\n[]\r\nLVMode =\t'; \r\nlvmode=  \\0a ; c  \r\n[T]\r\n x\t=  \\\"\\0a\r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n# c\r\n[] ; c\r\n S =\t  =  \r\n k =\tTRUE\\0a;\t\r\n s=      \r\n S\t=  \\\\x;y\r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[X]\r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n\u00c9 = \t'' ; c  \r\n LVMode\t=  2,5'\r\n lvmode = \t\"\\\\abc\" ; c\r\na b =\t\t#-5\t\r\n\u00c9 =\t  [ \r\n\u00c9=abc]\\09\t; x  \r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[\u00c9]\r\n x\t=[\r\nLVMode=    \r\nT= '-5\\\\' ;\t\r\n[\u00c9]\r\n LVMode =   2,5TRUE\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n T='\\\\';c  \r\n[\u00c9]z=1\r\nT =\t\t\"\"\t\r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[]\r\n a b\t= \u00e9-5 \r\n k\t=\t\"\u00e9a b2,5\u00e9\" ; c\r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n k= ;c  \r\n[LVMode]\r\n K\t= \"[;\\0a\";c\t\r\n s = \t\\09\t\r\n s = \tx;y\u00e9TRUE \r\n \u00e9 =\t\t\t-5\t\r\nS =  \r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nLVMode\t= TRUE\\\\a b\t\r\n X\t=  1\\\\]\t\r\n",
+   "section": "\u00e9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nT =\t\t\\\\\t\r\n",
+   "section": "\u00e9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n X\t= \"\\0a\\\\\"  \r\nk =\t\t\"\" ; c\t\r\n \u00e9=   \r\n; c\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "\\0a\\",
+   "found": true
+  },
+  {
+   "file": "[T]\r\nT=2,5'\t\r\n s\t= \\\\ \r\n[LVMode]\r\na b = \t\"\"\r\nx =  '\u00e9\\-5'\r\nk =   \"2,5\";2,5\" \r\n k=  \r\n",
+   "section": "T",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nX\t=  x;y\t\r\n\u00e9 =  \"11=1\" ; c \r\ns = \\\\/C/x=\t\r\nS = \t2,5\\\\ \r\n[\u00c9]\r\n s =\t \"=\" \r\n",
+   "section": "\u00e9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "lvmode =\t  ;\r\n[x]\r\n",
+   "section": "T",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\ns=TRUE ; c\t\r\n \u00e9 = \t''\t \r\n S =\t 1\\09' \t\r\nK\t=  ;]-5; ; c\t\r\n\u00c9 =\t\t\t# \r\n\u00c9=abc\t/C/x;c  \r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[X]  \r\nS=\t\" ;a b/C/x\"\t\r\n x =\t\t\\\\a b/C/x;c \r\ns\t=  \"\" \r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "K\t=-5\\\\  \r\n[LVMode]\r\nS =  [-5TRUE  \r\nX\t=\t\u00e9\\[ \r\n",
+   "section": "\u00c9",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n k =\t  \\09a bx;y\t\r\n# c\r\n",
+   "section": "\u00e9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\u00e9 =\t  ''\\\\09\t; x \t\r\n K =\t\t \r\n \u00e9\t=  '2,5  \r\nx =\t\t ; c  \r\n[k]\r\n lvmode=;\\1;\t\r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[]\r\nK =   \\091a b\t\r\nx=\tabc#\t  \r\na b=\\\\';\t\r\n K\t=/C/xa bTRUE'\t\r\nlvmode =\t\t2,5[  # h\r\nLVMode\t=\tabc/C/x  \r\n",
+   "section": "s",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nT=   \r\n",
+   "section": "T",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T =\t  \\0a;   \r\nS =\t\t\u00e9 \r\nK = \t]/C/x=\t\r\n x=\t\"\\\u00e9\" ; \r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[k]  \r\n K =\tabc[\t\r\n s =\t   \r\n x\t= \\0aabc \t\r\nLVMode\t=\"\"2,5TRUE \r\n[LVMode]\r\n[a b]z=1\r\n",
+   "section": "S",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[\u00e9]\r\n[\u00e9]  \r\nlvmode =\t\t''  \r\n[x]\r\n a b = \t1 ;\t\r\n",
+   "section": "s",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[K]\r\n \u00e9 =\t/C/x\\\\1 ; c  \r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n  ; k=1\r\nK =\t\tabc\t\r\nK=  \t\r\nS =\t  \r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K = ;'TRUE \r\nX\t=\t\"\\0a=\";c \r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nX =  [\r\n k\t=  \\09[11 \r\n T=\t\"'\u00e9a b\"\t\r\n a b= 2,5;\r\n k = \t;\r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[X] ; c\r\n lvmode =\t [\\09\t1  \r\na b =\t  -5 \r\nk\t=\";1[\"  \r\na b = \t\"=/C/x\" ; c\t\r\n a b =  \r\n K=2,5  \r\n",
+   "section": "T",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[\u00c9]\r\ns\t=\t\r\n \u00c9=\t\t' # h  \r\nk=\"\\09[\"  \r\nk =\t ' ; c  \r\nLVMode=  \"/C/x\" ; c \r\n",
+   "section": "\u00c9",
+   "key": "\u00c9",
+   "value": "' # h",
+   "found": true
+  },
+  {
+   "file": "[S]\r\n[\u00e9]\r\n",
+   "section": "\u00e9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nLVMode =   \"\\0a/C/xa babc\" \r\nLVMode = \t\"  \t\"\t; x  \r\nK= abc\r\n k\t=  ; \r\na b =  \t\r\n;k=1\r\n",
+   "section": "s",
+   "key": "K",
+   "value": "abc",
+   "found": true
+  },
+  {
+   "file": "[T]\r\n K\t=\\0a\\]= \r\n T=  \"abc\\\\\"\r\n[\u00e9]\r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " K=\t[\u00e9a b] \r\n \u00e9 =\t\"/C/xTRUE=\"\t; x   \r\nX=\t1' \r\ns =\t  \"\"\r\n \u00e9 =  \"\"abc\t\"  \r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n a b\t=  \"1\u00e9\"  \r\n \u00c9=\t'=\\''\t; x \t\r\n K==TRUE \r\nS =\t'\\09'  \r\n[S]\r\n[S]\r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nS=\r\n lvmode =\t  \r\n  [\u00e9]\r\nS=  \"TRUE]\"  \r\n k = \tTRUE\\0aa b\r\n[\u00e9]\r\n X =  \r\n",
+   "section": "T",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "  [k]\r\n  [s]\r\n \u00c9 =  ;  \r\nx =\t\";[\"\" \r\n K=\"\u00e9a b\" \r\nLVMode =\t ''' ; c\r\n",
+   "section": "s",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n T=  \"\r\n X = ''\t\r\n; c\r\n",
+   "section": "S",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nLVMode\t=\t\u00e9]  \r\n\u00c9= \t\r\n\r\nK =\t\t \r\n;k=1\r\n; c\r\n",
+   "section": "\u00e9",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[\u00c9] ; c\r\n x = \t\"a b\\\\\"x;y\" \r\n S =   \"\" # h  \r\nlvmode =\t\t1=  \r\nS\t='\\\\'\r\n;k=1\r\n X=  = ;\t\r\n",
+   "section": "S",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nk =\t\\\\  \r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n;k=1\r\n[T]\r\n[a b]z=1\r\n\u00e9 = \tabc\t;\r\nk=\t\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n  [k]\r\n\r\n T\t= \"\t=2,51\"\r\n  [\u00e9]\r\nx\t=\t\"x;y\u00e9\"\t\r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nLVMode =  \t\r\nLVMode =\t  '';c\t\r\nK=-5]\\09 \r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "",
+   "found": true
+  },
+  {
+   "file": "\u00e9=-5TRUE\u00e9  \r\nx= \\0ax;y'\t\r\nlvmode=[ # h\t\r\nT\t=  '\\ \r\n",
+   "section": "s",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00c9 =\t\t'[\"' ; \r\n;k=1\r\n[K]\r\nlvmode\t= \t\r\n \u00c9 =   \"/C/x ;  \r\n; c\r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n x = a b1\\\\[ ;  \r\n \u00c9\t=     \r\n lvmode =   [1\u00e9\r\nT =\t \\09=\\\t\r\nT\t=   2,5;x;y\r\n\r\n\u00e9\t=\t-5TRUE] \r\n",
+   "section": "s",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nT =\t \\\\\"\\ \r\n\u00c9 =\t]=  \r\nLVMode\t=  \\\\  \r\n s =  2,5'\\\\ # h\r\n a b =   \\0a  \r\nX =\t 1/C/x#\t # h \r\nX =\t[\";\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n \u00c9 =   \\  \r\n[X]\r\nlvmode\t=   a b\t\r\n T=\t2,5TRUE  \r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n s =\t \"\u00e9TRUE\" \r\nk = ]\" \r\nT = \t#\r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nX=  2,51 \r\n[\u00e9]\r\n  [X]\r\n \u00c9\t=\\0a'\" \t\r\na b = \t  \r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\na b =\t \" 1\"  \r\n[]\r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\r\n  ; k=1\r\nLVMode\t=  \t\t\\\\ ; c\r\n S =  \r\n",
+   "section": "T",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " a b =\t]' \r\n s=\t\"=-5\"  \r\n X =\t\\0a-5[\t\r\n[]\r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nS =  \t]\r\n k\t=  '/C/xabcabc-5'\t\r\nT =\t\t\\\\\t; x   \r\nX = \"/C/x\" \r\n\u00e9= \r\nS =  ']'' \r\n k = \t-5=\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[a b]  \r\nX=\t'[\" \r\n a b\t=\t-5/C/x;c\t\r\n\u00e9\t= \r\nLVMode =  \u00e9  \r\n\u00c9 =\t \"\\\\\"  \r\n LVMode = \"\" ; c  \r\n",
+   "section": "\u00c9",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nK =\t  \r\n\u00c9 = \"2,51\"\r\n T = \t\t\t \r\nK =\t    \r\n",
+   "section": "s",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n LVMode\t=\t'\\\\abc\\' \r\n[T]\r\nT= #2,5[ \r\n T=\t;c\r\n\u00c9= =\t\r\n",
+   "section": "S",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n# c\r\n  \r\n[T]\r\nX =\t\t-5abc\t; x   \r\n \u00e9=  \u00e9\"\t\r\n  ; k=1\r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n S= \\0a ; c \r\nx =\t \"#'['\"\r\n\u00c9 =\t\"\"\t\r\n k =\t  abc  \r\n X =\t\t  \r\n s =\t '2,5 [' ; \r\n K\t=\t'/C/x-5#'  \r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[\u00c9] ; c\r\n# c\r\n S =\t\t1 ; \r\n[\u00e9]\r\n",
+   "section": "\u00e9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[\u00c9]\r\n[k]z=1\r\nk = \\abc=  \r\n K = \t\\\\\\\\\r\nk =\t    \u00e9\r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[X]\r\n\u00c9=   \r\na b =\t\"\"  \r\n;k=1\r\n",
+   "section": "T",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "LVMode\t= x;y\\\\TRUETRUE  \r\n x\t=\t  \r\n a b =\t\\09\\0a]\\\\ \r\n X =\t  \\\\a b   \r\n K =\t  \r\na b\t=\t\t\r\nT = =\u00e9\\TRUE\r\n",
+   "section": "S",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nT =\t\"\"\r\n  ; k=1\r\n",
+   "section": "S",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n[s] ; c\r\n\u00c9\t=\r\n[x]\r\n T=\"\"  \r\n\u00c9 = \t\"2,5#[2,5\" \r\n LVMode\t=' \r\nS =\t a b\\1\t\r\n",
+   "section": "\u00c9",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nx=  \\2,5 \r\n k=    \t\r\nlvmode =\t  '2,5] \r\n;k=1\r\n",
+   "section": "s",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\ns\t=  \tTRUE2,5\r\n",
+   "section": "T",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[X] ; c\r\n T=\\\\ \r\n k = \tx;y\\\u00e9TRUE \r\nS\t=\t  # h\r\n\r\n S\t=  ;\u00e9;c  \r\n",
+   "section": "s",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nk =    ; \r\n;k=1\r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n[LVMode]\r\n# c\r\n \u00c9 =\t\t2,5]\r\nX\t=\t\\09;\t\r\nlvmode =\t\t\\09\t\r\n T\t= ]\\0a/C/x\\ \r\n K =\t #2,5;\\09  \r\n",
+   "section": "S",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nX =   \\]\t\r\n  [\u00c9]\r\nX =\t 'TRUE\\0a'\r\n[T]z=1\r\n",
+   "section": "\u00c9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n X=  a b;-5 \r\n",
+   "section": "\u00c9",
+   "key": "T",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nlvmode =\t\t='\\\r\nT =\t  [2,5  \r\ns=\t\"x;y-5\"\t; x \t\r\n\u00c9 =\t\t'\\\\'\\0a[' ;  \r\n",
+   "section": "s",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nT =   \"#\"\r\n# c\r\nT =\t\t'\u00e9'\t\r\n\r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " k\t= \"TRUE\\0a]=\" \r\n X\t=  ;x;y\t; x  \r\n K =\t \\\\\\\\\\ ;\r\n[x]\r\nX=\"\"  \r\nX =\t\t\"[\"  \r\nT\t= 'abc'\t\r\n",
+   "section": "T",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nlvmode\t=\\\\  \r\n\u00c9 =\tx;y\\0a1a b \r\ns= \t  \r\nLVMode =\t\t\\a b\t\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nS\t=\t \r\n\u00e9=\t]\\0aa b # h \r\n",
+   "section": "s",
+   "key": "\u00e9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n s=\t'' ; c\t\r\n \u00c9 = \t\"#;\" ; c  \r\n[X]\r\n LVMode=\t[abc\\\t\r\n lvmode=\u00e92,5  \r\n \u00c9= \";-5\";c\t\r\nX=\t;\t\r\n",
+   "section": "T",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nT\t= \"\\0a\"  \r\n \u00e9\t=\t= \\0a;  \r\na b =\t  a babc#\r\n",
+   "section": "\u00e9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n S =\tabc\\09\\1 \r\n x =\t  '' \r\n \u00e9= \"\" # h  \r\n[LVMode]\r\n S=  ''\t\r\nk\t= -5\tTRUE  \r\n[s]\r\n",
+   "section": "S",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n K\t=\t\r\n[lvmode]\r\n\u00c9==]\t\r\n S=   \r\n \u00e9 =   x;yTRUE'TRUE \r\n \u00c9 =  \"\u00e9\"\" \r\n LVMode\t=  \r\n",
+   "section": "\u00c9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "K=\t\"]/C/x\" \r\n a b = \u00e9x;y\\09   \r\n \u00c9 =\t  \"==abc\u00e9\"\t\r\n[\u00c9]\r\nlvmode =\t\t\r\n",
+   "section": "T",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " K =\t  TRUE\u00e9 \r\n a b=\t1#  \r\n LVMode= '#' \r\n",
+   "section": "\u00e9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " x\t= \"\" ; c  \r\n[X]\r\n[s]\r\n",
+   "section": "s",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n lvmode\t= 1-5 # h  \r\n[x]\r\n K =\t  \ta b1\r\n[k]  \r\n[k]\r\n  [S]\r\n",
+   "section": "\u00c9",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "lvmode\t=\"\\0a#\u00e9\"\r\n X=  \"TRUE\\\t\"\t\r\n T\t=  \"\"\t\r\n",
+   "section": "\u00c9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n LVMode\t=\ta b1  \r\n LVMode = #/C/x \t; x \t\r\nS\t=\t'/C/x\u00e9\u00e9'  \r\n S\t= =\\0ax;yx;y\r\nK =    ;\r\n lvmode\t=\t\"\"\t\r\n",
+   "section": "\u00c9",
+   "key": "x",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\nLVMode\t= \"\\\\09\\0a  \r\n  [K]\r\n LVMode=\t-5\r\n# c\r\n LVMode\t= \t\r\n T =\t\t\r\n",
+   "section": "\u00c9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n T=  \\0a-5\"\t\r\n",
+   "section": "T",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\nk =\t1\t\r\n\u00e9\t=  'abc\"a b;'\t\r\n  [a b]\r\n\u00e9 =   2,5a bTRUETRUE\t\r\n[] ; c\r\n  [T]\r\n",
+   "section": "T",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n \u00c9=\"\\\"abcx;y\"\t\r\n\r\n lvmode = \"=\\0a2,5[\";c \r\n[s]\r\n",
+   "section": "\u00e9",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": " K =   #][ ; c \r\n \u00e9\t= \"\"\t\r\n[\u00e9]\r\n",
+   "section": "\u00e9",
+   "key": "a b",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "S =\t\t\"a bx;y\\09\"\t\r\n k=TRUE\\1 \r\n a b=  \\\t\r\na b\t=a babc=\t\r\n K\t=  \\\\\\0a\\\\  \r\n X\t= \"/C/x\" \r\n",
+   "section": "s",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n k =   ]\\0aabc1 ; c  \r\n",
+   "section": "s",
+   "key": "s",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n# c\r\n[X]\r\n a b\t=\t # h \r\nLVMode\t=  \"\\09\\091\t\" ; c\t\r\nX= /C/xabc  \r\n[LVMode]\r\n \u00e9\t=\t\";\\\\\"\t\r\n",
+   "section": "T",
+   "key": "k",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[\u00c9]\r\ns =\t ]TRUEabc \r\nX = \"/C/x'\\\\\"  \r\n[x]z=1\r\nlvmode= ;\t\r\n X\t= 'a bx;y\r\n; c\r\n",
+   "section": "\u00e9",
+   "key": "K",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[s]\r\n\r\nX=  abc#; ; \r\nK=\t \r\n k\t=\t\"TRUETRUE2,5\" \r\n",
+   "section": "\u00c9",
+   "key": "X",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nX = \t\\0aa b\\0a  \r\nk = \t\"\\09[=abc\"\t; x \t\r\n",
+   "section": "\u00c9",
+   "key": "lvmode",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[T]\r\n[S]\r\n \u00e9 =\t'\t '  \r\n lvmode\t=\t\r\n[a b]  \r\nlvmode = \u00e9x;y/C/x\r\n",
+   "section": "T",
+   "key": "\u00c9",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\nk=  \"]\\\\\";c\t\r\nLVMode=    \r\nS =\t #\r\ns =\t \\ \"\t\r\n \u00c9\t= \\1\u00e9 ; c  \r\n",
+   "section": "T",
+   "key": "S",
+   "value": "<absent>",
+   "found": false
+  },
+  {
+   "file": "[S]\r\n \u00e9= ;c\r\nS=  'abc'\t; x  \r\n",
+   "section": "S",
+   "key": "LVMode",
+   "value": "<absent>",
+   "found": false
+  }
+ ],
+ "bools": {
+  "TRUE\\09": null,
+  "\\09TRUE": null,
+  "TRUE\\0A": null,
+  "\"TRUE\\09\"": null,
+  "1\\09": null,
+  "\\\\TRUE": null,
+  "TRUE\\": null,
+  "yes\\00": null,
+  "\"no\" ; c": null,
+  "'on' ;c": null,
+  "TR\\55E": null,
+  "true\t": true,
+  "Y;": true,
+  "y ;": true,
+  ";TRUE": null,
+  "TRUE#c": null,
+  "TRUE x": true,
+  "1 ": true,
+  "  0;1": false
+ },
+ "paths": [
+  {
+   "stored": "\"/C/a\tb\"",
+   "native": "C:\\a\tb",
+   "error": 0
+  },
+  {
+   "stored": "\" /C/x\"",
+   "native": " \\C\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/x \"",
+   "native": "C:\\x ",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/x\" ; c",
+   "native": "\"\\C\\x\"; c",
+   "error": 0
+  },
+  {
+   "stored": "\"a/../../x\"",
+   "native": "..\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"../a/..\"",
+   "native": "..",
+   "error": 0
+  },
+  {
+   "stored": "\"x/../../..\"",
+   "native": "..\\..",
+   "error": 0
+  },
+  {
+   "stored": "\"a/C:/b\"",
+   "native": "a\\C:\\b",
+   "error": 0
+  },
+  {
+   "stored": "\":x\"",
+   "native": "C:\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"//server\\share\\x\"",
+   "native": "\\\\server\\share\\x",
+   "error": 0
+  },
+  {
+   "stored": "\"C:\\a\\..\"",
+   "native": "C:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a/...\"",
+   "native": "C:\\a\\...",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/ a\"",
+   "native": "C:\\ a",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a /b\"",
+   "native": "C:\\a \\b",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a.\"",
+   "native": "C:\\a.",
+   "error": 0
+  },
+  {
+   "stored": "\"/c\"",
+   "native": "c:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/CON\"",
+   "native": "C:\\CON",
+   "error": 0
+  },
+  {
+   "stored": "/C/x;y",
+   "native": "C:\\x;y",
+   "error": 0
+  },
+  {
+   "stored": "/C/a\\5Cb",
+   "native": "C:\\a\\5Cb",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a\\0Ab\"",
+   "native": "C:\\a\\0Ab",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a\\\\b\"",
+   "native": "C:\\a\\b",
+   "error": 0
+  },
+  {
+   "stored": "'/C/a' ; c",
+   "native": "'\\C\\a'; c",
+   "error": 0
+  },
+  {
+   "stored": "\"//server/share\"",
+   "native": "\\\\server\\share",
+   "error": 0
+  },
+  {
+   "stored": "\"//server/share/..\"",
+   "native": "\\\\server\\share",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a/b/../..\"",
+   "native": "C:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"/D\"",
+   "native": "D:\\",
+   "error": 0
+  },
+  {
+   "stored": "\"/z/q\"",
+   "native": "z:\\q",
+   "error": 0
+  },
+  {
+   "stored": "\"/C/a\\b\"",
+   "native": "C:\\a\\b",
+   "error": 0
+  }
+ ],
+ "ints": [
+  {
+   "stored": "\\091",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "1\\09",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "\"\\091\"",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "1\\0A",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "5\\00",
+   "value": 5,
+   "error": 0
+  },
+  {
+   "stored": "\\5C5",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "\\\\5",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "\"5\" ; c",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "'7' ;c",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "\t\t8",
+   "value": 8,
+   "error": 0
+  },
+  {
+   "stored": "+-1",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "1 2",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "0x",
+   "value": 0,
+   "error": 0
+  },
+  {
+   "stored": "\\0A5",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "2147483647;",
+   "value": 2147483647,
+   "error": 0
+  },
+  {
+   "stored": "-2147483648",
+   "value": -2147483648,
+   "error": 0
+  },
+  {
+   "stored": "-2147483648x",
+   "value": -2147483648,
+   "error": 0
+  },
+  {
+   "stored": "'  9'",
+   "value": 9,
+   "error": 0
+  },
+  {
+   "stored": "\"-\"",
+   "value": 45000,
+   "error": 19
+  }
+ ],
+ "rewrite": [
+  {
+   "before": "  [LabVIEW]\r\nLVMode=old\r\n[LabVIEW]\r\nLVMode=two\r\n",
+   "after": "[ [LabVIEW]\r\nLVMode = old\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  {
+   "before": "[LabVIEW]\r\n[X]\r\n[labview]\r\nLVMode=old\r\n",
+   "after": "[LabVIEW]\r\nLVMode = \"new\"\r\n\r\n[X]\r\n\r\n[labview]\r\nLVMode = old"
+  },
+  {
+   "before": "[LabVIEW]\r\nk=1\r\n[LabVIEW]z=1\r\nLVMode=old\r\n",
+   "after": "[LabVIEW]\r\nk = 1\r\nLVMode = \"new\"\r\n\r\n[LabVIEW]z=1\r\nLVMode = old"
+  },
+  {
+   "before": "\u00ef\u00bb\u00bf[LabVIEW]\r\nLVMode=bom\r\n",
+   "after": "\u00ef\u00bb\u00bf[LabVIEW]\r\nLVMode = bom\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  }
+ ]
+}

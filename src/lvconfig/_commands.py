@@ -16,7 +16,7 @@ from ._dump import dump
 from ._entry import Entry
 from ._errors import LvConfigError
 from ._io import load, save, write_text
-from ._validate import is_bare_safe
+from ._stored import reads_back
 
 # Only plain decimal spellings count as numbers, so 007, 1_000, 1e5 or nan stay text.
 _INT = re.compile(r"[+-]?(0|[1-9][0-9]*)")
@@ -85,8 +85,9 @@ def _store(config: Config, args: argparse.Namespace) -> None:
     section, key, value = args.section, args.key, args.value
     if args.type == "auto":
         old = config.sections.get(section, {}).get(key)
-        if old is not None and not old.quoted and is_bare_safe(value):
-            config.sections[section][key] = Entry(value, False, old.comments)
+        bare = Entry(value, False, old.comments if old is not None else ())
+        if old is not None and not old.quoted and reads_back(bare):
+            config.sections[section][key] = bare
         else:
             config.set(section, key, value)
     elif args.type == "path":
