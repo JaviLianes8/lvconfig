@@ -15,7 +15,27 @@ Progress:
 
 ## Scorecard
 
-SCORECARD
+| # | Item | Verdict | Evidence |
+| --- | --- | --- | --- |
+| 1 | API reviewed for stability | PASS | Same 16 names as 0.3.1; argument types checked (`TypeError`), `Config.get` overloads, `LvParseError` picklable, `python -m lvconfig`; the reading and writing rules now follow LabVIEW 2026; every change in CHANGELOG 1.0.0 and the GUIDE's upgrade section |
+| 2 | `__all__` exact | PASS | `test_contract::test_all_lists_exactly_the_public_api`; `test_docs::test_examples_import_only_public_names` |
+| 3 | Docstrings with runnable examples, doctests pass | PASS | every module doctested, every public name (exceptions included) and every `Config` method has `>>>` (`test_docs`); README and GUIDE `pycon` blocks and the `$ lvconfig` transcript executed |
+| 4 | Typed end to end | PASS | `mypy --strict src tests` clean; `py.typed` shipped; external strict consumers clean (lens a), `Config.get` with a `str` default typed `str` |
+| 5 | Typed, documented, safe errors | PASS | GUIDE error table; library messages quote at most 40 characters of input, the CLI cuts at 300 (`test_hostile*`, `test_review_contracts`) |
+| 6 | Contract asserts the full promise | PASS | about 2,700 tests: a promise test per public name, every LabVIEW capture, CLI end to end, and the contracts from three blind mutation rounds and the QA reviews |
+| 7 | Real ground truth | PASS | three LabVIEW 2026 capture runs (author inputs, then two independent reviewers' case lists, 320 seeded): 551 writes byte-identical, 1,271 string lookups, typed, path and rewrite cases; wherever both find a value it is the same value, every one-sided case listed in GUIDE and pinned by a test; the reviewers' own models of LabVIEW's rules, built from the raw captures, agree with all of them |
+| 8 | Real e2e incl. PyPI upgrade | PASS | wheel in clean venvs, suite from the sdist with `src` removed driving the installed console script, sabotaged script caught; PyPI 0.2.0 upgraded in place, every change listed in CHANGELOG |
+| 9 | Seeded fuzz, no crash, hang or blow-up | PASS | seeded tests in the suite (`test_fuzz`, scaling checks); lens c rounds totalling several million calls, 44 scaling shapes all linear, file safety under locks and interrupts |
+| 10 | Every interpreter on this PC | PASS | 3.10.22, 3.11.17, 3.12.15, 3.13.16, 3.14.6 and 3.14.8t from the installed wheel (lens d) |
+| 11 | README | PASS | `twine check --strict` PASSED; absolute links tested; problem, why (configparser claims tested), install, quick start, GUIDE and CHANGELOG links |
+| 12 | CHANGELOG dated 1.0.0 | PASS | `## [1.0.0] - 2026-10-13` with the stable surface and every behaviour change; unpublished 0.3.x marked |
+| 13 | pyproject | PASS | 1.0.0, Production/Stable, 3.10 to 3.14, MIT, Homepage/Source/Issues/Changelog, keywords, `dependencies = []` (contract-tested) |
+| 14 | sdist and wheel contents | PASS | wheel: package modules, `py.typed`, LICENSE; sdist: source, tests with the LabVIEW captures and their manifest, docs, dev files; no NI `.ini` excerpts (a planted one stayed out) |
+| 15 | Gates exit 0 alone | pending | final run on the PR head |
+| 16 | Independent reviewer | pending | |
+| 17 | PR, trace guard | pending | |
+| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 54 survivors closed by contracts, 9 equivalent, 1 superseded by a later fix |
+| 19 | Five QA lenses | pending | a, d, e PASS; b and c re-verification pending |
 
 ## Baseline on 0.3.1 (before any change)
 
