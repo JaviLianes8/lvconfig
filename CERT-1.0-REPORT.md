@@ -26,7 +26,7 @@ Progress:
 | 7 | Real ground truth | PASS | three LabVIEW 2026 capture runs (author inputs, then two independent reviewers' case lists, 320 seeded): 551 writes byte-identical, 1,271 string lookups, typed, path and rewrite cases; wherever both find a value it is the same value, every one-sided case listed in GUIDE and pinned by a test; the reviewers' own models of LabVIEW's rules, built from the raw captures, agree with all of them |
 | 8 | Real e2e incl. PyPI upgrade | PASS | wheel in clean venvs, suite from the sdist with `src` removed driving the installed console script, sabotaged script caught; PyPI 0.2.0 upgraded in place, every change listed in CHANGELOG |
 | 9 | Seeded fuzz, no crash, hang or blow-up | PASS | seeded tests in the suite (`test_fuzz`, scaling checks); lens c rounds totalling several million calls, 44 scaling shapes all linear, file safety under locks and interrupts |
-| 10 | Every interpreter on this PC | PASS | 3.10.22, 3.11.17, 3.12.15, 3.13.16, 3.14.6 and 3.14.8t from the installed wheel (lens d) |
+| 10 | Every interpreter on this PC | PASS | every minor version this PC has (3.10 to 3.14 and 3.14t) run from the installed wheel on the laptop: 3.10.22, 3.11.17, 3.12.15, 3.13.16, 3.14.6, 3.14.8t (lens d); 3.13.2 here and 3.14.2 on the second build machine (reviewer) |
 | 11 | README | PASS | `twine check --strict` PASSED; absolute links tested; problem, why (configparser claims tested), install, quick start, GUIDE and CHANGELOG links |
 | 12 | CHANGELOG dated 1.0.0 | PASS | `## [1.0.0] - 2026-10-13` with the stable surface and every behaviour change; unpublished 0.3.x marked |
 | 13 | pyproject | PASS | 1.0.0, Production/Stable, 3.10 to 3.14, MIT, Homepage/Source/Issues/Changelog, keywords, `dependencies = []` (contract-tested) |
@@ -34,8 +34,8 @@ Progress:
 | 15 | Gates exit 0 alone | pending | final run on the PR head |
 | 16 | Independent reviewer | pending | |
 | 17 | PR, trace guard | pending | |
-| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 54 survivors closed by contracts, 10 shown equivalent, 1 superseded by a later fix |
-| 19 | Five QA lenses | pending | a, d, e PASS; b and c re-verification pending |
+| 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 53 survivors closed by contracts, 10 shown equivalent, 1 superseded by a later fix; independent reviewer: 17 more, 4 survivors closed in `test_review_contracts_two.py`, 3 equivalent |
+| 19 | Five QA lenses | PASS | a, b, c, d, e all PASS after their findings were fixed and re-verified by fresh reviewers (see the lens table) |
 
 ## Baseline on 0.3.1 (before any change)
 
@@ -188,8 +188,11 @@ re-run by a new reviewer with the same lens after the fixes.
 | d | 3 | 11cd75d | PASS | all fixed |
 | e. Contract strength | 1 | 8917da2 | FAIL | 145 mutations, 29 survivors closed by `test_mutation_contracts.py` and `test_mutation_cli_contracts.py`, 4 equivalent |
 | e | 2 | 15440fe | FAIL | round 1 survivors killed but one; 68 new, 17 survivors closed by `test_mutation_contracts_two.py`, 2 equivalent |
-| e | 3 | 11cd75d | PASS with its contracts | round 2 survivors killed (W7 proven equivalent); 74 new, 8 survivors closed by `test_mutation_contracts_three.py`, 3 equivalent |
-FINAL_ROUNDS
+| e | 3 | 11cd75d | PASS with its contracts | round 2 survivors killed (W7 proven equivalent); 74 new, 7 survivors closed by `test_mutation_contracts_three.py`, 1 superseded by the lens c fix that writes a moved key's comments, 3 equivalent |
+| b | 5 | 85c2de2 | FAIL | removing a section kept a line hidden behind a blank one it no longer hid. Fixed in b090cc2 |
+| b | 6 | b090cc2 | PASS | 1,290 capture lookups: 950 the same, 0 different, every one-sided case listed; 60,000 seeded files against an independent model of LabVIEW's rules, 0 failures |
+| c | 5 | 85c2de2 | FAIL | the same removal case |
+| c | 6 | b090cc2 | PASS | about 1.1 million fuzz calls, 0 crashes; scaling linear; CLI and file safety clean |
 ## Blind mutation rounds by lens e (items 18 and 19e)
 
 Each round was designed from the source and GUIDE.md alone, run one mutation at a time on
