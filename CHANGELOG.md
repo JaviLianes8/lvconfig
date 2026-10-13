@@ -56,9 +56,10 @@ wrote and values it read back; those captures ship with the tests.
 - The library's error messages quote at most 40 characters of the offending text, and the
   command line cuts every message at 300 characters. The `KeyError` of a
   getter now reads `no key 'x' in section 'A'`.
-- `save` (and the CLI's `set`, `fmt -o` and `convert`) encode the text before opening the
-  file: an unknown encoding or a character the encoding cannot hold no longer leaves an
-  empty file behind. `load` and `save` take only a `str` or text `os.PathLike` path.
+- `save` (and the CLI's `set`, `fmt -o` and `convert`) encode the text first, write it to a
+  temporary file in the same folder and then replace the target: an unknown encoding, a
+  character the encoding cannot hold, a full disk or a locked file no longer leaves an empty
+  file behind. `load` and `save` take only a `str` or text `os.PathLike` path.
 - `Config.set` raises `LvConfigError` for an integer longer than Python turns into text, and
   `convert` keeps such a number as text.
 - `to_labview_path` and `set_path` refuse a `..` above a drive root or share, which the

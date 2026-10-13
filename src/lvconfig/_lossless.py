@@ -131,11 +131,11 @@ def write_lossless(config: Config, layout: Layout) -> str:
     last = _first_block_ends(layout)
     if "" in config.sections and "" not in last:
         writer.new_section("")
-    elif config.header_comments.get("") and not any(
+    elif (config.header_comments.get("") or config.sections.get("") == {}) and not any(
         isinstance(item, HeaderItem) and not item.name for item in layout.items
     ):
         # Comments for the unnamed section need a [] line above its keys to stay attached.
-        for comment in config.header_comments[""]:
+        for comment in config.header_comments.get("", ()):
             writer.emit(comment)
         writer.emit("[]")
         writer.done_headers.add("")

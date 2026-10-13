@@ -9,8 +9,10 @@ encoding.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import re
+import tempfile
 
 from ._check import need_str, short, type_name
 from ._config import Config
@@ -100,11 +102,21 @@ def need_path(path: object) -> StrPath:
 
 
 def write_text(path: StrPath, text: str, encoding: str) -> None:
-    """Write ``text`` to ``path``, encoding it before the file is opened.
+    """Write ``text`` to ``path`` through a temporary file in the same folder.
 
-    An unknown encoding or a character the encoding cannot hold raises before the file
-    is touched, so a failed write never leaves it truncated.
+    The text is encoded first, then written to the temporary file, which then replaces
+    the target. An encoding error, a full disk or a locked target raises with the old
+    file left as it was.
     """
     data = text.encode(encoding)
-    with open(need_path(path), "wb") as handle:
-        handle.write(data)
+    target = os.fspath(need_path(path))
+    folder = os.path.dirname(os.path.abspath(target))
+    handle, temporary = tempfile.mkstemp(prefix=".lvconfig-", suffix=".tmp", dir=folder)
+    try:
+        with os.fdopen(handle, "wb") as stream:
+            stream.write(data)
+        os.replace(temporary, target)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.remove(temporary)
+        raise

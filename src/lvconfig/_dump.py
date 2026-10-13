@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from ._check import need_bool, type_name
+from ._check import need_bool, need_str, type_name
 from ._config import Config
 from ._entry import Entry
 from ._escape import escape
@@ -50,6 +50,32 @@ def protect_bom(text: str) -> str:
     return "\ufeff" + text if text.startswith("\ufeff") else text
 
 
+def _plain(config: Config) -> Config:
+    """Copy ``config`` with every name and comment as a plain ``str``, checked as such."""
+    if not isinstance(config.sections, dict) or not isinstance(config.header_comments, dict):
+        raise TypeError("sections and header_comments must be dicts")
+    sections: dict[str, dict[str, Entry]] = {}
+    for name, entries in config.sections.items():
+        if not isinstance(entries, dict):
+            raise TypeError(f"section {type_name(name)} must map keys to entries")
+        sections[need_str("section name", name)] = {
+            need_str("key", key): entry for key, entry in entries.items()
+        }
+    headers = {
+        need_str("section name", name): _comments(comments)
+        for name, comments in config.header_comments.items()
+    }
+    copy = Config(sections, headers, _comments(config.trailing_comments))
+    copy.layout = config.layout
+    return copy
+
+
+def _comments(comments: object) -> tuple[str, ...]:
+    if not isinstance(comments, tuple):
+        raise TypeError(f"comments must be a tuple, not {type_name(comments)}")
+    return tuple(need_str("each comment", comment) for comment in comments)
+
+
 def dump(config: Config, *, normalize: bool = False) -> str:
     r"""Render ``config`` as LabVIEW configuration text.
 
@@ -88,6 +114,7 @@ def dump(config: Config, *, normalize: bool = False) -> str:
 
     if config.layout is not None and not isinstance(config.layout, Layout):
         raise TypeError(f"layout must be a Layout or None, not {type_name(config.layout)}")
+    config = _plain(config)
     if config.layout is None or normalize:
         check_config(config)
         return _canonical(config)

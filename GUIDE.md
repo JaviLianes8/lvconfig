@@ -198,7 +198,10 @@ y = "v"
 encoding="utf-8", line_ending=None)` keeps the endings a file was read with. LabVIEW writes
 in the system code page, so pass `encoding="cp1252"` (or your system's) for a file with
 text beyond ASCII. `line_ending` may force `"\r\n"`, `"\n"` or `"\r"` on every line. The text
-is rendered before the file is opened, so a refused config leaves the file untouched.
+is rendered and encoded first, written to a temporary file in the same folder, and that
+file then replaces the target; a refused config, an encoding error, a full disk or a locked
+file leaves the old file as it was. Because the file is replaced, it is a new file: links
+to the old one and its permissions are not carried over.
 
 ## Errors
 
@@ -217,7 +220,8 @@ is rendered before the file is opened, so a refused config leaves the file untou
 The library's messages quote at most 40 characters of the offending text, so a huge value
 never floods a log; the command line cuts any message, its own or Python's, at 300
 characters. `Config`'s fields are plain data: the getters assume they hold what their types say,
-and only `dump` checks them. `Config.layout` is an opaque record of the source text; keep
+and only `dump` checks them (an empty tuple in `header_comments` is written as no comments,
+and a parse records no entry for it). `Config.layout` is an opaque record of the source text; keep
 the one `parse` made, or set it to `None`.
 
 ## Where lvconfig and LabVIEW differ
@@ -229,7 +233,8 @@ test against LabVIEW's own reading:
 - Lookups. LabVIEW matches section and key names without regard to case. lvconfig reads
   a file the same way (a later `x` after `X` is a repeat, a later `[s]` is a block of
   `[S]`, and the first spelling stands), but its methods match names exactly, so
-  `get("S", "x")` finds nothing when the file spells it `X`. `dump` refuses two names that
+  `get("S", "x")` finds nothing when the file spells it `X`; the command line looks names
+  up the same way. `dump` refuses two names that
   differ only in case, because LabVIEW would see only one.
 - Hidden keys. LabVIEW sees only the first block of a repeated section and nothing before
   the first header or under `[]`. lvconfig merges every block of a section and keeps
