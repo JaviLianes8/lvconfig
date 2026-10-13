@@ -70,11 +70,15 @@ Every rule below was checked against files LabVIEW 2026 wrote and values it read
   stay as text, as LabVIEW leaves them.
 - Quoted and bare values are both unescaped; spaces and tabs around a value are trimmed,
   nothing else.
-- A repeated key reads as its first line, the one LabVIEW sees.
+- A repeated key reads as its first line, the one LabVIEW sees, and names that differ only
+  in case count as repeats. New keys go into the block of a section LabVIEW reads.
+- A `;` in a bare value starts a comment, read the way LabVIEW reads it; the typed getters
+  stop at it (`TRUE ; note` is `True`).
 - Booleans: `TRUE`, `yes`, `on`, `t`, `y`, `1` and `FALSE`, `no`, `off`, `f`, `0`, in any case.
 - Numbers: `2,5` and `2.5` both read as 2.5 (LabVIEW writes `2,500000` on a system whose
   decimal separator is a comma); `Inf`, `-Inf` and `NaN`.
-- Paths: `/C/a//b/./c/../d` reads as `C:\a\b\d`, a UNC path as `//server/share`.
+- Paths: `/C/a//b/./c/../d` reads as `C:\a\b\d`, `a/./b/../c` as `a\c`, a UNC path as
+  `//server/share`.
 - Where LabVIEW quietly reads part of a value (`12abc` as 12, `1_000` as 1) or a path that
   names another file (`/usr/lib` as `u:\sr\lib`), lvconfig raises instead of guessing.
 

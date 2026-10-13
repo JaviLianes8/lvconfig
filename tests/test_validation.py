@@ -30,7 +30,7 @@ def test_a_bracket_key_is_refused_only_when_it_would_read_as_a_header() -> None:
         dump(config)
 
 
-@pytest.mark.parametrize("value", ['"x"', "'x'", " x", "x\t", "a;b"])
+@pytest.mark.parametrize("value", ['"x"', "'x'", " x", "x\t", "a ;b", " a;b"])
 def test_dump_refuses_a_bare_value_that_would_change(value: str) -> None:
     config = Config()
     config.sections["A"] = {"k": Entry(value, quoted=False)}

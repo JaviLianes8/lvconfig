@@ -11,7 +11,7 @@ from __future__ import annotations
 from collections.abc import Set
 from typing import TYPE_CHECKING
 
-from ._check import need_str, short, type_name
+from ._check import fold, need_str, short, type_name
 from ._entry import Entry
 from ._errors import LvConfigError
 
@@ -46,11 +46,16 @@ def check_key(key: str, entry: Entry, *, bare_checked: bool = True) -> None:
 def is_bare_safe(value: str) -> bool:
     """Report whether ``value`` reads back unchanged when written without quotes.
 
-    LabVIEW trims spaces and tabs around a bare token, removes a pair of quotes around
-    it, and treats a ``;`` in it as the start of a comment, so a bare value must have
-    none of those.
+    LabVIEW trims spaces and tabs around a bare token and removes a pair of quotes
+    around it. A ``;`` starts a comment: the text before it is trimmed and the rest is
+    kept as written. So a bare value must not start with a blank, must not end with one
+    unless it holds a ``;``, must have no blank just before its first ``;``, and must not
+    be wrapped in quotes.
     """
-    if value != value.strip(_BLANKS) or ";" in value:
+    before, semicolon, _ = value.partition(";")
+    if value != value.lstrip(_BLANKS) or before != before.rstrip(_BLANKS):
+        return False
+    if not semicolon and value != value.rstrip(_BLANKS):
         return False
     return not (len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'")
 
@@ -69,6 +74,15 @@ def check_comments(comments: object) -> None:
             raise LvConfigError(f"comment {short(comment)} ends in blanks parse would trim")
 
 
+def _unique(seen: dict[str, str], name: str, what: str) -> None:
+    # LabVIEW matches names without regard to case and reads only the first of a pair.
+    other = seen.setdefault(fold(name), name)
+    if other != name:
+        raise LvConfigError(
+            f"{what} {short(other)} and {short(name)} differ only in case; LabVIEW sees one"
+        )
+
+
 def check_config(config: Config, kept: Set[tuple[str, str]] = frozenset()) -> None:
     """Run every check over ``config`` before it is written.
 
@@ -77,14 +91,18 @@ def check_config(config: Config, kept: Set[tuple[str, str]] = frozenset()) -> No
     """
     if not isinstance(config.sections, dict):
         raise TypeError(f"sections must be a dict, not {type_name(config.sections)}")
+    sections: dict[str, str] = {}
     for name, entries in config.sections.items():
         check_section(need_str("section name", name))
+        _unique(sections, name, "sections")
         if not isinstance(entries, dict):
             raise TypeError(f"section {short(name)} must map keys to entries")
+        keys: dict[str, str] = {}
         for key, entry in entries.items():
             if not isinstance(entry, Entry):
                 raise TypeError(f"entries must be Entry objects, not {type_name(entry)}")
             check_key(need_str("key", key), entry, bare_checked=(name, key) not in kept)
+            _unique(keys, key, "keys")
     if not isinstance(config.header_comments, dict):
         raise TypeError("header_comments must be a dict")
     for name, comments in config.header_comments.items():

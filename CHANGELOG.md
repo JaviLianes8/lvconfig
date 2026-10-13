@@ -23,7 +23,14 @@ wrote and values it read back; those captures ship with the tests.
   `\7F` and `\E9` stay as text.
 - Bare (unquoted) values are unescaped on read and escaped on write, as LabVIEW does.
 - A repeated key reads as its first value, the one LabVIEW reads, and an edit changes that
-  first line. 0.3 used the last value.
+  first line. 0.3 used the last value. Names that differ only in letter case are repeats too (a later
+  `x` after `X`, a later `[s]` block of `[S]`), as LabVIEW matches them, and `dump` refuses
+  two names that differ only in case. A new key of a repeated section goes into its first
+  block, the one LabVIEW reads.
+- A `;` in a bare value is read as LabVIEW reads it: the text before it trimmed, the rest
+  kept as written (`abc ; c` reads as `abc; c`). The typed getters stop at it, as LabVIEW's
+  typed Read Key VIs do, so `TRUE ; note` is `True`. Such values are written bare again
+  whenever LabVIEW would read them back unchanged.
 - Values and keys are trimmed of spaces and tabs only; other characters `str.strip`
   removes, such as `\x1f` or a no-break space, are kept, as in LabVIEW.
 - `to_bool` reads `yes`, `no`, `on`, `off`, `t`, `f` and `y` as LabVIEW does. `to_bool`,
@@ -33,14 +40,14 @@ wrote and values it read back; those captures ship with the tests.
 - `to_float` reads `,` as a decimal separator (LabVIEW writes `2,000000` on a system whose
   separator is a comma) and refuses `1_000`, `-NaN`, non-ASCII digits and blanks other than
   spaces and tabs.
-- `from_labview_path` and `get_path` resolve empty, `.` and `..` parts of a drive path as
-  LabVIEW does (`/C/a//b/../c/` is `C:\a\c`), and refuse a `..` above the drive root and a
-  UNC path stored with backslashes.
+- `from_labview_path` and `get_path` resolve empty, `.` and `..` parts as LabVIEW does, in
+  drive, UNC and relative paths alike (`/C/a//b/../c/` is `C:\a\c`, `a/./b/../c` is `a\c`),
+  treat every backslash as a separator, and refuse a `..` above a drive root or share and a
+  UNC path stored with backslashes. `get_path` resolves the stored text without decoding
+  `\XX` codes, as LabVIEW does.
 - The canonical form (`dump(config, normalize=True)`, or a config built in code) is the
   layout LabVIEW writes: `key = value` and no newline after the last line. New keys in an
   edited file are written as `key = value`.
-- A bare value holding `;` is refused by `dump`, and `set` in the command line quotes it:
-  LabVIEW reads `;` in a bare value as a comment.
 - Every public function raises `TypeError` for an argument of the wrong type, including
   `Entry` fields and `Config.set` values that are not `str`, `bool`, `int` or `float`.
   `save` raises `ValueError` for a `line_ending` other than CRLF, LF or CR.
@@ -58,7 +65,7 @@ wrote and values it read back; those captures ship with the tests.
 - A comment line must start with `;` or `#` and must not end in blanks, so it reads back as
   written. An empty unnamed section is written as `[]`. Untouched lines of a parsed file are
   copied without being checked again, so `dump(parse(text)) == text` holds for every text
-  `parse` accepts; the canonical form still refuses a bare value holding `;`.
+  `parse` accepts.
 - Section names, keys, values and comments are stored as plain `str`, whatever `str`
   subclass was passed in.
 - A name that starts with U+FEFF at the very start of the text is written after a byte

@@ -69,7 +69,9 @@ class _Writer:
         if (entry.value, entry.quoted) == (old.value, old.quoted):
             self.out.append(item.line)
         else:
-            text = f"{item.prefix}{render(entry)}{item.suffix}"
+            # Blanks after a bare value with ';' would become part of what LabVIEW reads.
+            suffix = "" if not entry.quoted and ";" in entry.value else item.suffix
+            text = f"{item.prefix}{render(entry)}{suffix}"
             self.out.append(RawLine(text, item.line.eol))
 
     def new_keys(self, name: str, known: set[tuple[str, str]]) -> None:
@@ -101,13 +103,32 @@ def kept_keys(config: Config, layout: Layout) -> set[tuple[str, str]]:
     return kept
 
 
+def _first_block_ends(layout: Layout) -> dict[str, int]:
+    """Map each section to the index of the last item of its first block.
+
+    LabVIEW reads only the first block of a repeated section, so new keys go there.
+    """
+    last: dict[str, int] = {}
+    closed: set[str] = set()
+    current = ""
+    for index, item in enumerate(layout.items):
+        if isinstance(item, HeaderItem):
+            if current in last:
+                closed.add(current)
+            current = item.name
+            if current in closed:
+                continue
+        elif item.section in closed:
+            continue
+        last[current] = index
+    return last
+
+
 def write_lossless(config: Config, layout: Layout) -> str:
     """Render ``config`` over ``layout``, rewriting only what changed since parsing."""
     writer = _Writer(config, layout)
     known = {(i.section, i.key) for i in layout.items if isinstance(i, KeyItem)}
-    last: dict[str, int] = {}
-    for index, item in enumerate(layout.items):
-        last[item.name if isinstance(item, HeaderItem) else item.section] = index
+    last = _first_block_ends(layout)
     if "" in config.sections and "" not in last:
         writer.new_section("")
     elif config.header_comments.get("") and not any(

@@ -49,9 +49,9 @@ def test_keys_labview_cannot_see_are_still_kept_by_lvconfig() -> None:
         assert LABVIEW[(section, key)]["found"] is False
     assert CONFIG.get("", "hk") == "headless"
     assert CONFIG.get("S", "second") == "block2"
-    assert CONFIG.get("s", "lower") == "yes"
+    assert CONFIG.get("S", "lower") == "yes"  # [s] is a later block of [S], as to LabVIEW
+    assert CONFIG.section_names() == ["", "S", " T "]
 
 
-def test_a_semicolon_in_a_bare_value_is_text_to_lvconfig() -> None:
-    assert LABVIEW[("S", "trail")]["value"] == "abc; c"
-    assert CONFIG.get("S", "trail") == "abc ; c"
+def test_a_semicolon_in_a_bare_value_reads_as_labview_reads_it() -> None:
+    assert CONFIG.get("S", "trail") == LABVIEW[("S", "trail")]["value"] == "abc; c"

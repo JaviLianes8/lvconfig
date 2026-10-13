@@ -129,14 +129,18 @@ def test_a_refused_config_leaves_the_file_untouched(tmp_path: Path) -> None:
     assert target.read_bytes() == b"[A]\r\nx=1"
 
 
-def test_untouched_lines_are_never_refused_even_when_labview_reads_them_oddly() -> None:
-    text = "[A]\nnote = a ; b\n"
+def test_a_bare_semicolon_reads_and_writes_as_labview_does() -> None:
+    text = "[A]\nnote = a ; b  \n"
     config = parse(text)
-    assert dump(config) == text
-    with pytest.raises(LvConfigError, match="unquoted"):
-        dump(config, normalize=True)
+    assert dump(config) == text and config.get_str("A", "note") == "a; b  "
+    assert dump(config, normalize=True) == "[A]\nnote = a; b  "
     config.set("A", "note", "a ; b")
     assert dump(config) == '[A]\nnote = "a ; b"\n'
+    config.sections["A"]["note"] = Entry("x;y", quoted=False)
+    assert dump(config) == "[A]\nnote = x;y\n"  # the old trailing blanks are not kept
+    config.sections["A"]["note"] = Entry("a ;b", quoted=False)
+    with pytest.raises(LvConfigError, match="unquoted"):
+        dump(config)
 
 
 def test_the_cli_reports_a_bad_encoding_without_a_traceback(

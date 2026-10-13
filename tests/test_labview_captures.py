@@ -47,16 +47,8 @@ def test_a_string_is_written_exactly_as_labview_writes_it(case: dict[str, str]) 
     assert dump(config) == "[LabVIEW]\n" + case["line"]
 
 
-def _bare_with_semicolon(line: str) -> bool:
-    value = line.split("=", 1)[1].strip(" \t")
-    quoted = len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'"
-    return ";" in value and not quoted
-
-
 @pytest.mark.parametrize("case", READS, ids=range(len(READS)))
 def test_a_value_reads_as_labview_reads_it(case: dict[str, str]) -> None:
-    if _bare_with_semicolon(case["line"]):
-        pytest.skip("LabVIEW reads ';' in a bare value as a comment; lvconfig keeps the text")
     config = parse("[S]\r\n" + case["line"] + "\r\n")
     ((_key, value),) = config.items("S")
     assert value == case["value"]
@@ -76,13 +68,15 @@ def test_a_path_reads_as_labview_reads_it_or_is_refused(case: dict[str, str]) ->
 
 @pytest.mark.parametrize("case", TYPED["ints"], ids=lambda case: case["stored"])
 def test_an_integer_reads_as_labview_reads_it_or_is_refused(case: dict[str, Any]) -> None:
-    whole = case["error"] == 0 and case["stored"].strip(' "').lstrip("+-").isdigit()
-    in_range = whole and -(2**31) <= int(case["stored"].strip(' "')) < 2**31
+    # The typed getters stop at a bare ';', as LabVIEW's Read Key does.
+    token = case["stored"].strip(' "').split(";")[0].strip(" ")
+    whole = case["error"] == 0 and token.lstrip("+-").isdigit()
+    in_range = whole and -(2**31) <= int(token) < 2**31
     config = parse(f"[F]\r\nN = {case['stored']}\r\n")
     if whole and in_range:
         assert config.get_int("F", "N") == case["value"]
     elif whole:
-        assert config.get_int("F", "N") == int(case["stored"])  # LabVIEW clamps to I32
+        assert config.get_int("F", "N") == int(token)  # LabVIEW clamps to I32
     else:
         with pytest.raises(LvConfigError):
             config.get_int("F", "N")

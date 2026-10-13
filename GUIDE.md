@@ -39,6 +39,9 @@ Entry(value='3', quoted=False, comments=('; how many tries',))
 | `name = a\0Ab` | `'a\nb'` | bare values are unescaped as well |
 | `name = "a\22b\0a"` | `'a\\22b\\0a'` | any other backslash is text, as LabVIEW reads it |
 | `x = 1` then `x = 2` | `'1'` | the first line of a repeated key wins; the second stays in the text |
+| `X = 1` then `x = 2` | `'1'` under `X` | names differing only in case are repeats, as in LabVIEW |
+| `note = abc ; c  ` | `'abc; c  '` | a bare `;` starts a comment: the text before it is trimmed, the rest kept as written |
+| `note = "a ; b"` | `'a ; b'` | inside quotes `;` is text |
 
 ```pycon
 >>> config = parse('[S]\nq = "a\\09b\\\\c"\nbare = a\\0Ab\nx = 1\nx = 2\n')
@@ -56,7 +59,9 @@ Entry(value='3', quoted=False, comments=('; how many tries',))
 | `get_float`, `to_float` | `2.5`, `2,5`, `,5`, `5.`, `1e3`, `Inf`, `-Infinity`, `NaN` | `12abc`, `1_000`, `1,234,5`, `0x10`, `-NaN` |
 | `get_path` | see [Paths](#paths) | paths with no faithful native form |
 
-LabVIEW's Read Key (I32) clamps to 32 bits; `get_int` returns the full Python integer.
+The getters read a bare value only up to its first `;`, as LabVIEW's typed Read Key VIs
+do (`TRUE ; note` reads as `True`). LabVIEW's Read Key (I32) clamps to 32 bits; `get_int`
+returns the full Python integer.
 
 ```pycon
 >>> from lvconfig import LvConfigError, to_bool, to_float, to_int
@@ -108,6 +113,12 @@ True
 | `../Builds/app.vi` | `..\Builds\app.vi` |
 | `/C/a//b/./c/../d/` | `C:\a\b\d` |
 | `C:\NI Installers` (native form, as some NI files store it) | `C:\NI Installers` |
+| `a/./b/../c` or `rel\\..\\x` (relative) | `a\c` or `x`; a leading `..` is kept |
+| `//server/share/a/../b` | `\\server\share\b` |
+
+As LabVIEW's Read Key (Path) does, every `/` and every backslash of the stored text is a
+separator, empty and `.` parts are dropped and `..` goes up one level. `get_path` resolves
+the stored text itself, without decoding `\XX` codes, as LabVIEW does: `/C/\09x` is `C:\09x`.
 
 `to_labview_path` and `set_path` go the other way. Pass `windows=False` (or `--posix` on
 the command line) for POSIX paths, which are already in stored form.
@@ -141,7 +152,8 @@ repeated sections and a UTF-8 byte order mark all survive. After an edit:
 - an edited key is rewritten in place, keeping its `key = ` spacing and line ending;
 - a removed key or section disappears with its comment lines, and a removed key takes its
   repeated lines along, so no older value comes back;
-- a new key goes after the last line of its section, a new section at the end of the file;
+- a new key goes after the last line of its section's first block (the block LabVIEW
+  reads), a new section at the end of the file;
 - edited comments are written where the old ones were.
 
 ```pycon
@@ -164,9 +176,8 @@ separates lines with `\n`; `save` writes LabVIEW's `\r\n` for a config built in 
 file without comments or repeated keys, this is byte for byte the file LabVIEW writes after
 the same change. An empty unnamed section is written as a `[]` line, so it reads back.
 
-The canonical form refuses a parsed bare value holding `;` (LabVIEW would read it cut at
-the `;`), so `lvconfig fmt` cannot rewrite such a file; the lossless `dump` and `save` still
-copy that line unchanged, and setting the key writes it quoted.
+A bare value with a `;` is written bare again only when LabVIEW reads it back unchanged
+(no blank just before the first `;`); a value parsed from a file always is.
 
 ```pycon
 >>> print(dump(parse("[A]\n\n\n  x=1  \n[B]\ny  =  'v'\n"), normalize=True))
@@ -192,7 +203,7 @@ is rendered before the file is opened, so a refused config leaves the file untou
 | --- | --- | --- |
 | `LvParseError` (an `LvConfigError`, with `.line`) | `parse`, `load` | a line that is not a section, key or comment |
 | `LvConfigError` | `to_bool`, `to_int`, `to_float` and the getters | text that is not that type |
-| `LvConfigError` | `set`, `dump`, `save` | a key with `=`, a line break or edge blanks, a key starting with `;` or `#`, a section name with a line break, a bare value LabVIEW would read differently, a comment that does not start with `;` or `#` or ends in blanks, header comments for a missing section, an integer longer than Python turns into text (4300 digits by default) |
+| `LvConfigError` | `set`, `dump`, `save` | a key with `=`, a line break or edge blanks, a key starting with `;` or `#`, a section name with a line break, a bare value LabVIEW would read differently, a comment that does not start with `;` or `#` or ends in blanks, header comments for a missing section, two section or key names that differ only in case, an integer longer than Python turns into text (4300 digits by default) |
 | `LvPathError` (an `LvConfigError` and a `ValueError`) | the path functions, `set_path`, `get_path` | a path with no faithful counterpart |
 | `KeyError` | `get_str` and the typed getters | a missing section or key (`get` returns a default instead) |
 | `TypeError` | every function | an argument of the wrong type, a path that is not a `str` or text `os.PathLike`, or a `Config` whose fields `dump` finds holding the wrong objects |
@@ -207,19 +218,28 @@ the one `parse` made, or set it to `None`.
 
 ## Where lvconfig and LabVIEW differ
 
-These are deliberate, and each is pinned by a test against LabVIEW's own reading:
+In each case lvconfig either finds nothing or raises where LabVIEW reads something, or
+keeps a value LabVIEW cannot see; it never returns a different value. Each is pinned by a
+test against LabVIEW's own reading:
 
-- LabVIEW matches section and key names without regard to case; lvconfig matches them
-  exactly.
-- LabVIEW sees only the first block of a repeated section and nothing before the first
-  header; lvconfig merges repeated sections and keeps headerless keys in the section `""`.
-- LabVIEW reads a line with no `=` as a key with an empty value; `parse` raises
-  `LvParseError` for it.
-- LabVIEW treats `;` inside a bare value as the start of a comment and returns a rejoined
-  text; lvconfig keeps the value as written, and always quotes a value with `;` when it
-  writes one.
-- LabVIEW reads the leading part of `12abc`, `1_000` or `0x10` as a number, and clamps
+- Lookups. LabVIEW matches section and key names without regard to case. lvconfig reads
+  a file the same way (a later `x` after `X` is a repeat, a later `[s]` is a block of
+  `[S]`, and the first spelling stands), but its methods match names exactly, so
+  `get("S", "x")` finds nothing when the file spells it `X`. `dump` refuses two names that
+  differ only in case, because LabVIEW would see only one.
+- Hidden keys. LabVIEW sees only the first block of a repeated section and nothing before
+  the first header or under `[]`. lvconfig merges every block of a section and keeps
+  headerless keys in the section `""`, so it returns values LabVIEW never reads. New keys
+  go into the first block, where LabVIEW reads them.
+- Lines. LabVIEW reads a line with no `=` as a key with an empty value and a `;` or `#`
+  line holding `=` as a key named `;k` or `#k`; it does not take an indented `[S]` as a
+  header but takes `[S] ; note` as one. `parse` raises `LvParseError` for a line with no
+  `=` and for `[S] ; note`, reads `;` and `#` lines as comments, and accepts an indented
+  header. LabVIEW does not skip a UTF-8 byte order mark; `parse` does.
+- Numbers. LabVIEW reads the leading part of `12abc`, `1_000` or `0x10` and clamps
   integers to 32 bits; lvconfig refuses partial numbers and keeps every digit.
+- Paths. LabVIEW reads `C:` as `C:\`, and a `..` above a drive root or share as some
+  other path; lvconfig refuses them.
 
 ## Command line
 
@@ -270,6 +290,8 @@ status 1; an interrupt exits with 130.
   as they are and reads `\22` back as text. `unescape` decodes only `\00` to `\1F` in upper
   case, and bare values are now unescaped too.
 - A repeated key reads as its first value, not its last, and an edit changes that first line.
+  Names that differ only in case are repeats; new keys go into a section's first block.
+- A bare `;` starts a comment as in LabVIEW, and the typed getters stop at it.
 - Values are trimmed of spaces and tabs only.
 - `to_bool` also reads `yes`, `no`, `on`, `off`, `t`, `f` and `y`. `to_int` refuses
   `1_000` and non-ASCII digits. `to_float` reads `2,5` and refuses `1_000`, `-NaN`,

@@ -7,7 +7,13 @@ from typing import overload
 from ._check import need_str, short
 from ._coerce import to_bool, to_float, to_int
 from ._entry import Entry
+from ._escape import escape
 from ._path import from_labview_path
+
+
+def _typed(entry: Entry) -> str:
+    # LabVIEW's typed Read Key VIs stop at a bare ';', which starts a comment.
+    return entry.value if entry.quoted else entry.value.partition(";")[0]
 
 
 class Reading:
@@ -55,7 +61,7 @@ class Reading:
         >>> config.get_bool("A", "on")
         True
         """
-        return to_bool(self._require(section, key).value)
+        return to_bool(_typed(self._require(section, key)))
 
     def get_int(self, section: str, key: str) -> int:
         """Return the value read as an integer, as :func:`to_int` reads it.
@@ -65,7 +71,7 @@ class Reading:
         >>> config.get_int("A", "n")
         42
         """
-        return to_int(self._require(section, key).value)
+        return to_int(_typed(self._require(section, key)))
 
     def get_float(self, section: str, key: str) -> float:
         """Return the value read as a number, as :func:`to_float` reads it.
@@ -75,7 +81,7 @@ class Reading:
         >>> config.get_float("A", "gain")
         0.5
         """
-        return to_float(self._require(section, key).value)
+        return to_float(_typed(self._require(section, key)))
 
     def get_path(self, section: str, key: str, *, windows: bool = True) -> str:
         """Return the stored path decoded to a native path, as :func:`from_labview_path`.
@@ -84,8 +90,16 @@ class Reading:
         >>> config = Config(); config.set("Paths", "log", "/C/Temp/log.txt")
         >>> print(config.get_path("Paths", "log"))
         C:\\Temp\\log.txt
+
+        LabVIEW's Read Key (Path) does not decode ``\\XX`` codes: every backslash in the
+        stored text is a separator. So on Windows the stored text, not its decoded string,
+        is what is resolved: ``/C/\\09x`` reads as ``C:\\09x``.
         """
-        return from_labview_path(self._require(section, key).value, windows=windows)
+        value = self._require(section, key).value
+        if windows:
+            # Back to the stored text LabVIEW resolves; a tab counts as its \09 code.
+            value = escape(value).replace("\t", "\\09")
+        return from_labview_path(value, windows=windows)
 
     def to_dict(self) -> dict[str, dict[str, str]]:
         """Return the decoded sections and values as plain nested dictionaries.

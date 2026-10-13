@@ -22,6 +22,7 @@ _WIN_DRIVE = re.compile(r"^([A-Za-z]):(.*)$", re.DOTALL)
 _LV_DRIVE = re.compile(r"^/([A-Za-z])(?:/(.*))?$", re.DOTALL)
 _LV_MALFORMED = re.compile(r"^/[A-Za-z][:\\]")
 _DEVICE = ("\\\\?\\", "\\\\.\\")
+_SEPARATORS = re.compile(r"[\\/]")
 
 
 def _check_unc(text: str, original: str) -> None:
@@ -45,19 +46,38 @@ def _windows_check(text: str, original: str) -> None:
         raise LvPathError(f"{short(original)} is rooted without a drive or UNC share")
 
 
-def _drive_path(drive: str, rest: str, original: str) -> str:
+def _resolve(rest: str, original: str, *, rooted: bool) -> list[str]:
     # LabVIEW's Read Key (Path) drops empty and "." parts and resolves "..".
     parts: list[str] = []
-    for part in rest.split("/"):
+    for part in _SEPARATORS.split(rest):
         if part in ("", "."):
             continue
         if part != "..":
             parts.append(part)
-        elif parts:
+        elif parts and parts[-1] != "..":
             parts.pop()
+        elif rooted:
+            raise LvPathError(f"{short(original)} climbs above its drive root or share")
         else:
-            raise LvPathError(f"{short(original)} climbs above its drive root")
-    return f"{drive}:\\" + "\\".join(parts)
+            parts.append("..")
+    return parts
+
+
+def _drive_path(drive: str, rest: str, original: str) -> str:
+    return f"{drive}:\\" + "\\".join(_resolve(rest, original, rooted=True))
+
+
+def _native(text: str, original: str) -> str:
+    """Resolve a checked backslash-form path as LabVIEW does: UNC, drive or relative."""
+    if text.startswith("\\\\"):
+        server, _, rest = text[2:].partition("\\")
+        share, _, rest = rest.partition("\\")
+        parts = _resolve(rest, original, rooted=True)
+        return "\\\\" + "\\".join([server, share, *parts])
+    match = _WIN_DRIVE.match(text)
+    if match:
+        return _drive_path(match.group(1), match.group(2), original)
+    return "\\".join(_resolve(text, original, rooted=False)) or "."
 
 
 def to_labview_path(path: str, *, windows: bool = True) -> str:
@@ -131,4 +151,4 @@ def from_labview_path(path: str, *, windows: bool = True) -> str:
     if text.startswith("\\\\") and not path.startswith("//"):
         raise LvPathError(f"{short(path)} is a UNC path in native form; store it as //server")
     _windows_check(text, path)
-    return text
+    return _native(text, path)

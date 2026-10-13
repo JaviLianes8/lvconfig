@@ -38,3 +38,16 @@ def need_bool(what: str, value: object) -> bool:
     if not isinstance(value, bool):
         raise TypeError(f"{what} must be a bool, not {type_name(value)}")
     return value
+
+
+_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+_FOLD = str.maketrans(_UPPER, _UPPER.lower())
+
+
+def fold(name: str) -> str:
+    """Return ``name`` with ASCII letters lower-cased, the way names are compared.
+
+    >>> fold("LVMode") == fold("lvmode")
+    True
+    """
+    return name.translate(_FOLD)
