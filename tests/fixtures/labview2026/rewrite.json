@@ -1,0 +1,36 @@
+{
+ "cases": {
+  "comments_and_sections": {
+   "before": "[A]\r\nk=1\r\n; before B\r\n[B]\r\nj=2\r\n; trailing\r\n",
+   "after": "[A]\r\nk = 1\r\n; before B\r\n\r\n[B]\r\nj = 2\r\n; trailing\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  "trailing_comment_value": {
+   "before": "[LabVIEW]\r\nLVMode=x\r\n[C]\r\nt1=abc ; c\r\nt2=\"abc\" ; c\r\nt3=a;b\r\n",
+   "after": "[LabVIEW]\r\nLVMode = \"new\"\r\n\r\n[C]\r\nt1 = abc; c\r\nt2 = \"abc\"; c\r\nt3 = a;b"
+  },
+  "no_equals_and_headerless": {
+   "before": "hk=1\r\n[C]\r\nno equals here\r\nk=v\r\n",
+   "after": "hk = 1\r\n\r\n[C]\r\nno equals here\r\nk = v\r\n\r\n[LabVIEW]\r\nLVMode = \"new\""
+  },
+  "duplicate_target_key": {
+   "before": "[LabVIEW]\r\nLVMode=one\r\nLVMode=two\r\n",
+   "after": "[LabVIEW]\r\nLVMode = \"new\"\r\nLVMode = two"
+  },
+  "repeated_target_section": {
+   "before": "[LabVIEW]\r\na=1\r\n[Other]\r\nb=2\r\n[labview]\r\nLVMode=late\r\n",
+   "after": "[LabVIEW]\r\na = 1\r\nLVMode = \"new\"\r\n\r\n[Other]\r\nb = 2\r\n\r\n[labview]\r\nLVMode = late"
+  },
+  "blank_lines_lf_final_newline": {
+   "before": "[LabVIEW]\n\n\nLVMode = old\n\n[X]\n  spaced   key   =   v  \n\n",
+   "after": "[LabVIEW]\r\nLVMode = \"new\"\r\n\r\n[X]\r\nspaced   key = v"
+  },
+  "empty_file": {
+   "before": "",
+   "after": "[LabVIEW]\r\nLVMode = \"new\""
+  },
+  "escapes_kept": {
+   "before": "[LabVIEW]\r\nLVMode=a\r\n[E]\r\nq=\"a\u00009b\\c\u0012\"\r\nbare=a\u00009b\r\n",
+   "after": "[LabVIEW]\r\nLVMode = \"new\"\r\n\r\n[E]\r\nq = \"a\u00009b\\c\u0012\"\r\nbare = a\u00009b"
+  }
+ }
+}

@@ -1,0 +1,314 @@
+{
+ "paths": [
+  {
+   "stored": "\"/C/Temp/log.txt\"",
+   "native": "C:\\Temp\\log.txt"
+  },
+  {
+   "stored": "\"/C\"",
+   "native": "C:\\"
+  },
+  {
+   "stored": "\"/C/\"",
+   "native": "C:\\"
+  },
+  {
+   "stored": "\"C:\\x\"",
+   "native": "C:\\x"
+  },
+  {
+   "stored": "\"C:\\\\x\"",
+   "native": "C:\\x"
+  },
+  {
+   "stored": "\"//server/share/dir\"",
+   "native": "\\\\server\\share\\dir"
+  },
+  {
+   "stored": "\"../a/b\"",
+   "native": "..\\a\\b"
+  },
+  {
+   "stored": "\"a/b\"",
+   "native": "a\\b"
+  },
+  {
+   "stored": "\"/usr/lib\"",
+   "native": "u:\\sr\\lib"
+  },
+  {
+   "stored": "\"/C:/x\"",
+   "native": "C:\\:\\x"
+  },
+  {
+   "stored": "\"\"",
+   "native": ""
+  },
+  {
+   "stored": "\"/c/lower\"",
+   "native": "c:\\lower"
+  },
+  {
+   "stored": "\"\\\\\\\\server\\\\share\"",
+   "native": "\\\\\\server\\share"
+  },
+  {
+   "stored": "\"/C/a//b\"",
+   "native": "C:\\a\\b"
+  },
+  {
+   "stored": "\"/C/./a\"",
+   "native": "C:\\a"
+  },
+  {
+   "stored": "\"C:x\"",
+   "native": "C:\\x"
+  },
+  {
+   "stored": "\"/\"",
+   "native": "C:\\"
+  },
+  {
+   "stored": "\"rel\\\\win\"",
+   "native": "rel\\win"
+  },
+  {
+   "stored": "\"/C/Program Files (x86)/Arduino\"",
+   "native": "C:\\Program Files (x86)\\Arduino"
+  },
+  {
+   "stored": "/C/bare/path",
+   "native": "C:\\bare\\path"
+  },
+  {
+   "stored": "\"/C/a/\"",
+   "native": "C:\\a"
+  },
+  {
+   "stored": "\"//server\"",
+   "native": "\\\\server\\"
+  },
+  {
+   "stored": "\"C:/fwd/x\"",
+   "native": "C:\\fwd\\x"
+  },
+  {
+   "stored": "\"/C/a/../b\"",
+   "native": "C:\\b"
+  },
+  {
+   "stored": "\"/Cx/y\"",
+   "native": "C:\\x\\y"
+  },
+  {
+   "stored": "\"/1/x\"",
+   "native": "1:\\x"
+  }
+ ],
+ "ints": [
+  {
+   "stored": "30000",
+   "value": 30000,
+   "error": 0
+  },
+  {
+   "stored": "  42 ",
+   "value": 42,
+   "error": 0
+  },
+  {
+   "stored": "1_000",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "1e3",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": "0x10",
+   "value": 0,
+   "error": 0
+  },
+  {
+   "stored": "+5",
+   "value": 5,
+   "error": 0
+  },
+  {
+   "stored": "-5",
+   "value": -5,
+   "error": 0
+  },
+  {
+   "stored": "3.7",
+   "value": 3,
+   "error": 0
+  },
+  {
+   "stored": "3.5",
+   "value": 3,
+   "error": 0
+  },
+  {
+   "stored": "2.5",
+   "value": 2,
+   "error": 0
+  },
+  {
+   "stored": "-2.5",
+   "value": -2,
+   "error": 0
+  },
+  {
+   "stored": "007",
+   "value": 7,
+   "error": 0
+  },
+  {
+   "stored": "abc",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "\"77\"",
+   "value": 77,
+   "error": 0
+  },
+  {
+   "stored": "2147483647",
+   "value": 2147483647,
+   "error": 0
+  },
+  {
+   "stored": "2147483648",
+   "value": 2147483647,
+   "error": 0
+  },
+  {
+   "stored": "-2147483649",
+   "value": -2147483648,
+   "error": 0
+  },
+  {
+   "stored": "4294967295",
+   "value": 2147483647,
+   "error": 0
+  },
+  {
+   "stored": "12abc",
+   "value": 12,
+   "error": 0
+  },
+  {
+   "stored": "Inf",
+   "value": 45000,
+   "error": 19
+  },
+  {
+   "stored": "1,5",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": " 9;c",
+   "value": 9,
+   "error": 0
+  },
+  {
+   "stored": "0b11",
+   "value": 0,
+   "error": 0
+  },
+  {
+   "stored": "1E2",
+   "value": 1,
+   "error": 0
+  },
+  {
+   "stored": ".5",
+   "value": 45000,
+   "error": 19
+  }
+ ],
+ "bools": {
+  "0": false,
+  "1": true,
+  "no": false,
+  "No": false,
+  "NO": false,
+  "yes": true,
+  "YES": true,
+  "false": false,
+  "False": false,
+  "FALSE": false,
+  "true": true,
+  "True": true,
+  "TRUE": true,
+  "on": true,
+  "off": false,
+  "ON": true,
+  "OFF": false,
+  "t": true,
+  "f": false,
+  "T": true,
+  "F": false,
+  "y": true,
+  "n": null,
+  "Y": true,
+  "N": null,
+  "enabled": null,
+  "1.0": null,
+  "0.0": null,
+  " 1": true,
+  "00": null,
+  "+1": null,
+  "-1": null,
+  "2": null,
+  "": null,
+  "truee": null,
+  "tru": null,
+  "ye": null,
+  "\"TRUE\"": true,
+  "\"no\"": false
+ },
+ "doubles": {
+  "2,000000": "2.0",
+  "2,5": "2.5",
+  "2.5": "2.5",
+  "1e3": "1000.0",
+  "1E3": "1000.0",
+  "1,5e-3": "0.0015",
+  "1.5e-3": "0.0015",
+  "Inf": "inf",
+  "-Inf": "-inf",
+  "NaN": "nan",
+  "nan": "nan",
+  "inf": "inf",
+  "INF": "inf",
+  "+Inf": "inf",
+  "Infinity": "inf",
+  "1_000": "1.0",
+  "0x10": "0.0",
+  "  3,25  ": "3.25",
+  "+4": "4.0",
+  "-0": "-0.0",
+  ",5": "0.5",
+  ".5": "0.5",
+  "5.": "5.0",
+  "1,234,5": "1.234",
+  "1.234,5": "1.234",
+  "12abc": "12.0",
+  "\"7,5\"": "7.5",
+  "1e400": "inf",
+  "-1e400": "-inf",
+  "0,1": "0.1",
+  "4,9e-324": "5e-324"
+ }
+}

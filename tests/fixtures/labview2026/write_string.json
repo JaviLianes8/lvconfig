@@ -1,0 +1,2208 @@
+{
+ "cases": [
+  {
+   "value": "a\u0000b",
+   "line": "LVMode = \"a\\00b\""
+  },
+  {
+   "value": "a\u0001b",
+   "line": "LVMode = \"a\\01b\""
+  },
+  {
+   "value": "a\u0002b",
+   "line": "LVMode = \"a\\02b\""
+  },
+  {
+   "value": "a\u0003b",
+   "line": "LVMode = \"a\\03b\""
+  },
+  {
+   "value": "a\u0004b",
+   "line": "LVMode = \"a\\04b\""
+  },
+  {
+   "value": "a\u0005b",
+   "line": "LVMode = \"a\\05b\""
+  },
+  {
+   "value": "a\u0006b",
+   "line": "LVMode = \"a\\06b\""
+  },
+  {
+   "value": "a\u0007b",
+   "line": "LVMode = \"a\\07b\""
+  },
+  {
+   "value": "a\bb",
+   "line": "LVMode = \"a\\08b\""
+  },
+  {
+   "value": "a\tb",
+   "line": "LVMode = \"a\tb\""
+  },
+  {
+   "value": "a\nb",
+   "line": "LVMode = \"a\\0Ab\""
+  },
+  {
+   "value": "a\u000bb",
+   "line": "LVMode = \"a\\0Bb\""
+  },
+  {
+   "value": "a\fb",
+   "line": "LVMode = \"a\\0Cb\""
+  },
+  {
+   "value": "a\rb",
+   "line": "LVMode = \"a\\0Db\""
+  },
+  {
+   "value": "a\u000eb",
+   "line": "LVMode = \"a\\0Eb\""
+  },
+  {
+   "value": "a\u000fb",
+   "line": "LVMode = \"a\\0Fb\""
+  },
+  {
+   "value": "a\u0010b",
+   "line": "LVMode = \"a\\10b\""
+  },
+  {
+   "value": "a\u0011b",
+   "line": "LVMode = \"a\\11b\""
+  },
+  {
+   "value": "a\u0012b",
+   "line": "LVMode = \"a\\12b\""
+  },
+  {
+   "value": "a\u0013b",
+   "line": "LVMode = \"a\\13b\""
+  },
+  {
+   "value": "a\u0014b",
+   "line": "LVMode = \"a\\14b\""
+  },
+  {
+   "value": "a\u0015b",
+   "line": "LVMode = \"a\\15b\""
+  },
+  {
+   "value": "a\u0016b",
+   "line": "LVMode = \"a\\16b\""
+  },
+  {
+   "value": "a\u0017b",
+   "line": "LVMode = \"a\\17b\""
+  },
+  {
+   "value": "a\u0018b",
+   "line": "LVMode = \"a\\18b\""
+  },
+  {
+   "value": "a\u0019b",
+   "line": "LVMode = \"a\\19b\""
+  },
+  {
+   "value": "a\u001ab",
+   "line": "LVMode = \"a\\1Ab\""
+  },
+  {
+   "value": "a\u001bb",
+   "line": "LVMode = \"a\\1Bb\""
+  },
+  {
+   "value": "a\u001cb",
+   "line": "LVMode = \"a\\1Cb\""
+  },
+  {
+   "value": "a\u001db",
+   "line": "LVMode = \"a\\1Db\""
+  },
+  {
+   "value": "a\u001eb",
+   "line": "LVMode = \"a\\1Eb\""
+  },
+  {
+   "value": "a\u001fb",
+   "line": "LVMode = \"a\\1Fb\""
+  },
+  {
+   "value": "a b",
+   "line": "LVMode = \"a b\""
+  },
+  {
+   "value": "a!b",
+   "line": "LVMode = \"a!b\""
+  },
+  {
+   "value": "a\"b",
+   "line": "LVMode = \"a\"b\""
+  },
+  {
+   "value": "a#b",
+   "line": "LVMode = \"a#b\""
+  },
+  {
+   "value": "a$b",
+   "line": "LVMode = \"a$b\""
+  },
+  {
+   "value": "a%b",
+   "line": "LVMode = \"a%b\""
+  },
+  {
+   "value": "a&b",
+   "line": "LVMode = \"a&b\""
+  },
+  {
+   "value": "a'b",
+   "line": "LVMode = \"a'b\""
+  },
+  {
+   "value": "a(b",
+   "line": "LVMode = \"a(b\""
+  },
+  {
+   "value": "a)b",
+   "line": "LVMode = \"a)b\""
+  },
+  {
+   "value": "a*b",
+   "line": "LVMode = \"a*b\""
+  },
+  {
+   "value": "a+b",
+   "line": "LVMode = \"a+b\""
+  },
+  {
+   "value": "a,b",
+   "line": "LVMode = \"a,b\""
+  },
+  {
+   "value": "a-b",
+   "line": "LVMode = \"a-b\""
+  },
+  {
+   "value": "a.b",
+   "line": "LVMode = \"a.b\""
+  },
+  {
+   "value": "a/b",
+   "line": "LVMode = \"a/b\""
+  },
+  {
+   "value": "a0b",
+   "line": "LVMode = \"a0b\""
+  },
+  {
+   "value": "a1b",
+   "line": "LVMode = \"a1b\""
+  },
+  {
+   "value": "a2b",
+   "line": "LVMode = \"a2b\""
+  },
+  {
+   "value": "a3b",
+   "line": "LVMode = \"a3b\""
+  },
+  {
+   "value": "a4b",
+   "line": "LVMode = \"a4b\""
+  },
+  {
+   "value": "a5b",
+   "line": "LVMode = \"a5b\""
+  },
+  {
+   "value": "a6b",
+   "line": "LVMode = \"a6b\""
+  },
+  {
+   "value": "a7b",
+   "line": "LVMode = \"a7b\""
+  },
+  {
+   "value": "a8b",
+   "line": "LVMode = \"a8b\""
+  },
+  {
+   "value": "a9b",
+   "line": "LVMode = \"a9b\""
+  },
+  {
+   "value": "a:b",
+   "line": "LVMode = \"a:b\""
+  },
+  {
+   "value": "a;b",
+   "line": "LVMode = \"a;b\""
+  },
+  {
+   "value": "a<b",
+   "line": "LVMode = \"a<b\""
+  },
+  {
+   "value": "a=b",
+   "line": "LVMode = \"a=b\""
+  },
+  {
+   "value": "a>b",
+   "line": "LVMode = \"a>b\""
+  },
+  {
+   "value": "a?b",
+   "line": "LVMode = \"a?b\""
+  },
+  {
+   "value": "a@b",
+   "line": "LVMode = \"a@b\""
+  },
+  {
+   "value": "aAb",
+   "line": "LVMode = \"aAb\""
+  },
+  {
+   "value": "aBb",
+   "line": "LVMode = \"aBb\""
+  },
+  {
+   "value": "aCb",
+   "line": "LVMode = \"aCb\""
+  },
+  {
+   "value": "aDb",
+   "line": "LVMode = \"aDb\""
+  },
+  {
+   "value": "aEb",
+   "line": "LVMode = \"aEb\""
+  },
+  {
+   "value": "aFb",
+   "line": "LVMode = \"aFb\""
+  },
+  {
+   "value": "aGb",
+   "line": "LVMode = \"aGb\""
+  },
+  {
+   "value": "aHb",
+   "line": "LVMode = \"aHb\""
+  },
+  {
+   "value": "aIb",
+   "line": "LVMode = \"aIb\""
+  },
+  {
+   "value": "aJb",
+   "line": "LVMode = \"aJb\""
+  },
+  {
+   "value": "aKb",
+   "line": "LVMode = \"aKb\""
+  },
+  {
+   "value": "aLb",
+   "line": "LVMode = \"aLb\""
+  },
+  {
+   "value": "aMb",
+   "line": "LVMode = \"aMb\""
+  },
+  {
+   "value": "aNb",
+   "line": "LVMode = \"aNb\""
+  },
+  {
+   "value": "aOb",
+   "line": "LVMode = \"aOb\""
+  },
+  {
+   "value": "aPb",
+   "line": "LVMode = \"aPb\""
+  },
+  {
+   "value": "aQb",
+   "line": "LVMode = \"aQb\""
+  },
+  {
+   "value": "aRb",
+   "line": "LVMode = \"aRb\""
+  },
+  {
+   "value": "aSb",
+   "line": "LVMode = \"aSb\""
+  },
+  {
+   "value": "aTb",
+   "line": "LVMode = \"aTb\""
+  },
+  {
+   "value": "aUb",
+   "line": "LVMode = \"aUb\""
+  },
+  {
+   "value": "aVb",
+   "line": "LVMode = \"aVb\""
+  },
+  {
+   "value": "aWb",
+   "line": "LVMode = \"aWb\""
+  },
+  {
+   "value": "aXb",
+   "line": "LVMode = \"aXb\""
+  },
+  {
+   "value": "aYb",
+   "line": "LVMode = \"aYb\""
+  },
+  {
+   "value": "aZb",
+   "line": "LVMode = \"aZb\""
+  },
+  {
+   "value": "a[b",
+   "line": "LVMode = \"a[b\""
+  },
+  {
+   "value": "a\\b",
+   "line": "LVMode = \"a\\\\b\""
+  },
+  {
+   "value": "a]b",
+   "line": "LVMode = \"a]b\""
+  },
+  {
+   "value": "a^b",
+   "line": "LVMode = \"a^b\""
+  },
+  {
+   "value": "a_b",
+   "line": "LVMode = \"a_b\""
+  },
+  {
+   "value": "a`b",
+   "line": "LVMode = \"a`b\""
+  },
+  {
+   "value": "aab",
+   "line": "LVMode = \"aab\""
+  },
+  {
+   "value": "abb",
+   "line": "LVMode = \"abb\""
+  },
+  {
+   "value": "acb",
+   "line": "LVMode = \"acb\""
+  },
+  {
+   "value": "adb",
+   "line": "LVMode = \"adb\""
+  },
+  {
+   "value": "aeb",
+   "line": "LVMode = \"aeb\""
+  },
+  {
+   "value": "afb",
+   "line": "LVMode = \"afb\""
+  },
+  {
+   "value": "agb",
+   "line": "LVMode = \"agb\""
+  },
+  {
+   "value": "ahb",
+   "line": "LVMode = \"ahb\""
+  },
+  {
+   "value": "aib",
+   "line": "LVMode = \"aib\""
+  },
+  {
+   "value": "ajb",
+   "line": "LVMode = \"ajb\""
+  },
+  {
+   "value": "akb",
+   "line": "LVMode = \"akb\""
+  },
+  {
+   "value": "alb",
+   "line": "LVMode = \"alb\""
+  },
+  {
+   "value": "amb",
+   "line": "LVMode = \"amb\""
+  },
+  {
+   "value": "anb",
+   "line": "LVMode = \"anb\""
+  },
+  {
+   "value": "aob",
+   "line": "LVMode = \"aob\""
+  },
+  {
+   "value": "apb",
+   "line": "LVMode = \"apb\""
+  },
+  {
+   "value": "aqb",
+   "line": "LVMode = \"aqb\""
+  },
+  {
+   "value": "arb",
+   "line": "LVMode = \"arb\""
+  },
+  {
+   "value": "asb",
+   "line": "LVMode = \"asb\""
+  },
+  {
+   "value": "atb",
+   "line": "LVMode = \"atb\""
+  },
+  {
+   "value": "aub",
+   "line": "LVMode = \"aub\""
+  },
+  {
+   "value": "avb",
+   "line": "LVMode = \"avb\""
+  },
+  {
+   "value": "awb",
+   "line": "LVMode = \"awb\""
+  },
+  {
+   "value": "axb",
+   "line": "LVMode = \"axb\""
+  },
+  {
+   "value": "ayb",
+   "line": "LVMode = \"ayb\""
+  },
+  {
+   "value": "azb",
+   "line": "LVMode = \"azb\""
+  },
+  {
+   "value": "a{b",
+   "line": "LVMode = \"a{b\""
+  },
+  {
+   "value": "a|b",
+   "line": "LVMode = \"a|b\""
+  },
+  {
+   "value": "a}b",
+   "line": "LVMode = \"a}b\""
+  },
+  {
+   "value": "a~b",
+   "line": "LVMode = \"a~b\""
+  },
+  {
+   "value": "a\u007fb",
+   "line": "LVMode = \"a\u007fb\""
+  },
+  {
+   "value": "a\u20acb",
+   "line": "LVMode = \"a\u20acb\""
+  },
+  {
+   "value": "a\u201ab",
+   "line": "LVMode = \"a\u201ab\""
+  },
+  {
+   "value": "a\u0192b",
+   "line": "LVMode = \"a\u0192b\""
+  },
+  {
+   "value": "a\u201eb",
+   "line": "LVMode = \"a\u201eb\""
+  },
+  {
+   "value": "a\u2026b",
+   "line": "LVMode = \"a\u2026b\""
+  },
+  {
+   "value": "a\u2020b",
+   "line": "LVMode = \"a\u2020b\""
+  },
+  {
+   "value": "a\u2021b",
+   "line": "LVMode = \"a\u2021b\""
+  },
+  {
+   "value": "a\u02c6b",
+   "line": "LVMode = \"a\u02c6b\""
+  },
+  {
+   "value": "a\u2030b",
+   "line": "LVMode = \"a\u2030b\""
+  },
+  {
+   "value": "a\u0160b",
+   "line": "LVMode = \"a\u0160b\""
+  },
+  {
+   "value": "a\u2039b",
+   "line": "LVMode = \"a\u2039b\""
+  },
+  {
+   "value": "a\u0152b",
+   "line": "LVMode = \"a\u0152b\""
+  },
+  {
+   "value": "a\u017db",
+   "line": "LVMode = \"a\u017db\""
+  },
+  {
+   "value": "a\u2018b",
+   "line": "LVMode = \"a\u2018b\""
+  },
+  {
+   "value": "a\u2019b",
+   "line": "LVMode = \"a\u2019b\""
+  },
+  {
+   "value": "a\u201cb",
+   "line": "LVMode = \"a\u201cb\""
+  },
+  {
+   "value": "a\u201db",
+   "line": "LVMode = \"a\u201db\""
+  },
+  {
+   "value": "a\u2022b",
+   "line": "LVMode = \"a\u2022b\""
+  },
+  {
+   "value": "a\u2013b",
+   "line": "LVMode = \"a\u2013b\""
+  },
+  {
+   "value": "a\u2014b",
+   "line": "LVMode = \"a\u2014b\""
+  },
+  {
+   "value": "a\u02dcb",
+   "line": "LVMode = \"a\u02dcb\""
+  },
+  {
+   "value": "a\u2122b",
+   "line": "LVMode = \"a\u2122b\""
+  },
+  {
+   "value": "a\u0161b",
+   "line": "LVMode = \"a\u0161b\""
+  },
+  {
+   "value": "a\u203ab",
+   "line": "LVMode = \"a\u203ab\""
+  },
+  {
+   "value": "a\u0153b",
+   "line": "LVMode = \"a\u0153b\""
+  },
+  {
+   "value": "a\u017eb",
+   "line": "LVMode = \"a\u017eb\""
+  },
+  {
+   "value": "a\u0178b",
+   "line": "LVMode = \"a\u0178b\""
+  },
+  {
+   "value": "a\u00a0b",
+   "line": "LVMode = \"a\u00a0b\""
+  },
+  {
+   "value": "a\u00a1b",
+   "line": "LVMode = \"a\u00a1b\""
+  },
+  {
+   "value": "a\u00a2b",
+   "line": "LVMode = \"a\u00a2b\""
+  },
+  {
+   "value": "a\u00a3b",
+   "line": "LVMode = \"a\u00a3b\""
+  },
+  {
+   "value": "a\u00a4b",
+   "line": "LVMode = \"a\u00a4b\""
+  },
+  {
+   "value": "a\u00a5b",
+   "line": "LVMode = \"a\u00a5b\""
+  },
+  {
+   "value": "a\u00a6b",
+   "line": "LVMode = \"a\u00a6b\""
+  },
+  {
+   "value": "a\u00a7b",
+   "line": "LVMode = \"a\u00a7b\""
+  },
+  {
+   "value": "a\u00a8b",
+   "line": "LVMode = \"a\u00a8b\""
+  },
+  {
+   "value": "a\u00a9b",
+   "line": "LVMode = \"a\u00a9b\""
+  },
+  {
+   "value": "a\u00aab",
+   "line": "LVMode = \"a\u00aab\""
+  },
+  {
+   "value": "a\u00abb",
+   "line": "LVMode = \"a\u00abb\""
+  },
+  {
+   "value": "a\u00acb",
+   "line": "LVMode = \"a\u00acb\""
+  },
+  {
+   "value": "a\u00adb",
+   "line": "LVMode = \"a\u00adb\""
+  },
+  {
+   "value": "a\u00aeb",
+   "line": "LVMode = \"a\u00aeb\""
+  },
+  {
+   "value": "a\u00afb",
+   "line": "LVMode = \"a\u00afb\""
+  },
+  {
+   "value": "a\u00b0b",
+   "line": "LVMode = \"a\u00b0b\""
+  },
+  {
+   "value": "a\u00b1b",
+   "line": "LVMode = \"a\u00b1b\""
+  },
+  {
+   "value": "a\u00b2b",
+   "line": "LVMode = \"a\u00b2b\""
+  },
+  {
+   "value": "a\u00b3b",
+   "line": "LVMode = \"a\u00b3b\""
+  },
+  {
+   "value": "a\u00b4b",
+   "line": "LVMode = \"a\u00b4b\""
+  },
+  {
+   "value": "a\u00b5b",
+   "line": "LVMode = \"a\u00b5b\""
+  },
+  {
+   "value": "a\u00b6b",
+   "line": "LVMode = \"a\u00b6b\""
+  },
+  {
+   "value": "a\u00b7b",
+   "line": "LVMode = \"a\u00b7b\""
+  },
+  {
+   "value": "a\u00b8b",
+   "line": "LVMode = \"a\u00b8b\""
+  },
+  {
+   "value": "a\u00b9b",
+   "line": "LVMode = \"a\u00b9b\""
+  },
+  {
+   "value": "a\u00bab",
+   "line": "LVMode = \"a\u00bab\""
+  },
+  {
+   "value": "a\u00bbb",
+   "line": "LVMode = \"a\u00bbb\""
+  },
+  {
+   "value": "a\u00bcb",
+   "line": "LVMode = \"a\u00bcb\""
+  },
+  {
+   "value": "a\u00bdb",
+   "line": "LVMode = \"a\u00bdb\""
+  },
+  {
+   "value": "a\u00beb",
+   "line": "LVMode = \"a\u00beb\""
+  },
+  {
+   "value": "a\u00bfb",
+   "line": "LVMode = \"a\u00bfb\""
+  },
+  {
+   "value": "a\u00c0b",
+   "line": "LVMode = \"a\u00c0b\""
+  },
+  {
+   "value": "a\u00c1b",
+   "line": "LVMode = \"a\u00c1b\""
+  },
+  {
+   "value": "a\u00c2b",
+   "line": "LVMode = \"a\u00c2b\""
+  },
+  {
+   "value": "a\u00c3b",
+   "line": "LVMode = \"a\u00c3b\""
+  },
+  {
+   "value": "a\u00c4b",
+   "line": "LVMode = \"a\u00c4b\""
+  },
+  {
+   "value": "a\u00c5b",
+   "line": "LVMode = \"a\u00c5b\""
+  },
+  {
+   "value": "a\u00c6b",
+   "line": "LVMode = \"a\u00c6b\""
+  },
+  {
+   "value": "a\u00c7b",
+   "line": "LVMode = \"a\u00c7b\""
+  },
+  {
+   "value": "a\u00c8b",
+   "line": "LVMode = \"a\u00c8b\""
+  },
+  {
+   "value": "a\u00c9b",
+   "line": "LVMode = \"a\u00c9b\""
+  },
+  {
+   "value": "a\u00cab",
+   "line": "LVMode = \"a\u00cab\""
+  },
+  {
+   "value": "a\u00cbb",
+   "line": "LVMode = \"a\u00cbb\""
+  },
+  {
+   "value": "a\u00ccb",
+   "line": "LVMode = \"a\u00ccb\""
+  },
+  {
+   "value": "a\u00cdb",
+   "line": "LVMode = \"a\u00cdb\""
+  },
+  {
+   "value": "a\u00ceb",
+   "line": "LVMode = \"a\u00ceb\""
+  },
+  {
+   "value": "a\u00cfb",
+   "line": "LVMode = \"a\u00cfb\""
+  },
+  {
+   "value": "a\u00d0b",
+   "line": "LVMode = \"a\u00d0b\""
+  },
+  {
+   "value": "a\u00d1b",
+   "line": "LVMode = \"a\u00d1b\""
+  },
+  {
+   "value": "a\u00d2b",
+   "line": "LVMode = \"a\u00d2b\""
+  },
+  {
+   "value": "a\u00d3b",
+   "line": "LVMode = \"a\u00d3b\""
+  },
+  {
+   "value": "a\u00d4b",
+   "line": "LVMode = \"a\u00d4b\""
+  },
+  {
+   "value": "a\u00d5b",
+   "line": "LVMode = \"a\u00d5b\""
+  },
+  {
+   "value": "a\u00d6b",
+   "line": "LVMode = \"a\u00d6b\""
+  },
+  {
+   "value": "a\u00d7b",
+   "line": "LVMode = \"a\u00d7b\""
+  },
+  {
+   "value": "a\u00d8b",
+   "line": "LVMode = \"a\u00d8b\""
+  },
+  {
+   "value": "a\u00d9b",
+   "line": "LVMode = \"a\u00d9b\""
+  },
+  {
+   "value": "a\u00dab",
+   "line": "LVMode = \"a\u00dab\""
+  },
+  {
+   "value": "a\u00dbb",
+   "line": "LVMode = \"a\u00dbb\""
+  },
+  {
+   "value": "a\u00dcb",
+   "line": "LVMode = \"a\u00dcb\""
+  },
+  {
+   "value": "a\u00ddb",
+   "line": "LVMode = \"a\u00ddb\""
+  },
+  {
+   "value": "a\u00deb",
+   "line": "LVMode = \"a\u00deb\""
+  },
+  {
+   "value": "a\u00dfb",
+   "line": "LVMode = \"a\u00dfb\""
+  },
+  {
+   "value": "a\u00e0b",
+   "line": "LVMode = \"a\u00e0b\""
+  },
+  {
+   "value": "a\u00e1b",
+   "line": "LVMode = \"a\u00e1b\""
+  },
+  {
+   "value": "a\u00e2b",
+   "line": "LVMode = \"a\u00e2b\""
+  },
+  {
+   "value": "a\u00e3b",
+   "line": "LVMode = \"a\u00e3b\""
+  },
+  {
+   "value": "a\u00e4b",
+   "line": "LVMode = \"a\u00e4b\""
+  },
+  {
+   "value": "a\u00e5b",
+   "line": "LVMode = \"a\u00e5b\""
+  },
+  {
+   "value": "a\u00e6b",
+   "line": "LVMode = \"a\u00e6b\""
+  },
+  {
+   "value": "a\u00e7b",
+   "line": "LVMode = \"a\u00e7b\""
+  },
+  {
+   "value": "a\u00e8b",
+   "line": "LVMode = \"a\u00e8b\""
+  },
+  {
+   "value": "a\u00e9b",
+   "line": "LVMode = \"a\u00e9b\""
+  },
+  {
+   "value": "a\u00eab",
+   "line": "LVMode = \"a\u00eab\""
+  },
+  {
+   "value": "a\u00ebb",
+   "line": "LVMode = \"a\u00ebb\""
+  },
+  {
+   "value": "a\u00ecb",
+   "line": "LVMode = \"a\u00ecb\""
+  },
+  {
+   "value": "a\u00edb",
+   "line": "LVMode = \"a\u00edb\""
+  },
+  {
+   "value": "a\u00eeb",
+   "line": "LVMode = \"a\u00eeb\""
+  },
+  {
+   "value": "a\u00efb",
+   "line": "LVMode = \"a\u00efb\""
+  },
+  {
+   "value": "a\u00f0b",
+   "line": "LVMode = \"a\u00f0b\""
+  },
+  {
+   "value": "a\u00f1b",
+   "line": "LVMode = \"a\u00f1b\""
+  },
+  {
+   "value": "a\u00f2b",
+   "line": "LVMode = \"a\u00f2b\""
+  },
+  {
+   "value": "a\u00f3b",
+   "line": "LVMode = \"a\u00f3b\""
+  },
+  {
+   "value": "a\u00f4b",
+   "line": "LVMode = \"a\u00f4b\""
+  },
+  {
+   "value": "a\u00f5b",
+   "line": "LVMode = \"a\u00f5b\""
+  },
+  {
+   "value": "a\u00f6b",
+   "line": "LVMode = \"a\u00f6b\""
+  },
+  {
+   "value": "a\u00f7b",
+   "line": "LVMode = \"a\u00f7b\""
+  },
+  {
+   "value": "a\u00f8b",
+   "line": "LVMode = \"a\u00f8b\""
+  },
+  {
+   "value": "a\u00f9b",
+   "line": "LVMode = \"a\u00f9b\""
+  },
+  {
+   "value": "a\u00fab",
+   "line": "LVMode = \"a\u00fab\""
+  },
+  {
+   "value": "a\u00fbb",
+   "line": "LVMode = \"a\u00fbb\""
+  },
+  {
+   "value": "a\u00fcb",
+   "line": "LVMode = \"a\u00fcb\""
+  },
+  {
+   "value": "a\u00fdb",
+   "line": "LVMode = \"a\u00fdb\""
+  },
+  {
+   "value": "a\u00feb",
+   "line": "LVMode = \"a\u00feb\""
+  },
+  {
+   "value": "a\u00ffb",
+   "line": "LVMode = \"a\u00ffb\""
+  },
+  {
+   "value": "'A\u0001\r;2 0\"",
+   "line": "LVMode = \"'A\\01\\0D;2 0\"\""
+  },
+  {
+   "value": "\u001f;\u001f\\]=\ra]",
+   "line": "LVMode = \"\\1F;\\1F\\\\]=\\0Da]\""
+  },
+  {
+   "value": "\\\\a==\u0001]\u00000",
+   "line": "LVMode = \"\\\\\\\\a==\\01]\\000\""
+  },
+  {
+   "value": "\u001f1A",
+   "line": "LVMode = \"\\1F1A\""
+  },
+  {
+   "value": " =1\\1\u00e9\u00e9",
+   "line": "LVMode = \" =1\\\\1\u00e9\u00e9\""
+  },
+  {
+   "value": "9\u0001\r",
+   "line": "LVMode = \"9\\01\\0D\""
+  },
+  {
+   "value": "=2x\"#\u00e92=;",
+   "line": "LVMode = \"=2x\"#\u00e92=;\""
+  },
+  {
+   "value": "[\u0001\u0000  \"'",
+   "line": "LVMode = \"[\\01\\00  \"'\""
+  },
+  {
+   "value": "a=[f\\]",
+   "line": "LVMode = \"a=[f\\\\]\""
+  },
+  {
+   "value": ";\"",
+   "line": "LVMode = \";\"\""
+  },
+  {
+   "value": "0\u001f\u007f",
+   "line": "LVMode = \"0\\1F\u007f\""
+  },
+  {
+   "value": "\\\u007f'\u00e9\\ \u0000'1\t\\\"",
+   "line": "LVMode = \"\\\\\u007f'\u00e9\\\\ \\00'1\t\\\\\"\""
+  },
+  {
+   "value": "[\\\"A7A\n]]a\\;",
+   "line": "LVMode = \"[\\\\\"A7A\\0A]]a\\\\;\""
+  },
+  {
+   "value": "\\f=\\Af1",
+   "line": "LVMode = \"\\\\f=\\\\Af1\""
+  },
+  {
+   "value": "]'=1[\u00007x",
+   "line": "LVMode = \"]'=1[\\007x\""
+  },
+  {
+   "value": "]#1\n\u007f\\;\u0000\u00e9\u0000\u001f\u007f",
+   "line": "LVMode = \"]#1\\0A\u007f\\\\;\\00\u00e9\\00\\1F\u007f\""
+  },
+  {
+   "value": "\\;'\nA\u0001['#\\",
+   "line": "LVMode = \"\\\\;'\\0AA\\01['#\\\\\""
+  },
+  {
+   "value": "=\u0001x#0\r'\u007f",
+   "line": "LVMode = \"=\\01x#0\\0D'\u007f\""
+  },
+  {
+   "value": "2f\u00e9\t\u00017' x",
+   "line": "LVMode = \"2f\u00e9\t\\017' x\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\u007fF];A\ra7f]",
+   "line": "LVMode = \"\u007fF];A\\0Da7f]\""
+  },
+  {
+   "value": "F=\u00e9\u0000F;9\u0001#",
+   "line": "LVMode = \"F=\u00e9\\00F;9\\01#\""
+  },
+  {
+   "value": "\u0001\u0001\r\n#",
+   "line": "LVMode = \"\\01\\01\\0D\\0A#\""
+  },
+  {
+   "value": "\u007fFAa\r\u001f\u00012AAa",
+   "line": "LVMode = \"\u007fFAa\\0D\\1F\\012AAa\""
+  },
+  {
+   "value": "[\\02\u0000\\\rF'x7",
+   "line": "LVMode = \"[\\\\02\\00\\\\\\0DF'x7\""
+  },
+  {
+   "value": "'9a77\u001f]1",
+   "line": "LVMode = \"'9a77\\1F]1\""
+  },
+  {
+   "value": "22\"\u00e9[\\\u0001\u001f2\u001f",
+   "line": "LVMode = \"22\"\u00e9[\\\\\\01\\1F2\\1F\""
+  },
+  {
+   "value": "A\\x\t7\u00e9\\\\\"\\\t",
+   "line": "LVMode = \"A\\\\x\t7\u00e9\\\\\\\\\"\\\\\t\""
+  },
+  {
+   "value": "\u00e9\u0000A;21\r\u007f]\u00e9\n\u0000",
+   "line": "LVMode = \"\u00e9\\00A;21\\0D\u007f]\u00e9\\0A\\00\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\u00e9\\]2=\\",
+   "line": "LVMode = \"\u00e9\\\\]2=\\\\\""
+  },
+  {
+   "value": "[\n['f\u0000;;\u0000",
+   "line": "LVMode = \"[\\0A['f\\00;;\\00\""
+  },
+  {
+   "value": "#a9",
+   "line": "LVMode = \"#a9\""
+  },
+  {
+   "value": ";\u00010#\r]",
+   "line": "LVMode = \";\\010#\\0D]\""
+  },
+  {
+   "value": "0\u001f\t\n\"x2#F97a",
+   "line": "LVMode = \"0\\1F\t\\0A\"x2#F97a\""
+  },
+  {
+   "value": "\u00e99;\t\r0\u007f'\u0000F\\=",
+   "line": "LVMode = \"\u00e99;\t\\0D0\u007f'\\00F\\\\=\""
+  },
+  {
+   "value": "\\\"7\\",
+   "line": "LVMode = \"\\\\\"7\\\\\""
+  },
+  {
+   "value": "#\\;",
+   "line": "LVMode = \"#\\\\;\""
+  },
+  {
+   "value": "f9\t \n f",
+   "line": "LVMode = \"f9\t \\0A f\""
+  },
+  {
+   "value": "]",
+   "line": "LVMode = \"]\""
+  },
+  {
+   "value": "\\",
+   "line": "LVMode = \"\\\\\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": ";\u001f\u001f0\\\\\\'",
+   "line": "LVMode = \";\\1F\\1F0\\\\\\\\\\\\'\""
+  },
+  {
+   "value": "=0f'=72#\u00e9",
+   "line": "LVMode = \"=0f'=72#\u00e9\""
+  },
+  {
+   "value": "\u007f\u007f",
+   "line": "LVMode = \"\u007f\u007f\""
+  },
+  {
+   "value": "2 7'#\\x9",
+   "line": "LVMode = \"2 7'#\\\\x9\""
+  },
+  {
+   "value": "\u0001f\t\u00e9\u0001[ ",
+   "line": "LVMode = \"\\01f\t\u00e9\\01[ \""
+  },
+  {
+   "value": "\u007ff9",
+   "line": "LVMode = \"\u007ff9\""
+  },
+  {
+   "value": "#\u007f",
+   "line": "LVMode = \"#\u007f\""
+  },
+  {
+   "value": "F'20",
+   "line": "LVMode = \"F'20\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "f\n\"\r\r\u0001 7A[\u00e9\u00e9",
+   "line": "LVMode = \"f\\0A\"\\0D\\0D\\01 7A[\u00e9\u00e9\""
+  },
+  {
+   "value": "x2\u001f\\\r7f[;a'",
+   "line": "LVMode = \"x2\\1F\\\\\\0D7f[;a'\""
+  },
+  {
+   "value": "\u0001\r",
+   "line": "LVMode = \"\\01\\0D\""
+  },
+  {
+   "value": "x\u00e9 9\u00e9[",
+   "line": "LVMode = \"x\u00e9 9\u00e9[\""
+  },
+  {
+   "value": "=F\u007f[]",
+   "line": "LVMode = \"=F\u007f[]\""
+  },
+  {
+   "value": "\r\"0\tax\\\t =",
+   "line": "LVMode = \"\\0D\"0\tax\\\\\t =\""
+  },
+  {
+   "value": "\\=\r\\2\\\u00e9",
+   "line": "LVMode = \"\\\\=\\0D\\\\2\\\\\u00e9\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "0f\u0001\r\u007fF\u0000",
+   "line": "LVMode = \"0f\\01\\0D\u007fF\\00\""
+  },
+  {
+   "value": "\u00e9#\n\u001f\"\t\\2;\\\n\u001f",
+   "line": "LVMode = \"\u00e9#\\0A\\1F\"\t\\\\2;\\\\\\0A\\1F\""
+  },
+  {
+   "value": "x\u00e971\rx\r]a",
+   "line": "LVMode = \"x\u00e971\\0Dx\\0D]a\""
+  },
+  {
+   "value": "\u007f'\n\u001f\\1\t\u0001\t2\t",
+   "line": "LVMode = \"\u007f'\\0A\\1F\\\\1\t\\01\t2\t\""
+  },
+  {
+   "value": "\r",
+   "line": "LVMode = \"\\0D\""
+  },
+  {
+   "value": "\\fa2\r",
+   "line": "LVMode = \"\\\\fa2\\0D\""
+  },
+  {
+   "value": "#'x#\u0000\\]7\t",
+   "line": "LVMode = \"#'x#\\00\\\\]7\t\""
+  },
+  {
+   "value": "9\\ 0[] #\r",
+   "line": "LVMode = \"9\\\\ 0[] #\\0D\""
+  },
+  {
+   "value": "9'f\u0000=\u0001",
+   "line": "LVMode = \"9'f\\00=\\01\""
+  },
+  {
+   "value": "\\\\aaa\u0001f7\\[\\9",
+   "line": "LVMode = \"\\\\\\\\aaa\\01f7\\\\[\\\\9\""
+  },
+  {
+   "value": "\nx\r 7",
+   "line": "LVMode = \"\\0Ax\\0D 7\""
+  },
+  {
+   "value": "F'=\\\u00e9\u0000",
+   "line": "LVMode = \"F'=\\\\\u00e9\\00\""
+  },
+  {
+   "value": "x#\u001fA#",
+   "line": "LVMode = \"x#\\1FA#\""
+  },
+  {
+   "value": "x\u001f77f=\u00e9[#",
+   "line": "LVMode = \"x\\1F77f=\u00e9[#\""
+  },
+  {
+   "value": "\u0000\"\u00e9\u00e9];\u001f",
+   "line": "LVMode = \"\\00\"\u00e9\u00e9];\\1F\""
+  },
+  {
+   "value": "[2F\u0000\\\r\r",
+   "line": "LVMode = \"[2F\\00\\\\\\0D\\0D\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "91\r]  \u00019 \\1\\",
+   "line": "LVMode = \"91\\0D]  \\019 \\\\1\\\\\""
+  },
+  {
+   "value": "\"9=\u001f\u0001;\\\u00e9\rx",
+   "line": "LVMode = \"\"9=\\1F\\01;\\\\\u00e9\\0Dx\""
+  },
+  {
+   "value": "A\"\t\\ 1\nF;9",
+   "line": "LVMode = \"A\"\t\\\\ 1\\0AF;9\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\u001f2\u00e9f \nA0]",
+   "line": "LVMode = \"\\1F2\u00e9f \\0AA0]\""
+  },
+  {
+   "value": "\u007f\u001f\u00e9'==\u00001\"",
+   "line": "LVMode = \"\u007f\\1F\u00e9'==\\001\"\""
+  },
+  {
+   "value": "F7\\\r 90\u0000#\r",
+   "line": "LVMode = \"F7\\\\\\0D 90\\00#\\0D\""
+  },
+  {
+   "value": " aA\"'x\u001f]\n[",
+   "line": "LVMode = \" aA\"'x\\1F]\\0A[\""
+  },
+  {
+   "value": "7\\0\u007f0\n",
+   "line": "LVMode = \"7\\\\0\u007f0\\0A\""
+  },
+  {
+   "value": ";7 '[F#9\u00007A",
+   "line": "LVMode = \";7 '[F#9\\007A\""
+  },
+  {
+   "value": "A\r==71a9\r",
+   "line": "LVMode = \"A\\0D==71a9\\0D\""
+  },
+  {
+   "value": "[\u007f\u00e9\\'",
+   "line": "LVMode = \"[\u007f\u00e9\\\\'\""
+  },
+  {
+   "value": "2\t\tx\n\r",
+   "line": "LVMode = \"2\t\tx\\0A\\0D\""
+  },
+  {
+   "value": "\u00010\u007f\\\"\u00002=\t=\t",
+   "line": "LVMode = \"\\010\u007f\\\\\"\\002=\t=\t\""
+  },
+  {
+   "value": "\\\r#\u001f91\\'\u00e9\t9",
+   "line": "LVMode = \"\\\\\\0D#\\1F91\\\\'\u00e9\t9\""
+  },
+  {
+   "value": " Fxa \r\u007f]\n=\t",
+   "line": "LVMode = \" Fxa \\0D\u007f]\\0A=\t\""
+  },
+  {
+   "value": "\u001f[#7\\\u001f\t\\'\"\\2",
+   "line": "LVMode = \"\\1F[#7\\\\\\1F\t\\\\'\"\\\\2\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": " [\u007f",
+   "line": "LVMode = \" [\u007f\""
+  },
+  {
+   "value": "'\n#",
+   "line": "LVMode = \"'\\0A#\""
+  },
+  {
+   "value": "\r",
+   "line": "LVMode = \"\\0D\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": " \u001f\u0000[2=",
+   "line": "LVMode = \" \\1F\\00[2=\""
+  },
+  {
+   "value": "0\\17x",
+   "line": "LVMode = \"0\\\\17x\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "x[F777\u007f72\\x1",
+   "line": "LVMode = \"x[F777\u007f72\\\\x1\""
+  },
+  {
+   "value": "'\u007f\u0000\u00e9\n\r\u0000\u0001 \\",
+   "line": "LVMode = \"'\u007f\\00\u00e9\\0A\\0D\\00\\01 \\\\\""
+  },
+  {
+   "value": "\\f\u00e9#\u0001'x\nx1\"",
+   "line": "LVMode = \"\\\\f\u00e9#\\01'x\\0Ax1\"\""
+  },
+  {
+   "value": "0\u00019]",
+   "line": "LVMode = \"0\\019]\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": ";\u007f]2;[\\",
+   "line": "LVMode = \";\u007f]2;[\\\\\""
+  },
+  {
+   "value": "7",
+   "line": "LVMode = \"7\""
+  },
+  {
+   "value": "1\t =1\r",
+   "line": "LVMode = \"1\t =1\\0D\""
+  },
+  {
+   "value": "\u00e9\n7",
+   "line": "LVMode = \"\u00e9\\0A7\""
+  },
+  {
+   "value": "2F7[ \u0000F\u0000",
+   "line": "LVMode = \"2F7[ \\00F\\00\""
+  },
+  {
+   "value": "'1\\['",
+   "line": "LVMode = \"'1\\\\['\""
+  },
+  {
+   "value": "\u00e9\u007f=[x#a",
+   "line": "LVMode = \"\u00e9\u007f=[x#a\""
+  },
+  {
+   "value": " 1\\9x'\"\u007f\u00e9",
+   "line": "LVMode = \" 1\\\\9x'\"\u007f\u00e9\""
+  },
+  {
+   "value": "\t#faA\"A\r\u0000",
+   "line": "LVMode = \"\t#faA\"A\\0D\\00\""
+  },
+  {
+   "value": "1\u0001",
+   "line": "LVMode = \"1\\01\""
+  },
+  {
+   "value": ";9f\u00007\"a9\ra9f",
+   "line": "LVMode = \";9f\\007\"a9\\0Da9f\""
+  },
+  {
+   "value": "a\\=2F'",
+   "line": "LVMode = \"a\\\\=2F'\""
+  },
+  {
+   "value": "\\\n",
+   "line": "LVMode = \"\\\\\\0A\""
+  },
+  {
+   "value": " \\",
+   "line": "LVMode = \" \\\\\""
+  },
+  {
+   "value": "2\u00e92F",
+   "line": "LVMode = \"2\u00e92F\""
+  },
+  {
+   "value": "=\\0a\u007f \r\\]\"x",
+   "line": "LVMode = \"=\\\\0a\u007f \\0D\\\\]\"x\""
+  },
+  {
+   "value": "1 ",
+   "line": "LVMode = \"1 \""
+  },
+  {
+   "value": "9",
+   "line": "LVMode = \"9\""
+  },
+  {
+   "value": "=\\0\u00e9A",
+   "line": "LVMode = \"=\\\\0\u00e9A\""
+  },
+  {
+   "value": ";",
+   "line": "LVMode = \";\""
+  },
+  {
+   "value": "9\\]\tx]\"1",
+   "line": "LVMode = \"9\\\\]\tx]\"1\""
+  },
+  {
+   "value": "2",
+   "line": "LVMode = \"2\""
+  },
+  {
+   "value": "=#2'\\A\t\t'1\\",
+   "line": "LVMode = \"=#2'\\\\A\t\t'1\\\\\""
+  },
+  {
+   "value": "] \\1\\0x\u00e9'=\n",
+   "line": "LVMode = \"] \\\\1\\\\0x\u00e9'=\\0A\""
+  },
+  {
+   "value": "\"2\u0000\t#\\\u0001",
+   "line": "LVMode = \"\"2\\00\t#\\\\\\01\""
+  },
+  {
+   "value": "[]\r\t0f\u007f\\f",
+   "line": "LVMode = \"[]\\0D\t0f\u007f\\\\f\""
+  },
+  {
+   "value": "'ff\r71 #0\u007f",
+   "line": "LVMode = \"'ff\\0D71 #0\u007f\""
+  },
+  {
+   "value": "0\";9",
+   "line": "LVMode = \"0\";9\""
+  },
+  {
+   "value": "F\t\\[",
+   "line": "LVMode = \"F\t\\\\[\""
+  },
+  {
+   "value": "#\"f\t\t\"\u00e9\"2\\",
+   "line": "LVMode = \"#\"f\t\t\"\u00e9\"2\\\\\""
+  },
+  {
+   "value": "x\u00e9\u001f\u0001",
+   "line": "LVMode = \"x\u00e9\\1F\\01\""
+  },
+  {
+   "value": "\\\"'#1f1\u0001\t7A[",
+   "line": "LVMode = \"\\\\\"'#1f1\\01\t7A[\""
+  },
+  {
+   "value": "A\u0001\\A\u001f\\",
+   "line": "LVMode = \"A\\01\\\\A\\1F\\\\\""
+  },
+  {
+   "value": "\rf\n ",
+   "line": "LVMode = \"\\0Df\\0A \""
+  },
+  {
+   "value": "#\\\u001f;\u00e9\u007f",
+   "line": "LVMode = \"#\\\\\\1F;\u00e9\u007f\""
+  },
+  {
+   "value": " ]\rx\\",
+   "line": "LVMode = \" ]\\0Dx\\\\\""
+  },
+  {
+   "value": "\t\\0[\n0F\\\\\\9",
+   "line": "LVMode = \"\t\\\\0[\\0A0F\\\\\\\\\\\\9\""
+  },
+  {
+   "value": "[9f 7\u007f\\",
+   "line": "LVMode = \"[9f 7\u007f\\\\\""
+  },
+  {
+   "value": "\t#",
+   "line": "LVMode = \"\t#\""
+  },
+  {
+   "value": "20\u001f\u007f",
+   "line": "LVMode = \"20\\1F\u007f\""
+  },
+  {
+   "value": "\u0001f\\]9",
+   "line": "LVMode = \"\\01f\\\\]9\""
+  },
+  {
+   "value": "F\n\u00e91",
+   "line": "LVMode = \"F\\0A\u00e91\""
+  },
+  {
+   "value": "=00A\u0000\r\t]",
+   "line": "LVMode = \"=00A\\00\\0D\t]\""
+  },
+  {
+   "value": "#\u0001\n'",
+   "line": "LVMode = \"#\\01\\0A'\""
+  },
+  {
+   "value": "x#\r\u001f\t\n\r\\7",
+   "line": "LVMode = \"x#\\0D\\1F\t\\0A\\0D\\\\7\""
+  },
+  {
+   "value": "\r\" 1",
+   "line": "LVMode = \"\\0D\" 1\""
+  },
+  {
+   "value": "\n0'A",
+   "line": "LVMode = \"\\0A0'A\""
+  },
+  {
+   "value": "'\u00007F",
+   "line": "LVMode = \"'\\007F\""
+  },
+  {
+   "value": "\\]'\u0001#]\t\r17\"",
+   "line": "LVMode = \"\\\\]'\\01#]\t\\0D17\"\""
+  },
+  {
+   "value": "2#[\u00e9\u001fAA\u00e92F",
+   "line": "LVMode = \"2#[\u00e9\\1FAA\u00e92F\""
+  },
+  {
+   "value": "1x",
+   "line": "LVMode = \"1x\""
+  },
+  {
+   "value": "x]x#\u001f'1\u0001\n",
+   "line": "LVMode = \"x]x#\\1F'1\\01\\0A\""
+  },
+  {
+   "value": "9 \t\u007f\u0001\\",
+   "line": "LVMode = \"9 \t\u007f\\01\\\\\""
+  },
+  {
+   "value": "[",
+   "line": "LVMode = \"[\""
+  },
+  {
+   "value": "\n\u001f\t2\u00e9\\",
+   "line": "LVMode = \"\\0A\\1F\t2\u00e9\\\\\""
+  },
+  {
+   "value": "f\u007f0\u0001a[f1",
+   "line": "LVMode = \"f\u007f0\\01a[f1\""
+  },
+  {
+   "value": "]",
+   "line": "LVMode = \"]\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "'17f\\",
+   "line": "LVMode = \"'17f\\\\\""
+  },
+  {
+   "value": "\\21\\",
+   "line": "LVMode = \"\\\\21\\\\\""
+  },
+  {
+   "value": "7=A ",
+   "line": "LVMode = \"7=A \""
+  },
+  {
+   "value": "\u0001\\;7xAA\t;1\\",
+   "line": "LVMode = \"\\01\\\\;7xAA\t;1\\\\\""
+  },
+  {
+   "value": " 0]x",
+   "line": "LVMode = \" 0]x\""
+  },
+  {
+   "value": "2[\u007f'",
+   "line": "LVMode = \"2[\u007f'\""
+  },
+  {
+   "value": "\\ \\=F 10\\7\r",
+   "line": "LVMode = \"\\\\ \\\\=F 10\\\\7\\0D\""
+  },
+  {
+   "value": "\n\\f[\u00e9\u001f\u0000x\\\u0001",
+   "line": "LVMode = \"\\0A\\\\f[\u00e9\\1F\\00x\\\\\\01\""
+  },
+  {
+   "value": "\t21\\0Fa'",
+   "line": "LVMode = \"\t21\\\\0Fa'\""
+  },
+  {
+   "value": "9\u0001'#F7]\\\u00e9",
+   "line": "LVMode = \"9\\01'#F7]\\\\\u00e9\""
+  },
+  {
+   "value": "\\9\\\u001f\\\u001f",
+   "line": "LVMode = \"\\\\9\\\\\\1F\\\\\\1F\""
+  },
+  {
+   "value": "#\"\r\r\\#",
+   "line": "LVMode = \"#\"\\0D\\0D\\\\#\""
+  },
+  {
+   "value": "\r\u0000;\rA\u001f]A",
+   "line": "LVMode = \"\\0D\\00;\\0DA\\1F]A\""
+  },
+  {
+   "value": "\u007f1\u007fA",
+   "line": "LVMode = \"\u007f1\u007fA\""
+  },
+  {
+   "value": "2x\\\n9",
+   "line": "LVMode = \"2x\\\\\\0A9\""
+  },
+  {
+   "value": "0#9Fa2",
+   "line": "LVMode = \"0#9Fa2\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "FF 0\u001f0\r",
+   "line": "LVMode = \"FF 0\\1F0\\0D\""
+  },
+  {
+   "value": ";",
+   "line": "LVMode = \";\""
+  },
+  {
+   "value": "\u0001a\r\u001f2a0a",
+   "line": "LVMode = \"\\01a\\0D\\1F2a0a\""
+  },
+  {
+   "value": "\r9\\7\u007f'\\A\u0000\\",
+   "line": "LVMode = \"\\0D9\\\\7\u007f'\\\\A\\00\\\\\""
+  },
+  {
+   "value": "#A\n\t\u00000",
+   "line": "LVMode = \"#A\\0A\t\\000\""
+  },
+  {
+   "value": "'2",
+   "line": "LVMode = \"'2\""
+  },
+  {
+   "value": "2\\\u0000\u0000[=\";",
+   "line": "LVMode = \"2\\\\\\00\\00[=\";\""
+  },
+  {
+   "value": "\u001f\\[7# ",
+   "line": "LVMode = \"\\1F\\\\[7# \""
+  },
+  {
+   "value": "\u007f\\\\\\a",
+   "line": "LVMode = \"\u007f\\\\\\\\\\\\a\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\n270A[\r]",
+   "line": "LVMode = \"\\0A270A[\\0D]\""
+  },
+  {
+   "value": "1'fA\r]xx#x#",
+   "line": "LVMode = \"1'fA\\0D]xx#x#\""
+  },
+  {
+   "value": "=A7\u007f \u00e9\tx\u00e9\u0000'",
+   "line": "LVMode = \"=A7\u007f \u00e9\tx\u00e9\\00'\""
+  },
+  {
+   "value": "\r'\"]",
+   "line": "LVMode = \"\\0D'\"]\""
+  },
+  {
+   "value": "f\t92#f7f]29",
+   "line": "LVMode = \"f\t92#f7f]29\""
+  },
+  {
+   "value": "\\\\;##\t",
+   "line": "LVMode = \"\\\\\\\\;##\t\""
+  },
+  {
+   "value": "xF92a;F\tx\u001fa=",
+   "line": "LVMode = \"xF92a;F\tx\\1Fa=\""
+  },
+  {
+   "value": "[7\t9\"7x1\r\r",
+   "line": "LVMode = \"[7\t9\"7x1\\0D\\0D\""
+  },
+  {
+   "value": "x",
+   "line": "LVMode = \"x\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\\x2\tf\"\u001f\u00e9",
+   "line": "LVMode = \"\\\\x2\tf\"\\1F\u00e9\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "]=2a9\r\u001f9;\u007fa9",
+   "line": "LVMode = \"]=2a9\\0D\\1F9;\u007fa9\""
+  },
+  {
+   "value": "2[\r\\2\t1\u001f;9\u00e9\r",
+   "line": "LVMode = \"2[\\0D\\\\2\t1\\1F;9\u00e9\\0D\""
+  },
+  {
+   "value": "]\n[\u001f1A\r\t=",
+   "line": "LVMode = \"]\\0A[\\1F1A\\0D\t=\""
+  },
+  {
+   "value": "\r\t0a]=0]",
+   "line": "LVMode = \"\\0D\t0a]=0]\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\u00e9",
+   "line": "LVMode = \"\u00e9\""
+  },
+  {
+   "value": "A\u007f9[  F70",
+   "line": "LVMode = \"A\u007f9[  F70\""
+  },
+  {
+   "value": "=\"\ta\u0000\"\"x\u001f]71",
+   "line": "LVMode = \"=\"\ta\\00\"\"x\\1F]71\""
+  },
+  {
+   "value": "=f\u001f\"=",
+   "line": "LVMode = \"=f\\1F\"=\""
+  },
+  {
+   "value": "]9'#\t\r]; ",
+   "line": "LVMode = \"]9'#\t\\0D]; \""
+  },
+  {
+   "value": "x\u00e9[;#]\\a\u007f\t\n",
+   "line": "LVMode = \"x\u00e9[;#]\\\\a\u007f\t\\0A\""
+  },
+  {
+   "value": "9\"F\u0000F",
+   "line": "LVMode = \"9\"F\\00F\""
+  },
+  {
+   "value": "\\7x0",
+   "line": "LVMode = \"\\\\7x0\""
+  },
+  {
+   "value": "\\",
+   "line": "LVMode = \"\\\\\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\n#\u007f\\a]=\u0001\u007f9]\t",
+   "line": "LVMode = \"\\0A#\u007f\\\\a]=\\01\u007f9]\t\""
+  },
+  {
+   "value": "[F1\u0001\\",
+   "line": "LVMode = \"[F1\\01\\\\\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "7 2a9\\]10\u00007\t",
+   "line": "LVMode = \"7 2a9\\\\]10\\007\t\""
+  },
+  {
+   "value": "=\u0001;7\"f'",
+   "line": "LVMode = \"=\\01;7\"f'\""
+  },
+  {
+   "value": "\\0 \u0001A\u001f",
+   "line": "LVMode = \"\\\\0 \\01A\\1F\""
+  },
+  {
+   "value": "\\0Fa\\\\",
+   "line": "LVMode = \"\\\\0Fa\\\\\\\\\""
+  },
+  {
+   "value": "0=\n'0\\\u001f",
+   "line": "LVMode = \"0=\\0A'0\\\\\\1F\""
+  },
+  {
+   "value": "]",
+   "line": "LVMode = \"]\""
+  },
+  {
+   "value": "\\f\u00e90\t='AF",
+   "line": "LVMode = \"\\\\f\u00e90\t='AF\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": ";a\\",
+   "line": "LVMode = \";a\\\\\""
+  },
+  {
+   "value": "F2\r2\u0001",
+   "line": "LVMode = \"F2\\0D2\\01\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\u0001a\\]\\\\",
+   "line": "LVMode = \"\\01a\\\\]\\\\\\\\\""
+  },
+  {
+   "value": "ff\\\u00e9\t",
+   "line": "LVMode = \"ff\\\\\u00e9\t\""
+  },
+  {
+   "value": "2]#0FF\u007f9['",
+   "line": "LVMode = \"2]#0FF\u007f9['\""
+  },
+  {
+   "value": "A\u00e9\"F]\\",
+   "line": "LVMode = \"A\u00e9\"F]\\\\\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "\u0001\\A\r70\u0000\u001f;\u00e9a9",
+   "line": "LVMode = \"\\01\\\\A\\0D70\\00\\1F;\u00e9a9\""
+  },
+  {
+   "value": "Fa\u001f\t; \u00e9A\u0001\u001f",
+   "line": "LVMode = \"Fa\\1F\t; \u00e9A\\01\\1F\""
+  },
+  {
+   "value": "'#[\"2\"\\",
+   "line": "LVMode = \"'#[\"2\"\\\\\""
+  },
+  {
+   "value": "9F",
+   "line": "LVMode = \"9F\""
+  },
+  {
+   "value": "\u001fa[\"",
+   "line": "LVMode = \"\\1Fa[\"\""
+  },
+  {
+   "value": "\r\\]A07x",
+   "line": "LVMode = \"\\0D\\\\]A07x\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": ";\\a'\u001fx",
+   "line": "LVMode = \";\\\\a'\\1Fx\""
+  },
+  {
+   "value": "27;\\x]x;",
+   "line": "LVMode = \"27;\\\\x]x;\""
+  },
+  {
+   "value": "2\u007f\\1\u0000=\"9\\ \n\r",
+   "line": "LVMode = \"2\u007f\\\\1\\00=\"9\\\\ \\0A\\0D\""
+  },
+  {
+   "value": "#",
+   "line": "LVMode = \"#\""
+  },
+  {
+   "value": "\\\t\\\\\u001f#F\u0000\u00010]",
+   "line": "LVMode = \"\\\\\t\\\\\\\\\\1F#F\\00\\010]\""
+  },
+  {
+   "value": "=\u00009",
+   "line": "LVMode = \"=\\009\""
+  },
+  {
+   "value": "F\t\u0000==9'\u0001",
+   "line": "LVMode = \"F\t\\00==9'\\01\""
+  },
+  {
+   "value": "[\u00e9",
+   "line": "LVMode = \"[\u00e9\""
+  },
+  {
+   "value": "\t\u0001A]F2",
+   "line": "LVMode = \"\t\\01A]F2\""
+  },
+  {
+   "value": "\\;\t\u00e9 ",
+   "line": "LVMode = \"\\\\;\t\u00e9 \""
+  },
+  {
+   "value": "2xx2'\u0000\u0001\u00e9'\u001f;\\",
+   "line": "LVMode = \"2xx2'\\00\\01\u00e9'\\1F;\\\\\""
+  },
+  {
+   "value": "09\u007f1F[\\;[\\",
+   "line": "LVMode = \"09\u007f1F[\\\\;[\\\\\""
+  },
+  {
+   "value": "\\2x\u0001\u00011\"x",
+   "line": "LVMode = \"\\\\2x\\01\\011\"x\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "f\u001f'9;",
+   "line": "LVMode = \"f\\1F'9;\""
+  },
+  {
+   "value": "2\u00e9A\n9979",
+   "line": "LVMode = \"2\u00e9A\\0A9979\""
+  },
+  {
+   "value": "# \n9'2\u007f\\\u007fx\\",
+   "line": "LVMode = \"# \\0A9'2\u007f\\\\\u007fx\\\\\""
+  },
+  {
+   "value": "\\\n\u0001\\",
+   "line": "LVMode = \"\\\\\\0A\\01\\\\\""
+  },
+  {
+   "value": "\\9#[]\rx\u0000\\\rf",
+   "line": "LVMode = \"\\\\9#[]\\0Dx\\00\\\\\\0Df\""
+  },
+  {
+   "value": "x'#\\F\r[",
+   "line": "LVMode = \"x'#\\\\F\\0D[\""
+  },
+  {
+   "value": "#",
+   "line": "LVMode = \"#\""
+  },
+  {
+   "value": "'\u0001F\u0000#a];=2\r",
+   "line": "LVMode = \"'\\01F\\00#a];=2\\0D\""
+  },
+  {
+   "value": "\u001f'\r\\f\u001fa;F\r=\u007f",
+   "line": "LVMode = \"\\1F'\\0D\\\\f\\1Fa;F\\0D=\u007f\""
+  },
+  {
+   "value": "]A\n\\\u001f7x12",
+   "line": "LVMode = \"]A\\0A\\\\\\1F7x12\""
+  },
+  {
+   "value": "\u0000\u0001F",
+   "line": "LVMode = \"\\00\\01F\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": ";\u0001\u007fx#\\1]\n\u007f",
+   "line": "LVMode = \";\\01\u007fx#\\\\1]\\0A\u007f\""
+  },
+  {
+   "value": "\t;\t0\u00e99\u00e9'",
+   "line": "LVMode = \"\t;\t0\u00e99\u00e9'\""
+  },
+  {
+   "value": "\\'\\\n",
+   "line": "LVMode = \"\\\\'\\\\\\0A\""
+  },
+  {
+   "value": "\u0000\u007f",
+   "line": "LVMode = \"\\00\u007f\""
+  },
+  {
+   "value": "a\"\"7A\r\\\t\"",
+   "line": "LVMode = \"a\"\"7A\\0D\\\\\t\"\""
+  },
+  {
+   "value": "\\\u007f\\\u0000\t;=\\\u0000\t\u00019",
+   "line": "LVMode = \"\\\\\u007f\\\\\\00\t;=\\\\\\00\t\\019\""
+  },
+  {
+   "value": "#\r=\"",
+   "line": "LVMode = \"#\\0D=\"\""
+  },
+  {
+   "value": "017=;\\]\tF",
+   "line": "LVMode = \"017=;\\\\]\tF\""
+  },
+  {
+   "value": "\u0001\u00e9\u00e9F\u00e9",
+   "line": "LVMode = \"\\01\u00e9\u00e9F\u00e9\""
+  },
+  {
+   "value": "\u001f\\",
+   "line": "LVMode = \"\\1F\\\\\""
+  },
+  {
+   "value": "\n7\u007f7\\\u0001 1\\\u007f'",
+   "line": "LVMode = \"\\0A7\u007f7\\\\\\01 1\\\\\u007f'\""
+  },
+  {
+   "value": "\u0001x\r=\"A",
+   "line": "LVMode = \"\\01x\\0D=\"A\""
+  },
+  {
+   "value": "\u001f\u00000\u0001\\ [",
+   "line": "LVMode = \"\\1F\\000\\01\\\\ [\""
+  },
+  {
+   "value": "\\]\u0001\t9#\\a 2\\",
+   "line": "LVMode = \"\\\\]\\01\t9#\\\\a 2\\\\\""
+  },
+  {
+   "value": "\\2\\\u0000[ ",
+   "line": "LVMode = \"\\\\2\\\\\\00[ \""
+  },
+  {
+   "value": "[ \u00e9\u00e90[\r\\'a[\u0000",
+   "line": "LVMode = \"[ \u00e9\u00e90[\\0D\\\\'a[\\00\""
+  },
+  {
+   "value": "\u0000='\u001f\\]\u0001",
+   "line": "LVMode = \"\\00='\\1F\\\\]\\01\""
+  },
+  {
+   "value": "1;7f#",
+   "line": "LVMode = \"1;7f#\""
+  },
+  {
+   "value": "9F\\\u007f 29='",
+   "line": "LVMode = \"9F\\\\\u007f 29='\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "]9",
+   "line": "LVMode = \"]9\""
+  },
+  {
+   "value": "F#\r0;",
+   "line": "LVMode = \"F#\\0D0;\""
+  },
+  {
+   "value": "fa=\u00e9\r",
+   "line": "LVMode = \"fa=\u00e9\\0D\""
+  },
+  {
+   "value": "f=A\\",
+   "line": "LVMode = \"f=A\\\\\""
+  },
+  {
+   "value": "\u0001\\7",
+   "line": "LVMode = \"\\01\\\\7\""
+  },
+  {
+   "value": "\"0;",
+   "line": "LVMode = \"\"0;\""
+  },
+  {
+   "value": "\\\\\t';\u00e9;\r",
+   "line": "LVMode = \"\\\\\\\\\t';\u00e9;\\0D\""
+  },
+  {
+   "value": "",
+   "line": "LVMode = \"\""
+  },
+  {
+   "value": "1#\t\u00e9",
+   "line": "LVMode = \"1#\t\u00e9\""
+  }
+ ]
+}

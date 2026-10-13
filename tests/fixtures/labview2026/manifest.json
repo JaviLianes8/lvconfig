@@ -1,0 +1,40 @@
+{
+ "labview": "LabVIEW 2026 Community 26.3.1f1 (Windows x64, Spanish locale)",
+ "captured": "2026-10-13",
+ "method": "shipped VIs run headless through LabVIEW's ActiveX server; inputs were chosen by the author, outputs copied unchanged",
+ "files": {
+  "write_string.json": {
+   "how": "writeUserModePref.vi (resource/modes/shared), which calls Write Key (String), given 'value'; 'line' is the key line LabVIEW wrote under [LabVIEW]",
+   "size": 39856,
+   "sha256": "b25d11096562739e19ef805926c2cb44496ff0fa7d179a3da5dce16ac4dca04f"
+  },
+  "read_string.json": {
+   "how": "GPFW NI_ReadToken_String.vi (resource/plugins/NewDialogFiles/ProjectWizards/GenProjFrameWork), which calls Read Key (String), reading each 'line' from a [S] section of a CRLF file (latin-1 bytes); 'value' is what LabVIEW returned",
+   "size": 51917,
+   "sha256": "95be066e704fb56815213bca0bde6a647c71de47590669364c3b843521acfd07"
+  },
+  "rewrite.json": {
+   "how": "writeUserModePref.vi writing LVMode = \"new\" under [LabVIEW] into a file holding 'before'; 'after' is the whole file LabVIEW wrote back",
+   "size": 1541,
+   "sha256": "ae47bbaa081ce3ac3e7fefd27239a7c1649f6353f5a00dc3851045e4b35b8010"
+  },
+  "read_typed.json": {
+   "how": "path and I32 cases: Read FW INI.vi (vi.lib/MakerHub/LINX/Private/Utilties), which calls Read Key (Path) for FirmwareRelPath and Read Key (I32) for FlashTimeout, on a file '[Firmware]\r\nFirmwareRelPath = <path stored>\r\nFlashTimeout = <int stored>\r\n'; error 0 means no error, then 'value' is LabVIEW's reading. Boolean cases: GPFW NI_ReadToken_Bool.vi read with default TRUE and with default FALSE; null means LabVIEW returned the default both times (not a boolean to it). Double cases: examples/File IO/Configuration (INI)/Read Configuration (INI) File.vi with front-panel datalogging, the Double key holding 'stored'; values are Python reprs of the logged DBL; spellings LabVIEW refused (it raised its error dialog) are not listed",
+   "size": 4466,
+   "sha256": "9a0437646ea6fb0d86ff5d3f6f4eb8c6136c50dd539e0713d38752a9b83f53f4"
+  },
+  "write_example.json": {
+   "how": "examples/File IO/Configuration (INI)/Write Configuration (INI) File.vi run with its default front panel on a Windows system whose decimal separator is a comma; 'file' is the whole file LabVIEW wrote",
+   "size": 189,
+   "sha256": "e2469f40c57f682b05e2751d3e47ad91655e83abb4c38220ff06416ff4aca7a8"
+  }
+ },
+ "observed": [
+  "Read Key matches section and key names without regard to case.",
+  "Read Key sees only the first block of a repeated section and the first line of a repeated key.",
+  "Read Key does not see keys placed before the first section header.",
+  "Read Key reads a line with no '=' as a key with an empty value.",
+  "Read Key treats ';' in an unquoted value as the start of a comment and returns a rejoined text, not the line as written.",
+  "Read Key trims spaces and tabs around values; inside double quotes they are kept."
+ ]
+}

@@ -1,0 +1,3 @@
+{
+ "file": "[Section 1]\r\nBoolean = TRUE\r\nDouble = 2,000000\r\nPath = \"/C/a/b/c.txt\"\r\n\r\n[Section 2]\r\nString1 = \"First\\0AData\\0AString\"\r\nString2 = \"Second Data String\""
+}
