@@ -31,7 +31,7 @@ Progress:
 | 12 | CHANGELOG dated 1.0.0 | PASS | `## [1.0.0] - 2026-10-13` with the stable surface and every behaviour change; unpublished 0.3.x marked |
 | 13 | pyproject | PASS | 1.0.0, Production/Stable, 3.10 to 3.14, MIT, Homepage/Source/Issues/Changelog, keywords, `dependencies = []` (contract-tested) |
 | 14 | sdist and wheel contents | PASS | wheel: package modules, `py.typed`, LICENSE; sdist: source, tests with the LabVIEW captures and their manifest, docs, dev files; no NI `.ini` excerpts (a planted one stayed out) |
-| 15 | Gates exit 0 alone | PASS | `ruff format --check .`, `ruff check .`, `mypy --strict src`, `pytest` each exit 0 alone (2669 passed, 22 skipped with the NI excerpts local; reviewer run on ce207e6, author run on the PR head) |
+| 15 | Gates exit 0 alone | PASS | `ruff format --check .`, `ruff check .`, `mypy --strict src`, `pytest` each exit 0 alone (pytest: 2669 passed on ce207e6 for the reviewer and on a6e3632 for the author on the second build machine, 23 skipped there: the local-only NI excerpts and the installed LabVIEW) |
 | 16 | Independent reviewer | PASS | review 1 failures (4 survivors, report fixes) fixed; review 2: every earlier finding fixed, 18 new mutations, the one survivor proven equivalent and pinned |
 | 17 | PR, trace guard | ready | PR #4 from `release/1.0.0`, trace guard CLEAN; merge and PyPI publish left to the maintainer |
 | 18 | Mutation round | PASS | author: 48 mutations, 3 survivors closed; blind lens e: 145 + 68 + 74 new mutations over three rounds, 53 survivors closed by contracts, 10 shown equivalent, 1 superseded by a later fix; independent reviewer: 17 + 18 more, 4 survivors closed in `test_review_contracts_two.py`, 4 equivalent |
