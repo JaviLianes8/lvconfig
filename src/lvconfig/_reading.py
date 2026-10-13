@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import overload
+
 from ._check import need_str, short
 from ._coerce import to_bool, to_float, to_int
 from ._entry import Entry
@@ -13,8 +15,19 @@ class Reading:
 
     sections: dict[str, dict[str, Entry]]
 
+    @overload
+    def get(self, section: str, key: str) -> str | None: ...
+
+    @overload
+    def get(self, section: str, key: str, default: str) -> str: ...
+
+    @overload
+    def get(self, section: str, key: str, default: None) -> str | None: ...
+
     def get(self, section: str, key: str, default: str | None = None) -> str | None:
         """Return the decoded string value, or ``default`` when it is missing.
+
+        With a ``str`` default the result is typed ``str``.
 
         >>> from lvconfig import Config
         >>> config = Config(); config.set("A", "x", "text")

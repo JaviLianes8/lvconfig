@@ -9,12 +9,13 @@ import re
 import sys
 from collections.abc import Callable
 
+from ._check import short
 from ._coerce import to_bool, to_float, to_int
 from ._config import Config
 from ._dump import dump
 from ._entry import Entry
 from ._errors import LvConfigError
-from ._io import load, save
+from ._io import load, save, write_text
 from ._validate import is_bare_safe
 
 # Only plain decimal spellings count as numbers, so 007, 1_000, 1e5 or nan stay text.
@@ -27,7 +28,7 @@ def _infer(value: str) -> str | bool | int | float:
     low = token.lower()
     if low in {"true", "false"}:
         return low == "true"
-    if _INT.fullmatch(token):
+    if _INT.fullmatch(token) and len(token) <= 4000:  # longer stays text, as written
         return int(token)
     if _FLOAT.fullmatch(token):
         return float(token)
@@ -47,9 +48,9 @@ def _plain_to_config(text: str) -> Config:
 
 def _require(config: Config, section: str, key: str | None = None) -> None:
     if section not in config.sections:
-        raise LvConfigError(f"no section {section!r}")
+        raise LvConfigError(f"no section {short(section)}")
     if key is not None and not config.has(section, key):
-        raise LvConfigError(f"no key {key!r} in section {section!r}")
+        raise LvConfigError(f"no key {short(key)} in section {short(section)}")
 
 
 def cmd_json(args: argparse.Namespace) -> int:
@@ -111,8 +112,7 @@ def _emit(text: str, output: str | None, encoding: str) -> None:
     if output is None:
         sys.stdout.write(text)
         return
-    with open(output, "w", encoding=encoding, newline="") as handle:
-        handle.write(text.replace("\n", "\r\n"))
+    write_text(output, text.replace("\n", "\r\n"), encoding)
 
 
 def cmd_fmt(args: argparse.Namespace) -> int:

@@ -53,9 +53,10 @@ def test_dump_refuses_header_comments_for_a_missing_section() -> None:
         dump(config)
 
 
-def test_an_empty_unnamed_section_writes_nothing() -> None:
+def test_an_empty_unnamed_section_keeps_its_bracket_line() -> None:
     config = parse("[]\n[a]\nx=1\n")
-    assert dump(config, normalize=True) == "[a]\nx = 1"
+    assert dump(config, normalize=True) == "[]\n\n[a]\nx = 1"
+    assert parse(dump(config, normalize=True)) == config
     config = parse("k=1\n[a]\nx=1\n")
     config.remove("", "k")
     assert "" not in config.sections

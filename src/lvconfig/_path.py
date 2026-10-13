@@ -90,6 +90,7 @@ def to_labview_path(path: str, *, windows: bool = True) -> str:
     match = _WIN_DRIVE.match(text)
     if match:
         drive, rest = match.group(1), match.group(2)[1:].replace("\\", "/")
+        _drive_path(drive, rest, path)  # refuse what the reading side would refuse
         return f"/{drive}/{rest}" if rest else f"/{drive}"
     return text.replace("\\", "/")
 

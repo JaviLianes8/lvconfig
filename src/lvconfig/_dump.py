@@ -27,9 +27,10 @@ def section_lines(config: Config, name: str) -> list[str]:
     """
     comments = config.header_comments.get(name, ())
     lines = list(comments)
-    if name or comments:
+    entries = config.sections[name]
+    if name or comments or not entries:  # an empty unnamed section needs its [] line
         lines.append(f"[{name}]")
-    for key, entry in config.sections[name].items():
+    for key, entry in entries.items():
         lines.extend(entry.comments)
         lines.append(line(key, entry))
     return lines
@@ -82,6 +83,10 @@ def dump(config: Config, *, normalize: bool = False) -> str:
     if not isinstance(config, Config):
         raise TypeError(f"config must be a Config, not {type_name(config)}")
     need_bool("normalize", normalize)
+    from ._layout import Layout
+
+    if config.layout is not None and not isinstance(config.layout, Layout):
+        raise TypeError(f"layout must be a Layout or None, not {type_name(config.layout)}")
     if config.layout is None or normalize:
         check_config(config)
         return _canonical(config)

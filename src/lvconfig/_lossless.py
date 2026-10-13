@@ -18,6 +18,7 @@ class _Writer:
         self.layout = layout
         self.out: list[RawLine] = []
         self.done_headers: set[str] = set()
+        self.unchanged: dict[str, bool] = {}  # one comparison per name, not per header
 
     def emit(self, text: str) -> None:
         self.out.append(RawLine(text, self.layout.eol))
@@ -39,7 +40,9 @@ class _Writer:
         if name not in self.config.sections:
             return
         current = self.config.header_comments.get(name, ())
-        unchanged = current == self.layout.headers.get(name, ())
+        unchanged = self.unchanged.get(name)
+        if unchanged is None:
+            unchanged = self.unchanged[name] = current == self.layout.headers.get(name, ())
         if unchanged or name not in self.done_headers:
             self.comments(item.lead, current, unchanged)
         else:

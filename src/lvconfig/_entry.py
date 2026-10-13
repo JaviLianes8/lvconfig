@@ -6,6 +6,7 @@ import math
 from dataclasses import dataclass
 
 from ._check import need_bool, need_str, type_name
+from ._errors import LvConfigError
 
 
 @dataclass(frozen=True)
@@ -30,12 +31,13 @@ class Entry:
     comments: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
-        need_str("value", self.value)
+        # Keep plain str copies, so a str subclass cannot change behaviour later.
+        object.__setattr__(self, "value", need_str("value", self.value))
         need_bool("quoted", self.quoted)
         if not isinstance(self.comments, tuple):
             raise TypeError(f"comments must be a tuple, not {type_name(self.comments)}")
-        for comment in self.comments:
-            need_str("each comment", comment)
+        plain = tuple(need_str("each comment", comment) for comment in self.comments)
+        object.__setattr__(self, "comments", plain)
 
 
 Value = str | bool | int | float
@@ -47,7 +49,10 @@ def make_entry(value: Value) -> Entry:
         return Entry("TRUE" if value else "FALSE", quoted=False)
     if isinstance(value, int):
         # int.__repr__ ignores an override such as IntEnum's own __str__.
-        return Entry(int.__repr__(value), quoted=False)
+        try:
+            return Entry(int.__repr__(value), quoted=False)
+        except ValueError as exc:  # beyond Python's integer-to-text digit limit
+            raise LvConfigError("integer too long to write") from exc
     if isinstance(value, float):
         # float.__repr__ reads the stored double, whatever a subclass overrides.
         text = float.__repr__(value)

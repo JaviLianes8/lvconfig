@@ -162,7 +162,11 @@ LabVIEW's own Configuration File VIs: `key = value`, a blank line before each se
 header, comments above their section or key, and no newline after the last line. `dump`
 separates lines with `\n`; `save` writes LabVIEW's `\r\n` for a config built in code. For a
 file without comments or repeated keys, this is byte for byte the file LabVIEW writes after
-the same change.
+the same change. An empty unnamed section is written as a `[]` line, so it reads back.
+
+The canonical form refuses a parsed bare value holding `;` (LabVIEW would read it cut at
+the `;`), so `lvconfig fmt` cannot rewrite such a file; the lossless `dump` and `save` still
+copy that line unchanged, and setting the key writes it quoted.
 
 ```pycon
 >>> print(dump(parse("[A]\n\n\n  x=1  \n[B]\ny  =  'v'\n"), normalize=True))
@@ -188,14 +192,18 @@ is rendered before the file is opened, so a refused config leaves the file untou
 | --- | --- | --- |
 | `LvParseError` (an `LvConfigError`, with `.line`) | `parse`, `load` | a line that is not a section, key or comment |
 | `LvConfigError` | `to_bool`, `to_int`, `to_float` and the getters | text that is not that type |
-| `LvConfigError` | `set`, `dump`, `save` | a key with `=`, a line break or edge blanks, a key starting with `;` or `#`, a section name with a line break, a bare value LabVIEW would read differently, a comment that is not a comment, header comments for a missing section |
+| `LvConfigError` | `set`, `dump`, `save` | a key with `=`, a line break or edge blanks, a key starting with `;` or `#`, a section name with a line break, a bare value LabVIEW would read differently, a comment that does not start with `;` or `#` or ends in blanks, header comments for a missing section, an integer longer than Python turns into text (4300 digits by default) |
 | `LvPathError` (an `LvConfigError` and a `ValueError`) | the path functions, `set_path`, `get_path` | a path with no faithful counterpart |
 | `KeyError` | `get_str` and the typed getters | a missing section or key (`get` returns a default instead) |
-| `TypeError` | every function | an argument of the wrong type |
+| `TypeError` | every function | an argument of the wrong type, a path that is not a `str` or text `os.PathLike`, or a `Config` whose fields `dump` finds holding the wrong objects |
 | `ValueError` | `save` | a `line_ending` other than `None`, CRLF, LF or CR |
+| `OSError`, `UnicodeDecodeError`, `LookupError` | `load` | the file cannot be read, is not in `encoding`, or `encoding` is unknown |
+| `OSError`, `UnicodeEncodeError`, `LookupError` | `save` | the file cannot be written, a value is not in `encoding`, or `encoding` is unknown; the text is encoded before the file is opened, so the file is left as it was |
 
 Messages quote at most 40 characters of the offending text, so a huge value never floods a
-log.
+log. `Config`'s fields are plain data: the getters assume they hold what their types say,
+and only `dump` checks them. `Config.layout` is an opaque record of the source text; keep
+the one `parse` made, or set it to `None`.
 
 ## Where lvconfig and LabVIEW differ
 
@@ -251,7 +259,7 @@ $ lvconfig json settings.ini --section Rig
 | `get FILE SECTION KEY [--type str/bool/int/float/path] [--posix]` | prints one value |
 | `set FILE SECTION KEY VALUE [--type auto/str/bool/int/float/path] [--posix] [-o OUT]` | edits one key in place; `auto` keeps a bare value bare, otherwise quotes |
 | `fmt FILE [-o OUT]` | writes the canonical form |
-| `convert INPUT [OUTPUT]` | turns a plain INI into LabVIEW form; `true`/`false` and plain decimal numbers become bare tokens |
+| `convert INPUT [OUTPUT]` | turns a plain INI into LabVIEW form; `true`/`false` and plain decimal numbers become bare tokens; keys of a `[DEFAULT]` section are copied into every section, as `configparser` reads them |
 
 `--encoding` applies to every file. Errors, usage errors included, go to stderr with exit
 status 1; an interrupt exits with 130.

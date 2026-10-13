@@ -40,12 +40,12 @@ class _Builder:
         self.current: str | None = None
         self.lead: list[RawLine] = []
         self.comments: list[str] = []
+        self.headers: dict[str, list[str]] = {}  # lists, so repeats stay linear
 
     def header(self, name: str, line: RawLine) -> None:
         self.config.sections.setdefault(name, {})
         if self.comments:
-            prior = self.config.header_comments.get(name, ())
-            self.config.header_comments[name] = prior + tuple(self.comments)
+            self.headers.setdefault(name, []).extend(self.comments)
         self.items.append(HeaderItem(name, tuple(self.lead), line))
         self.current = name
         self.lead, self.comments = [], []
@@ -103,6 +103,7 @@ def parse(text: str) -> Config:
         else:
             raise LvParseError(f"expected a key=value pair: {short(stripped)}", number)
     config = build.config
+    config.header_comments = {name: tuple(lines) for name, lines in build.headers.items()}
     config.trailing_comments = tuple(build.comments)
     eol = next((line.eol for line in lines if line.eol), "\n")
     config.layout = Layout(

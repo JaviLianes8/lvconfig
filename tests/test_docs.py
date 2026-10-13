@@ -33,11 +33,7 @@ def test_module_doctests_pass(name: str) -> None:
 
 @pytest.mark.parametrize("name", lvconfig.__all__)
 def test_every_public_callable_has_a_docstring_with_an_example(name: str) -> None:
-    item = getattr(lvconfig, name)
-    if inspect.isclass(item) and issubclass(item, Exception):
-        assert (item.__doc__ or "").strip(), name
-    else:
-        assert ">>>" in (item.__doc__ or ""), name
+    assert ">>>" in (getattr(lvconfig, name).__doc__ or ""), name
 
 
 @pytest.mark.parametrize(

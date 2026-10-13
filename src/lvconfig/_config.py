@@ -108,8 +108,7 @@ class Config(Reading):
 
         Raises :class:`LvPathError` for a path with no faithful stored form.
         """
-        need_str("section", section)
-        need_str("key", key)
+        section, key = need_str("section", section), need_str("key", key)
         stored = to_labview_path(path, windows=windows)
         self._store(section, key, Entry(stored, quoted=True))
 
@@ -123,8 +122,9 @@ class Config(Reading):
         >>> config.remove("A", "x"), config.remove("A", "x"), config.section_names()
         (True, False, ['A'])
         """
-        entries = self.sections.get(need_str("section", section))
-        if entries is None or need_str("key", key) not in entries:
+        section, key = need_str("section", section), need_str("key", key)
+        entries = self.sections.get(section)
+        if entries is None or key not in entries:
             return False
         del entries[key]
         if section == "" and not entries and not self.header_comments.get(""):
@@ -138,15 +138,16 @@ class Config(Reading):
         >>> config.remove_section("A"), config.remove_section("A")
         (True, False)
         """
-        if need_str("section", section) not in self.sections:
+        section = need_str("section", section)
+        if section not in self.sections:
             return False
         del self.sections[section]
         self.header_comments.pop(section, None)
         return True
 
     def _store(self, section: str, key: str, entry: Entry) -> None:
-        check_section(need_str("section", section))
-        need_str("key", key)
+        section, key = need_str("section", section), need_str("key", key)
+        check_section(section)
         previous = self.sections.get(section, {}).get(key)
         if previous is not None and previous.comments:
             entry = Entry(entry.value, entry.quoted, previous.comments)

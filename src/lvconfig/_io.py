@@ -12,7 +12,7 @@ from __future__ import annotations
 import os
 import re
 
-from ._check import need_str, short
+from ._check import need_str, short, type_name
 from ._config import Config
 from ._dump import dump
 from ._parse import parse
@@ -43,7 +43,7 @@ def load(path: StrPath, *, encoding: str = "utf-8") -> Config:
     >>> import shutil; shutil.rmtree(path.parent)
     """
     need_str("encoding", encoding)
-    with open(path, encoding=encoding, newline="") as handle:
+    with open(need_path(path), encoding=encoding, newline="") as handle:
         return parse(handle.read())
 
 
@@ -75,6 +75,7 @@ def save(
     b'[Rig]\r\nretries = 3'
     >>> import shutil; shutil.rmtree(path.parent)
     """
+    need_path(path)
     need_str("encoding", encoding)
     if line_ending is not None and need_str("line_ending", line_ending) not in _ENDINGS:
         raise ValueError(f"line_ending must be CRLF, LF or CR, not {short(line_ending)}")
@@ -83,5 +84,27 @@ def save(
         line_ending = "\r\n"
     if line_ending is not None:
         text = _EOL.sub(line_ending, text)
-    with open(path, "w", encoding=encoding, newline="") as handle:
-        handle.write(text)
+    write_text(path, text, encoding)
+
+
+def need_path(path: object) -> StrPath:
+    """Return ``path`` if it is a ``str`` or a text ``os.PathLike``, else ``TypeError``.
+
+    A bare ``int`` would be taken by ``open`` as a file descriptor and closed afterwards.
+    """
+    if isinstance(path, str) or (
+        isinstance(path, os.PathLike) and isinstance(os.fspath(path), str)
+    ):
+        return path
+    raise TypeError(f"path must be a str or os.PathLike, not {type_name(path)}")
+
+
+def write_text(path: StrPath, text: str, encoding: str) -> None:
+    """Write ``text`` to ``path``, encoding it before the file is opened.
+
+    An unknown encoding or a character the encoding cannot hold raises before the file
+    is touched, so a failed write never leaves it truncated.
+    """
+    data = text.encode(encoding)
+    with open(need_path(path), "wb") as handle:
+        handle.write(data)

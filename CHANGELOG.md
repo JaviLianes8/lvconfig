@@ -26,7 +26,8 @@ wrote and values it read back; those captures ship with the tests.
   first line. 0.3 used the last value.
 - Values and keys are trimmed of spaces and tabs only; other characters `str.strip`
   removes, such as `\x1f` or a no-break space, are kept, as in LabVIEW.
-- `to_bool` reads `yes`, `no`, `on`, `off`, `t`, `f` and `y` as LabVIEW does.
+- `to_bool` reads `yes`, `no`, `on`, `off`, `t`, `f` and `y` as LabVIEW does. `to_bool`,
+  `to_int` and `to_float` trim spaces and tabs only, so `"5\n"` is no longer a number.
 - `to_int` accepts only an optional sign and ASCII digits: `1_000`, which it read as 1000
   while LabVIEW reads 1, and non-ASCII digits are refused.
 - `to_float` reads `,` as a decimal separator (LabVIEW writes `2,000000` on a system whose
@@ -45,7 +46,24 @@ wrote and values it read back; those captures ship with the tests.
   `save` raises `ValueError` for a `line_ending` other than CRLF, LF or CR.
 - An `IntEnum` or other `int` subclass is written as its number, and a `float` subclass as
   the stored double.
-- Error messages quote at most 40 characters of the offending text.
+- Error messages quote at most 40 characters of the offending text. The `KeyError` of a
+  getter now reads `no key 'x' in section 'A'`.
+- `save` (and the CLI's `set`, `fmt -o` and `convert`) encode the text before opening the
+  file: an unknown encoding or a character the encoding cannot hold no longer leaves an
+  empty file behind. `load` and `save` take only a `str` or text `os.PathLike` path.
+- `Config.set` raises `LvConfigError` for an integer longer than Python turns into text, and
+  `convert` keeps such a number as text.
+- `to_labview_path` and `set_path` refuse a `..` above the drive root, which the reading
+  side refuses too.
+- A comment line must start with `;` or `#` and must not end in blanks, so it reads back as
+  written. An empty unnamed section is written as `[]`. Untouched lines of a parsed file are
+  copied without being checked again, so `dump(parse(text)) == text` holds for every text
+  `parse` accepts; the canonical form still refuses a bare value holding `;`.
+- Section names, keys, values and comments are stored as plain `str`, whatever `str`
+  subclass was passed in.
+- A name that starts with U+FEFF at the very start of the text is written after a byte
+  order mark, so `parse` does not take it for one.
+- `LvParseError` can be pickled and copied. `Config.get` with a `str` default is typed `str`.
 - CLI: an unknown `--encoding` is an error with exit status 1 instead of a traceback, an
   interrupt exits with 130, and a closed output pipe exits quietly.
 

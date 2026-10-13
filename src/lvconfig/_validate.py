@@ -63,8 +63,10 @@ def check_comments(comments: object) -> None:
         need_str("each comment", comment)
         if any(char in comment for char in _BREAKS):
             raise LvConfigError(f"comment {short(comment)} contains a line break")
-        if not comment.strip(_BLANKS).startswith((";", "#")):
+        if not comment.startswith((";", "#")):
             raise LvConfigError(f"comment {short(comment)} does not start with ';' or '#'")
+        if comment != comment.rstrip(_BLANKS):
+            raise LvConfigError(f"comment {short(comment)} ends in blanks parse would trim")
 
 
 def check_config(config: Config, kept: Set[tuple[str, str]] = frozenset()) -> None:
