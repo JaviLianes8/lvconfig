@@ -1,5 +1,7 @@
 # lvconfig
 
+[![Lianes8 Certified](https://lianes8studio.com/certified/lianes8-certified-badge.svg)](https://lianes8studio.com/certified)
+
 Typed reader and writer for LabVIEW configuration files, with LabVIEW-correct escaping, path and boolean rules.
 
 LabVIEW's Configuration File VIs write files that look like INI files but follow their own
